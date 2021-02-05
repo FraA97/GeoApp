@@ -7,19 +7,18 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-
-class MainActivity : AppCompatActivity() {
+class StartGameActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        findViewById<Button>(R.id.log_in_btn).setOnClickListener{ view->
-            val intent = Intent(this,LoginActivity::class.java)
+        setContentView(R.layout.activity_start_game)
+        findViewById<Button>(R.id.single_player_btn).setOnClickListener{ view->
+            val intent = Intent(this,MainSinglePlayerActivity::class.java)
             startActivity(intent)
         }
 
-        findViewById<Button>(R.id.sign_up_btn).setOnClickListener{ view->
-            val intent = Intent(this,SignupActivity::class.java)
+        findViewById<Button>(R.id.multiplayer_btn).setOnClickListener{ view->
+            val intent = Intent(this,MainMultiplayerActivity::class.java)
             startActivity(intent)
         }
 
