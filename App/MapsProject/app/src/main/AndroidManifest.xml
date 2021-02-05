@@ -24,13 +24,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainSinglePlayerActivity">
+        <activity android:name=".SingleplayerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainMultiplayerActivity">
+        <activity android:name=".MultiplayerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>

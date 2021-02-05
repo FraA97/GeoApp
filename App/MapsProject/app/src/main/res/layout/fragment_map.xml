@@ -28,14 +28,14 @@
             android:layout_width="44dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/timer" />
+            app:srcCompat="@drawable/timer"
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/clock_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="10"
             android:textColor="@color/purple_700"
             android:textSize="30sp" />
     </LinearLayout>
