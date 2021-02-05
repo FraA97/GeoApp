@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsproject.Account.LoginActivity
+import com.example.mapsproject.Account.SignupActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 
@@ -58,13 +59,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //launch login activity
         findViewById<Button>(R.id.log_in_btn).setOnClickListener{ view->
-            val intent = Intent(this,LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
         //launch signup activity
         findViewById<Button>(R.id.sign_up_btn).setOnClickListener{ view->
-            val intent = Intent(this,SignupActivity::class.java)
+            val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
 

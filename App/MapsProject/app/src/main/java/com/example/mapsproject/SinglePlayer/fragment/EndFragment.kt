@@ -1,4 +1,4 @@
-package com.example.mapsproject.fragment
+package com.example.mapsproject.SinglePlayer.fragment
 
 import android.content.Intent
 import android.os.Bundle

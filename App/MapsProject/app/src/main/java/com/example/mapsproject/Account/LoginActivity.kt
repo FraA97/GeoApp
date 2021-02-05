@@ -1,11 +1,13 @@
-package com.example.mapsproject
+package com.example.mapsproject.Account
 
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsproject.Account.ForgotPasswordActivity
+import com.example.mapsproject.R
+import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 
@@ -57,9 +59,9 @@ class LoginActivity:AppCompatActivity() {
         }
 
         //password forgotten string onCliCkListener
-        findViewById<TextView>(R.id.psw_forgot).setOnClickListener{view->
+        findViewById<TextView>(R.id.psw_forgot).setOnClickListener{ view->
             //launch ForgotPassword Activity
-            val intent = Intent(this,ForgotPasswordActivity::class.java)
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
     }

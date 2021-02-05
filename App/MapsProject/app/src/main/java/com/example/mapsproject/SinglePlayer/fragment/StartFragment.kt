@@ -1,6 +1,5 @@
-package com.example.mapsproject.fragment
+package com.example.mapsproject.SinglePlayer.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log

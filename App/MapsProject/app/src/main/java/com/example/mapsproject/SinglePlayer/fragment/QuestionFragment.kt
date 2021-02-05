@@ -1,6 +1,5 @@
-package com.example.mapsproject.fragment
+package com.example.mapsproject.SinglePlayer.fragment
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -11,7 +10,6 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.R

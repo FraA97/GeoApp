@@ -1,37 +1,21 @@
-package com.example.mapsproject
+package com.example.mapsproject.SinglePlayer
 
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mapsproject.Multiplayer.MultiplayerActivity
-import com.example.mapsproject.SinglePlayer.SingleplayerActivity
+import com.example.mapsproject.MainActivity
+import com.example.mapsproject.R
 
-class StartGameActivity: AppCompatActivity() {
-
+class SingleplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start_game)
+        setContentView(R.layout.activity_singleplayer)
 
-
-        findViewById<Button>(R.id.single_player_btn).setOnClickListener{ view->
-            val intent = Intent(this, SingleplayerActivity::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.multiplayer_btn).setOnClickListener{ view->
-            val intent = Intent(this, MultiplayerActivity::class.java)
-            startActivity(intent)
-        }
-
-    }
-
-
-    //inflate menu_main
+    } //inflate menu_main
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main , menu)
         return true
@@ -46,7 +30,7 @@ class StartGameActivity: AppCompatActivity() {
         }
 
         R.id.action_logout -> {
-           //erase email and password values from Shared preferences
+            //erase email and password values from Shared preferences
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
             val editor = sharedPref?.edit()
             editor?.remove("email" )
@@ -71,4 +55,5 @@ class StartGameActivity: AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
 }
