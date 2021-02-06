@@ -7,19 +7,20 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.R
 
-class QuestionFragment:Fragment(), OnClickListener{
+class QuestionCountryFragment : Fragment(), View.OnClickListener {
+
+
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
 
@@ -34,6 +35,20 @@ class QuestionFragment:Fragment(), OnClickListener{
         btn2.setOnClickListener(this)
         btn3.setOnClickListener(this)
         btn4.setOnClickListener(this)
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+        val editor = sharedPref?.edit()
+
+        btn1.setText(sharedPref?.getString("country","").toString())
+        //sharedPref?.getString("city","").toString()
+
+        btn2.setText(sharedPref?.getString("fCountry1", "").toString())
+        //sharedPref?.getString("fCity1", "")
+        btn3.setText(sharedPref?.getString("fCountry2", "").toString())
+        //sharedPref?.getString("fCity2", "")
+        btn4.setText(sharedPref?.getString("fCountry3", "").toString())
+        //sharedPref?.getString("fCity3", "")
+
         return rootView
     }
 
@@ -42,9 +57,7 @@ class QuestionFragment:Fragment(), OnClickListener{
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val editor = sharedPref?.edit()
         var score = sharedPref?.getInt(getString(R.string.current_score_key), 0)
-        var sets = sharedPref?.getInt(getString(R.string.sets_key), 1)
 
-        Log.i("Mytag","sets: "+sets.toString())
         Log.i("Mytag","score: "+score.toString())
 
         when (v?.id) {
@@ -52,6 +65,7 @@ class QuestionFragment:Fragment(), OnClickListener{
                 v.setBackgroundColor(Color.GREEN)
                 score = score?.plus(1)
                 editor?.putInt((getString(R.string.current_score_key)), score!!)
+                editor?.apply()
 
             }
 
@@ -60,21 +74,12 @@ class QuestionFragment:Fragment(), OnClickListener{
             R.id.button4 -> v.setBackgroundColor(Color.RED)
         }
 
-        //update number of sets
-        val nsets = sets!! -1
-        editor?.putInt(getString(R.string.sets_key),nsets)
-        editor?.apply()
 
         Handler().postDelayed(
                 {
                     // This method will be executed once the timer is over
+                    findNavController().navigate(R.id.action_questionCountryFragment_to_questionCityFragment)
 
-                    //if sets are not ended
-                    if(nsets == 0){
-                         findNavController().navigate(R.id.action_questionFragment_to_endFragment)
-                    }else{
-                    findNavController().navigate(R.id.action_questionFragment_to_btnFragment)
-                    }
                 },
                 1000 // value in milliseconds
         )

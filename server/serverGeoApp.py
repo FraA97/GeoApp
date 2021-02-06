@@ -1,6 +1,7 @@
 from geoRequest import retrieveGeoInfo, retrieveSimilarAnswers 
 from flask import Flask
-from flask_restful import Api,Resource,reqparse   #for parse request and replies automatically                  
+from flask_restful import Api,Resource,reqparse   #for parse request and replies automatically    
+import concurrent              
 
 app = Flask(__name__)
 api = Api(app) 
@@ -38,6 +39,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         if(req == trueAnswer):
             lat, long, country,locality,city= retrieveGeoInfo()
             return {"error":False, 'msg':"return true answer", 'lat':lat,'long':long, 'responseCountry':country,'responseCity':city }
+
         elif(req==falseAnsw):
             if(args['country'] and args['city']):
                 country = args['country']
@@ -82,5 +84,6 @@ api.add_resource(GeoApp,"/")
 
 if __name__ == "__main__":
     print("starting api...")
-    app.run(host = "0.0.0.0")
+    app.run()
+    #app.run(host = "0.0.0.0")
 

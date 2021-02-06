@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.StartGameActivity
 
 class EndFragment: Fragment() {
     override fun onCreateView(
@@ -20,7 +21,7 @@ class EndFragment: Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_end_singleplayer, container, false)
         rootView.findViewById<Button>(R.id.end_btn).setOnClickListener{view->
-            val i =  Intent(activity, MainActivity::class.java)
+            val i =  Intent(activity, StartGameActivity::class.java)
             startActivity(i)
         }
 

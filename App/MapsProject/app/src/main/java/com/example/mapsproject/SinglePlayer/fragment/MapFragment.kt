@@ -2,6 +2,7 @@ package com.example.mapsproject.SinglePlayer.fragment
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +29,9 @@ class MapFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val lat: Double = -90 + Math.random() * (90 - (-90))
-        val long: Double = -180 + Math.random() * (180 - (-180))
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+        val lat = sharedPref?.getFloat("lat",0f)
+        val long = sharedPref?.getFloat("long",0f)
         Log.d("myTag", "lat: "+lat+", long: "+long);
 
         val rootView: View = inflater.inflate(R.layout.fragment_map, container, false)
@@ -54,7 +56,7 @@ class MapFragment: Fragment() {
 
 
 
-            val location = LatLng(lat, long)
+            val location = LatLng(lat!!.toDouble(), long!!.toDouble())
             mMap.addMarker(MarkerOptions().position(location).title("Marker "))
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
             mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
@@ -68,7 +70,7 @@ class MapFragment: Fragment() {
 
             override fun onFinish() {
 
-                findNavController().navigate(R.id.action_mapFragment_to_questionFragment)
+                findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
 
             }
         }.start()

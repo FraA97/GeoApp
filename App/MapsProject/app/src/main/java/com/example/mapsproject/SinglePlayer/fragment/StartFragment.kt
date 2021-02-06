@@ -51,7 +51,7 @@ class StartFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.start_game_btn).setOnClickListener { view ->
-            findNavController().navigate(R.id.action_startFragment_to_mapFragment)
+            findNavController().navigate(R.id.action_startFragment_to_latLongFragment)
 
         }
     }
