@@ -3,6 +3,7 @@ package com.example.mapsproject.Account
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.R
@@ -51,6 +52,10 @@ class SignupActivity:AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
                 //signup compleated
                 if(task.isSuccessful){
+
+                   /* val userid = Firebase.auth.currentUser?.uid
+                    Log.i("myTag","user id: "+userid)
+*/
                     Toast.makeText(this, "Successfully Registered", Toast.LENGTH_LONG).show()
 
                     //if checked -> save access credentials

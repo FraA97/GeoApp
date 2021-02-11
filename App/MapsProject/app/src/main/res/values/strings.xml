@@ -14,6 +14,7 @@
     <string name="score">SCORE</string>
     <string name="sets_key">sets</string>
     <string name="email">email</string>
+    <string name="email_key">email</string>
     <string name="password">password</string>
     <string name="submit">Submit</string>
     <string name="keep_me_signed">Keep me signed</string>
@@ -28,4 +29,5 @@
     <string name="settings">Settings</string>
     <string name="log_out">Log Out</string>
     <string name="end_game">End Game</string>
+    <string name="password_key">password</string>
 </resources>

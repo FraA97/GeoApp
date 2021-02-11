@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email.toString(), password.toString()).addOnCompleteListener(this, OnCompleteListener { task ->
                 //task is succesfull
                 if (task.isSuccessful) {
+
+                    /*val userid = Firebase.auth.currentUser?.uid
+                    Log.i("myTag","user id: "+userid)
+*/
                     Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_LONG).show()
 
                     //if checked -> save access credentials

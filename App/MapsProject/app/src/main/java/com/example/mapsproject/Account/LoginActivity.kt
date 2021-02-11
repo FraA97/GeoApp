@@ -3,13 +3,14 @@ package com.example.mapsproject.Account
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mapsproject.Account.ForgotPasswordActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+
 
 class LoginActivity:AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -36,14 +37,18 @@ class LoginActivity:AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener { task ->
                 //task is succesfull
                 if(task.isSuccessful) {
+                    /*val userid = Firebase.auth.currentUser?.uid
+                    Log.i("myTag","user id: "+userid)
+                    */
                     Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_LONG).show()
+
 
                     //if checked -> save access credentials
                     if(checked) {
                         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
                         val editor = sharedPref?.edit()
-                        editor?.putString("email", email)
-                        editor?.putString("password", password)
+                        editor?.putString(R.string.email_key.toString(), email)
+                        editor?.putString(R.string.password_key.toString(), password)
                         editor?.apply()
                     }
 
