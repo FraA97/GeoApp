@@ -4,150 +4,34 @@ import json
 import time
 import xml.etree.ElementTree 
 
-
-
-api_key = 'AIzaSyCWSYohRYBIEvYkmjw79yqYXdlVTvXinrE'
-#Reverse GeoCoding Request: https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
-
-#Valid longitudes are from -180 to 180 degrees.
-#Valid latitudes are from -85.05112878 to 85.05112878 degrees.
-
-#parser = reqparse.RequestParser() #create the parser
 def retrieveGeoInfo():
     lat, long, country, locality, city='','','','',''
     okResp= False
-    goodCoord = False
     totTime=0
     while(not okResp): #filter zones with only sea
         latRange =[-180,+180]
         lonRange =[-60,+70]
         start_time = time.time()
-        lat,long,city = chooseGoodCoordinates(latRange,lonRange)
+        lat,long,country,city = chooseGoodCoordinates(latRange,lonRange)
         totTime+=time.time() - start_time
-        #lat= str("%.6f" % random.uniform(latRange[0],latRange[1]) )
-        #long = str("%.6f" % random.uniform(lonRange[0],lonRange[1]) )
-        r =requests.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+long+'&key='+api_key+'&language=it')
-        resp = json.loads(r.text)
-        if(r.status_code == 200 and resp['status'] =='OK'):
-                         
-            if(len(resp['results'])>0):
-                okResp=True #to move 
-                info = resp['results'][0]['address_components']
-                #address = resp['results'][0]['formatted_address']
-
-            else:
-                okResp=False
-                goodCoord=False
-                break
-
-            i=0
-            while(i < len(info)):
-                #if(info[i]['types'][0]!= 'postal_code'):
-                places = info[i]['types'][0]
-
-                if(places == 'country'):
-                    country = info[i]['long_name']
-
-                #elif(places == 'administrative_area_level_1'):
-                #    adm_a_lev1 = info[i]['long_name']
-                
-                #elif(places == 'administrative_area_level_2'):
-                #    adm_a_lev2 = info[i]['long_name']
-            
-                #elif(places == 'sublocality'):
-                #    sublocality = info[i]['long_name']
-                
-                #elif(places == 'neighborhood'):
-                #    neighborhood = info[i]['long_name']
-                
-                elif(places == 'locality'):
-                    locality = info[i]['long_name']
-                
-                #elif(places == 'point_of_interest'):
-                #    pointOfInterest = info[i]['long_name']
-
-                #elif(places == 'establishment'):
-                #    lat, address, long, country, locality,adm_a_lev1,adm_a_lev2,neighborhood,sublocality='','','','','','','','',''
-                #    okResp = False
-                #    break
-                    #establishment = info[i]['long_name']
-                i+=1
-
-            ##print('--------------------------')
-            if (country =='' or locality==''):
-                okResp=False   
-                goodCoord=False     
-                lat, long, country, locality='','','',''
-            #print(info)
-            ## else: print(resp['status'])
-
-        elif((r.status_code == 200 and resp['status'] !='OK')):
-            okResp = False
-            goodCoord = False
-            ##print('Error: '+str(resp['status']))
-            
-        else: 
-            okResp = False
-            goodCoord = False
-            ##print('Error: '+str(r.status_code))
-    
-    #print(country,adm_a_lev1,adm_a_lev2,neighborhood,locality,sublocality)
-    print("filtering: "+str(totTime))
-    return lat, long, country, locality,city
-
-
-
+        return lat,long,country,locality,city 
+        
 def retrieveSimilarAnswers(sourceCountry, sourceLocality):
     answers=[]
-    '''minLatMarginRange=[-20,+20]
-    minLongMarginRange=[-7,+7]
-    latARange = [-180, lat+minLatMarginRange[0]]
-    latBRange = [lat+minLatMarginRange[1],+180]
-    latRange,lonRange =[],[]
-
-    lonARange = [-60, long+minLongMarginRange[0]]
-    lonBRange = [long+minLongMarginRange[1],+75]
-
-    if((latARange[1]-latARange[0]) > (latBRange[1]-latBRange[0])):
-        latRange = latARange  
-    else:
-        latRange = latBRange
-
-    if((lonARange[1]-lonARange[0]) > (lonBRange[1]-lonBRange[0])):
-        lonRange = lonARange  
-    else:
-        lonRange = lonBRange'''
     
     i=0
-
     while(i<3):
         lt, lg, country,locality, city = retrieveGeoInfo()
         if( sourceCountry!=country):
             answers.append({'country':country,'locality':locality, 'city':city})
             i+=1
         
-
     return answers
 
-
-
 def chooseGoodCoordinates(latRange,lonRange):
-    r =requests.get('https://api.3geonames.org/?randomland=yes')
-    resp =r.content
-    tree = xml.etree.ElementTree.fromstring(resp)
-    
-    lat,long,city ='','',''
-
-    for child in tree.iter('*'):
-        if(child.tag=="latt"): lat= child.text
-        if(child.tag=="longt"): long= child.text
-        if(child.tag=="city"): city= child.text
-        if(child.tag=="state"): state= child.text 
-        
-    return lat,long, city
-    '''lat,long = '',''
+    lat,long,country,city ='','','',''
     goodCoord=False
-
+    #filter coordinates
     while(not goodCoord):
             partialLat= random.uniform(latRange[0],latRange[1])
             partialLong = random.uniform(lonRange[0],lonRange[1])
@@ -168,11 +52,56 @@ def chooseGoodCoordinates(latRange,lonRange):
 
             else:
                 goodCoord = True
-                lat = str("%.6f" % partialLat)
-                long = str("%.6f" % partialLong)
+    #SEND REQUESTS UNTIL RETURN A RESPONSE
+    count=0
+    marginLat=10; marginLong = 5
+    while(country == '' or city == ''):
+        if(count>0): marginLat*=2; marginLong*=2
+        if(partialLat<= 180-marginLat and partialLat>=-180+marginLat):
+            east = partialLat+marginLat
+            west = partialLat-marginLat
+        elif(partialLat< 180-marginLat and partialLat<-180+marginLat):
+            east = -180+ marginLat*2
+            west = -180
+        elif(partialLat> 180-10 ): 
+            east = 180 
+            west = 180- marginLat*2
+        if(partialLong<=70-marginLong and partialLong>=-60+marginLong): 
+            north= partialLong+marginLong
+            south =partialLong-marginLong
+        elif(partialLong<=70-marginLong and partialLong<-60+marginLong): 
+            north= -60 +marginLong*2
+            south =-60
+        elif(partialLong>70-marginLong): 
+            north= 70
+            south =70 - marginLong*2
 
-    return lat, long'''
-   # print(lat,long)
+        northStr = str("%.6f" % north)
+        southStr = str("%.6f" % south)
+        eastStr = str("%.6f" % east)
+        weastStr = str("%.6f" % west)
+        print(northStr+' '+southStr+' '+weastStr+' '+eastStr)
+        r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows=1'+'&username=fraart')
+        
+        #http://api.geonames.org/countrySubdivision?lat='+lat+'&lng='+long+'&maxRows=1&radius=40&username=fraart'
+        #http://api.geonames.org/cities?north=44.1&south=-9.9&east=-22.4&west=55.2&username=demo
+        #https://api.3geonames.org/?randomland=yes
+
+        resp =r.content
+        #print(resp)
+        tree = xml.etree.ElementTree.fromstring(resp)
+        
+
+        for child in tree.iter('*'):
+            #print(child)
+            if(child.tag=="countryName"): country= child.text
+            if(child.tag=="name"): city= child.text
+            if(child.tag=="lat"): lat= child.text
+            if(child.tag=="lng"): long= child.text 
+        count+=1
+
+    return lat,long,country, city
+
    
     
 

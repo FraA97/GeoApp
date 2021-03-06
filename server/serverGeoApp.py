@@ -191,5 +191,7 @@ api.add_resource(GeoApp,"/")
 if __name__ == "__main__":
     print("starting api...")
     #app.run()
-    app.run(host = "0.0.0.0")
+    #app.run(host = "0.0.0.0")
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=8080)
 
