@@ -1,7 +1,7 @@
 from geoRequest import retrieveGeoInfo, retrieveSimilarAnswers 
 from flask import Flask
 from flask_restful import Api,Resource,reqparse   #for parse request and replies automatically    
-import concurrent              
+            
 
 app = Flask(__name__)
 api = Api(app) 
@@ -79,17 +79,18 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         parser.add_argument('game_id',type=int,required = False)
         parser.add_argument('player_id',type=int,required = False)
         parser.add_argument('random',type=int,required = False)#=0=> False|| =1=>True
+        parser.add_argument('level',type=int,required = False)#number of current level s.t. can be decided the correspondent difficulty
         args = parser.parse_args() #parse the msg
 
         req = args['req'] #0||1||2||3||4
         game_id = args['game_id'] #0||1||2||3||4......
         player_id = args['player_id']
         random = args['random']
+        level = args['level']
         
         if(req == INIT_STATE):
             if(game_id == None):
                 if(random == None or random==0): #not random game
-                    print("random=false")
                     g_id = len(list_game_id)
                     list_game_id.append(g_id)
                     random_dict[g_id] = False
@@ -128,25 +129,27 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         elif(req==PLAY_STATE):
                 if( (game_id in list_game_id) and player_id==0 and first_req[game_id]):
                     first_req[game_id] = False
-                    lat, long, country,locality,city = retrieveGeoInfo() 
-                    falseAnswers = retrieveSimilarAnswers(country,city)
-                    coordinates_game[game_id] = [lat,long,country,city,falseAnswers]
+                    lat, long, country,city = retrieveGeoInfo(level,3) 
+                    f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,1) 
+                    false_answers = retrieveSimilarAnswers(country,city,false_country,false_city)
+                    
+                    coordinates_game[game_id] = [lat,long,country,city,false_answers]
                     STATE = LEVEL_STATE
-                    return {'error':False, 'msg':"return true and the three false answers", 
-                                'Country' :country,'City':city,
-                                'fCountry1':falseAnswers[0]['country'],'fCity1':falseAnswers[0]['city'],
-                                'fCountry2':falseAnswers[1]['country'],'fCity2':falseAnswers[1]['city'],
-                                'fCountry3':falseAnswers[2]['country'],'fCity3':falseAnswers[2]['city']}
+                    return {'error':False, 'msg':"return true answer and the three false answers", 
+                                'Country' :country[0],'City':city[0], 'lat' :lat,'long':long,
+                                'fCountry1':false_answers[0]['country'],'fCity1':false_answers[0]['city'],
+                                'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
+                                'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
 
                 elif((game_id in list_game_id) and player_id==1 and not first_req[game_id]):
                     first_req[game_id] = True
-                    lat,long,country,city,falseAnswers=coordinates_game[game_id]
+                    lat,long,country,city,false_answers=coordinates_game[game_id]
                     #coordinates_game[game_id]=None
-                    return {'error':False, 'msg':"return true and the three false answers", 
-                                'Country' :country,'City':city,
-                                'fCountry1':falseAnswers[0]['country'],'fCity1':falseAnswers[0]['city'],
-                                'fCountry2':falseAnswers[1]['country'],'fCity2':falseAnswers[1]['city'],
-                                'fCountry3':falseAnswers[2]['country'],'fCity3':falseAnswers[2]['city']}
+                    return {'error':False, 'msg':"return true answer and the three false answers", 
+                                'Country' :country[0],'City':city[0], 'lat' :lat,'long':long,
+                                'fCountry1':false_answers[0]['country'],'fCity1':false_answers[0]['city'],
+                                'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
+                                'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
 
                 elif((game_id in list_game_id) and player_id==1 and first_req[game_id]):
                     return {'error':True, 'msg':"wait the other player"}

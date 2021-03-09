@@ -4,38 +4,45 @@ import json
 import time
 import xml.etree.ElementTree 
 
-def retrieveGeoInfo():
-    lat, long, country, locality, city='','','','',''
-    okResp= False
-    totTime=0
-    while(not okResp): #filter zones with only sea
-        latRange =[-180,+180]
-        lonRange =[-60,+70]
-        start_time = time.time()
-        lat,long,country,city = chooseGoodCoordinates(latRange,lonRange)
-        totTime+=time.time() - start_time
-        return lat,long,country,locality,city 
+def retrieveGeoInfo(level,num_answers):
+    lat, long, country, city='','','',''
+    latRange =[-180,+180]
+    lonRange =[-60,+70]
+    lat,long,country,city = chooseGoodCoordinates(latRange,lonRange,level,num_answers)
+    return lat,long,country,city 
+
         
-def retrieveSimilarAnswers(sourceCountry, sourceLocality):
+def retrieveSimilarAnswers(sourceCountry, sourceCity,false_coutry,false_city):
     answers=[]
-    
-    i=0
-    while(i<3):
-        lt, lg, country,locality, city = retrieveGeoInfo()
-        if( sourceCountry!=country):
-            answers.append({'country':country,'locality':locality, 'city':city})
-            i+=1
-        
+    if(isinstance(sourceCountry, list)): i=[1,3]
+    else: i=[0,1]
+    while(i[0]<i[1]):
+        #if( sourceCountry[i]!=country or (len(sourceCountry)<=3 )):
+        if(i[1]==1): answers.append({'country':sourceCountry, 'city':sourceCity})
+        else: answers.append({'country':sourceCountry[i[0]], 'city':sourceCity[i[0]]})
+        i[0]+=1
+    if(i[1]==3): answers.append({'country':false_coutry, 'city':false_city})
+    else:
+        j=0
+        while(j<len(false_coutry)):
+            answers.append({'country':false_coutry[j], 'city':false_city[j]})
+            j+=1
     return answers
 
-def chooseGoodCoordinates(latRange,lonRange):
-    lat,long,country,city ='','','',''
-    goodCoord=False
+def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
+    lat,long = [],[]
+    country,city =[],[]
+    #goodCoord=False
+    maxRows=3+level+3 #manage number of answers to retrieve
+    maxRows=str(maxRows)
+    count=0
+    if(num_answers==1): marginLat=40; marginLong = 20
+    else: marginLat=20; marginLong = 10
     #filter coordinates
-    while(not goodCoord):
-            partialLat= random.uniform(latRange[0],latRange[1])
-            partialLong = random.uniform(lonRange[0],lonRange[1])
-            if( ( partialLat>-45 and partialLong<-40  ) #remove southern ocean
+    #while(not goodCoord):
+    partialLat= random.uniform(latRange[0],latRange[1])
+    partialLong = random.uniform(lonRange[0],lonRange[1])
+    '''if( ( partialLat>-45 and partialLong<-40  ) #remove southern ocean
                     or  (partialLat< -82 and partialLong<+7)  #remove south ocean pacific
                     or  (partialLat>+50 and partialLat<+105 and partialLong>=-40 and partialLong<-7)  #remove indian ocean
                     or  (partialLat<-125 and  partialLong<54 and partialLong>+7)#remove north pacific ocean
@@ -50,12 +57,11 @@ def chooseGoodCoordinates(latRange,lonRange):
                       ): 
                 goodCoord= False
 
-            else:
-                goodCoord = True
+            else:'''
+    #        goodCoord = True
     #SEND REQUESTS UNTIL RETURN A RESPONSE
-    count=0
-    marginLat=10; marginLong = 5
-    while(country == '' or city == ''):
+   
+    while(len(country)<num_answers):
         if(count>0): marginLat*=2; marginLong*=2
         if(partialLat<= 180-marginLat and partialLat>=-180+marginLat):
             east = partialLat+marginLat
@@ -80,28 +86,73 @@ def chooseGoodCoordinates(latRange,lonRange):
         southStr = str("%.6f" % south)
         eastStr = str("%.6f" % east)
         weastStr = str("%.6f" % west)
-        print(northStr+' '+southStr+' '+weastStr+' '+eastStr)
-        r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows=1'+'&username=fraart')
-        
-        #http://api.geonames.org/countrySubdivision?lat='+lat+'&lng='+long+'&maxRows=1&radius=40&username=fraart'
-        #http://api.geonames.org/cities?north=44.1&south=-9.9&east=-22.4&west=55.2&username=demo
-        #https://api.3geonames.org/?randomland=yes
+        if(num_answers==1): 
+            r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows=1'+'&username=fraart')
+            resp =r.content
+            tree = xml.etree.ElementTree.fromstring(resp)
+            for child in tree.iter('*'):
+                if(child.tag=="countryName" ): country.append(child.text)
+                if(child.tag=="name"): city.append(child.text)
+                if(child.tag=="lat" ): lat.append(child.text)
+                if(child.tag=="lng" ): long.append(child.text)
+            count+=1
+            
+        else:
+            r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows='+maxRows+'&username=fraart')
+            #http://api.geonames.org/countrySubdivision?lat='+lat+'&lng='+long+'&maxRows=1&radius=40&username=fraart'
+            #http://api.geonames.org/cities?north=44.1&south=-9.9&east=-22.4&west=55.2&username=demo
+            #https://api.3geonames.org/?randomland=yes
+            resp =r.content
+            #print(resp)
+            tree = xml.etree.ElementTree.fromstring(resp)
+            
+            for child in tree.iter('*'):
+                if(child.tag=="countryName" ): country.append(child.text)
+                if(child.tag=="name"): city.append(child.text)
+                if(child.tag=="lat" ): lat.append(child.text)
+                if(child.tag=="lng" ): long.append(child.text)
+            count+=1
+            if(len(country)>=level+num_answers):
+                country = country[level:]
+                city = city[level:]
+                lat = lat[level:]
+                long = long[level:]
+                i=0
+                fake_country = country
+                fake_city = city
+                fake_lat = lat
+                fake_long = long
+                country=[]; city=[]; lat=[]; long=[]
+                for elem in fake_country:
+                    if(fake_country[i:len(fake_country)].count(elem)<2): 
+                        country.append(elem)
+                        city.append(fake_city[i])
+                        lat.append(fake_lat[i])
+                        long.append(fake_long[i])
+                    i+=1
+            elif(len(country)>=num_answers):
+                country.reverse()
+                city.reverse()
+                lat.reverse()
+                long.reverse()
+                i=0
+                fake_country = country
+                fake_city = city
+                fake_lat = lat
+                fake_long = long
+                country=[]; city=[]; lat=[]; long=[]
+                for elem in fake_country:
+                    if(fake_country[i:len(fake_country)].count(elem)<2): 
+                        country.append(elem)
+                        city.append(fake_city[i])
+                        lat.append(fake_lat[i])
+                        long.append(fake_long[i])
+                    i+=1
+    if(num_answers==1):return lat[0],long[0],country[0], city[0]
+    else: return lat[0],long[0],country[0:num_answers], city[0:num_answers]
 
-        resp =r.content
-        #print(resp)
-        tree = xml.etree.ElementTree.fromstring(resp)
-        
-
-        for child in tree.iter('*'):
-            #print(child)
-            if(child.tag=="countryName"): country= child.text
-            if(child.tag=="name"): city= child.text
-            if(child.tag=="lat"): lat= child.text
-            if(child.tag=="lng"): long= child.text 
-        count+=1
-
-    return lat,long,country, city
-
-   
+   ###ADD LEVELS:
+    #from 0  to n growth the difficulty selecting the lowest famous places
+   ###3 SIMILAR ANSWERS AND 1 DIFFERENT
     
 

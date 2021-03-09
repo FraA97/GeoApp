@@ -14,7 +14,7 @@ verify if other player (random or not) is ready
                                          // else adversary is in!!!
 
 start to play:
-    parameters: req=2 + game_id = number +player_id=number  (returned in the first req)
+    parameters: req=2 + game_id = number +player_id=number (returned in the first req) + + level=number (number of current level)
     127.0.0.1:5000/?req=2&game_id=num.&player_id=num.
             //if(request done for the first time by second player (no master player))
                 //return: error= true, msg="wait the other player"
