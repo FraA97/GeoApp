@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph_multiplayer"
+    app:startDestination="@id/startFragmentMP">
+    <fragment
+        android:id="@+id/startFragmentMP"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.StartFragmentMP"
+        android:label="StartFragmentMP" >
+        <action
+            android:id="@+id/action_startFragmentMP_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
+        <action
+            android:id="@+id/action_startFragmentMP_to_joinFragment"
+            app:destination="@id/joinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newGameFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.NewGameFragment"
+        android:label="NewGameFragment" >
+        <action
+            android:id="@+id/action_newGameFragment_to_waitingNewGameFragment"
+            app:destination="@id/waitingNewGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.JoinFragment"
+        android:label="JoinFragment" >
+        <action
+            android:id="@+id/action_joinFragment_to_joinIDFragment"
+            app:destination="@id/joinIDFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_joinRandomFragment"
+            app:destination="@id/joinRandomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waitingNewGameFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.WaitingNewGameFragment"
+        android:label="WaitingNewGameFragment" >
+        <action
+            android:id="@+id/action_waitingNewGameFragment_to_poolingNewGameFragment"
+            app:destination="@id/poolingNewGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/poolingNewGameFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.PoolingNewGameFragment"
+        android:label="PoolingNewGameFragment" >
+        <action
+            android:id="@+id/action_poolingNewGameFragment_to_pollingNewLevelFragment"
+            app:destination="@id/pollingNewLevelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pollingNewLevelFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.PollingNewLevelFragment"
+        android:label="PollingNewLevelFragment" >
+        <action
+            android:id="@+id/action_pollingNewLevelFragment_to_mapFragmentMP"
+            app:destination="@id/mapFragmentMP" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragmentMP"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.MapFragmentMP"
+        android:label="MapFragmentMP" >
+        <action
+            android:id="@+id/action_mapFragmentMP_to_questionCountryFragmentMP"
+            app:destination="@id/questionCountryFragmentMP" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionCountryFragmentMP"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.QuestionCountryFragmentMP"
+        android:label="QuestionCountryFragmentMP" >
+        <action
+            android:id="@+id/action_questionCountryFragmentMP_to_questionCityFragmentMP"
+            app:destination="@id/questionCityFragmentMP" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionCityFragmentMP"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.QuestionCityFragmentMP"
+        android:label="QuestionCityFragmentMP" >
+        <action
+            android:id="@+id/action_questionCityFragmentMP_to_finishLevelFragment"
+            app:destination="@id/finishLevelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/finishLevelFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.FinishLevelFragment"
+        android:label="FinishLevelFragment" >
+        <action
+            android:id="@+id/action_finishLevelFragment_to_pollingFinishLevelFragment"
+            app:destination="@id/pollingFinishLevelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pollingFinishLevelFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.PollingFinishLevelFragment"
+        android:label="PollingFinishLevelFragment" />
+    <fragment
+        android:id="@+id/joinIDFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.JoinIDFragment"
+        android:label="JoinIDFragment" >
+        <action
+            android:id="@+id/action_joinIDFragment_to_poolingNewGameFragment"
+            app:destination="@id/poolingNewGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinRandomFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.JoinRandomFragment"
+        android:label="JoinRandomFragment" >
+        <action
+            android:id="@+id/action_joinRandomFragment_to_poolingNewGameFragment"
+            app:destination="@id/poolingNewGameFragment" />
+    </fragment>
+</navigation>

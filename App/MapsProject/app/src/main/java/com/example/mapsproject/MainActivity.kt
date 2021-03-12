@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.LoginActivity
 import com.example.mapsproject.Account.SignupActivity
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
+        /*auth = FirebaseAuth.getInstance()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = sharedPref?.edit()
@@ -59,6 +60,9 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+        else{
+            Log.i("myTag", "no password or email stored")
+        }
 
         setContentView(R.layout.activity_main)
         //launch login activity
@@ -73,8 +77,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    */
 
-
+     /*test multiplayer*/
+        val intent = Intent(this, StartGameActivity::class.java)
+        startActivity(intent)
     }
 
 

@@ -22,9 +22,6 @@ class StartFragment: Fragment() {
 
         //get High Score
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        if(sharedPref == null){
-            Log.i("myTag","checazzo")
-        }
 
         val editor = sharedPref?.edit()
         val defaultValue = resources.getInteger(R.integer.saved_high_score_default_key)
