@@ -4,11 +4,12 @@ import json
 import time
 import xml.etree.ElementTree 
 
-def retrieveGeoInfo(level,num_answers):
+def retrieveGeoInfo(level,num_answers,princ_country):
     lat, long, country, city='','','',''
     latRange =[-180,+180]
     lonRange =[-60,+70]
-    lat,long,country,city = chooseGoodCoordinates(latRange,lonRange,level,num_answers)
+    while(country=='' or country==princ_country):
+        lat,long,country,city = chooseGoodCoordinates(latRange,lonRange,level,num_answers)
     return lat,long,country,city 
 
         

@@ -66,7 +66,7 @@ STATE = INIT_STATE
 
 list_game_id =[]
 coordinates_game = {}
-first_req = {}
+num_req = {}
 sync={}
 waiting = {}
 random_dict ={}
@@ -94,8 +94,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     g_id = len(list_game_id)
                     list_game_id.append(g_id)
                     random_dict[g_id] = False
-                    sync[g_id]=True
-                    first_req[g_id] = True
+                    sync[g_id]=0
+                    num_req[g_id] = 0
                     return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 elif(random!= None and random==1): #random game                   
                     found=False
@@ -103,7 +103,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         if random_dict[key]:
                             found = True
                             g_id = key
-                            sync[g_id]=False
+                            sync[g_id]+=1
                             random_dict[g_id] = False
                             return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':1}
                         
@@ -111,26 +111,38 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         g_id = len(list_game_id)
                         list_game_id.append(g_id)
                         random_dict[g_id] = True
-                        sync[g_id]=True
-                        first_req[g_id] = True
+                        sync[g_id]=0
+                        num_req[g_id] = 0
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
                 if(game_id in sync):
-                    sync[game_id]=False
-                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':1}
+                    sync[game_id]+=1
+                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id]}
                 else:
-                    return {"error":True, 'msg':"Error: game_id ="+str(game_id)+" not exist"}
+                    return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist"}
         
         elif(req == SYNC_STATE):
-            if(not sync[game_id]): STATE = PLAY_STATE
-            return {"error":False, 'msg':"return sync_state", 'waiting':sync[game_id]}
+            if(game_id not in sync):
+                return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist"}
+            #elif(sync[game_id]):
+             #   STATE = PLAY_STATE
+              #  return {"error":False, 'msg':"return waiting state", 'waiting':True}
+            #elif(not sync[game_id]):
+            #    STATE = PLAY_STATE
+            #    return {"error":False, 'msg':"return waiting state", 'waiting':False}
+            else:
+                STATE = PLAY_STATE
+                return {"error":False, 'msg':"return number of synchronized players (you excluded)", 'num_sync_pl':sync[game_id]}
         
         elif(req==PLAY_STATE):
-                if( (game_id in list_game_id) and player_id==0 and first_req[game_id]):
-                    first_req[game_id] = False
-                    lat, long, country,city = retrieveGeoInfo(level,3) 
-                    f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,1) 
+                if( (level==None and game_id==0) or game_id==None or player_id==None ):
+                    return {'error':True, 'msg':"missing parameters [level and/or game_id and/or player_id"}
+                
+                if( (game_id in list_game_id) and player_id==0 and num_req[game_id]==0):
+                    num_req[game_id] +=1 
+                    lat, long, country,city = retrieveGeoInfo(level,3,None) 
+                    f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,1,country) 
                     false_answers = retrieveSimilarAnswers(country,city,false_country,false_city)
                     
                     coordinates_game[game_id] = [lat,long,country,city,false_answers]
@@ -141,8 +153,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                                 'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
                                 'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
 
-                elif((game_id in list_game_id) and player_id==1 and not first_req[game_id]):
-                    first_req[game_id] = True
+                elif((game_id in list_game_id) and player_id>0 and player_id<=sync[game_id] and num_req[game_id]>0):
+                    if(num_req[game_id]==sync[game_id]+1): num_req[game_id] = 0 #if all player have done their request
                     lat,long,country,city,false_answers=coordinates_game[game_id]
                     #coordinates_game[game_id]=None
                     return {'error':False, 'msg':"return true answer and the three false answers", 
@@ -151,43 +163,21 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                                 'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
                                 'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
 
-                elif((game_id in list_game_id) and player_id==1 and first_req[game_id]):
-                    return {'error':True, 'msg':"wait the other player"}
+                elif((game_id in list_game_id) and player_id>0 and num_req[game_id]==0):
+                    return {'error':True, 'msg':"wait the master player"}
                     
         elif(req == LEVEL_STATE):
-            if(game_id not in waiting): waiting[game_id] = True
-            else: waiting[game_id] = False
-            return {"error":False, 'msg':"level completed", 'game_id':game_id}
+            if(game_id not in waiting): waiting[game_id] = 0
+            else: waiting[game_id] += 1#False
+            return {"error":False, 'msg':"level completed", 'game_id':game_id, 'number of players to wait': sync[game_id]-waiting[game_id]}
         
         elif(req == WAITING_STATE):
-            if(not waiting[game_id]): STATE = PLAY_STATE
-            return {"error":False, 'msg':"return waiting_state", 'waiting':waiting[game_id]}
+            if( sync[game_id]-waiting[game_id] == 0): 
+                STATE = PLAY_STATE
+                num_req[game_id]=0
+                return {"error":False, 'msg':"return waiting_state", 'waiting': False}
+            else: return {"error":False, 'msg':"return waiting_state", 'waiting': True}
         
-'''
-    def post(self):
-        parser.add_argument('req',type=int,required = True) 
-        parser.add_argument('who',type=int,required = True)
-        parser.add_argument('moveX',type=int,required = True)
-        parser.add_argument('moveY',type=int,required = True)
-        args = parser.parse_args() #parse the msg
-
-        req = args['req']
-        who = args['who']
-        moveY = args['moveY']
-        moveX = args['moveX']
-
-        parser.remove_argument('moveX')
-        parser.remove_argument('moveY')
-
-        if req == MOVE:
-            lastMove[who] = [moveX,moveY]
-            return {"error":False, 'msg':"MOVE MESSAGE", 'moveX':lastMove[who][0], 'moveY': lastMove[who][1]}
-            
-        else:
-            return{"error": True, 'msg':"'req' !=2}"}
-
-
-'''
 
 api.add_resource(GeoApp,"/")
 
