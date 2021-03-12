@@ -57,7 +57,8 @@ class PollingNewLevelFragment: Fragment() {
             response->
             val reply = JSONObject(response.toString())
             val waiting = reply!!.getBoolean("error")
-            Log.i("myTag","waiting: "+waiting)
+            val msg = reply!!.getString("msg")
+            Log.i("myTag","waiting: "+waiting+", msg: "+msg)
 
             if (!waiting){
 

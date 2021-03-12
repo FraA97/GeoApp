@@ -22,11 +22,11 @@
             android:text="Insert game ID" />
 
         <EditText
-            android:id="@+id/game_id_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/game_id"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/submit_game_id_btn"

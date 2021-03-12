@@ -97,15 +97,22 @@
         android:name="com.example.mapsproject.Multiplayer.Fragment.JoinIDFragment"
         android:label="JoinIDFragment" >
         <action
-            android:id="@+id/action_joinIDFragment_to_poolingNewGameFragment"
-            app:destination="@id/poolingNewGameFragment" />
+            android:id="@+id/action_joinIDFragment_to_waitingJoinFragment"
+            app:destination="@id/waitingJoinFragment" />
     </fragment>
     <fragment
         android:id="@+id/joinRandomFragment"
         android:name="com.example.mapsproject.Multiplayer.Fragment.JoinRandomFragment"
-        android:label="JoinRandomFragment" >
+        android:label="JoinRandomFragment" />
+    <fragment
+        android:id="@+id/waitingJoinFragment"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.WaitingJoinFragment"
+        android:label="WaitingJoinFragment" >
         <action
-            android:id="@+id/action_joinRandomFragment_to_poolingNewGameFragment"
-            app:destination="@id/poolingNewGameFragment" />
+            android:id="@+id/action_waitingJoinFragment_to_joinIDFragment"
+            app:destination="@id/joinIDFragment" />
+        <action
+            android:id="@+id/action_waitingJoinFragment_to_pollingNewLevelFragment"
+            app:destination="@id/pollingNewLevelFragment" />
     </fragment>
 </navigation>
