@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.DefaultRetryPolicy
@@ -38,7 +39,7 @@ class PollingNewLevelFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
-        rootView.findViewById<TextView>(R.id.loading_tv).setText("pooling new level")
+        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting server response")
         return rootView
     }
 
@@ -50,10 +51,10 @@ class PollingNewLevelFragment: Fragment() {
 
     private fun poolNewLevel() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level=0")
+                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+MultiPlayerServerConf.played_levels)
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level=0",{
+                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+MultiPlayerServerConf.played_levels,{
             response->
             val reply = JSONObject(response.toString())
             val waiting = reply!!.getBoolean("error")
@@ -104,6 +105,8 @@ class PollingNewLevelFragment: Fragment() {
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+            findNavController().navigate(R.id.action_pollingNewLevelFragment_to_startFragmentMP)
         })
         stringRequest.setRetryPolicy(DefaultRetryPolicy(
                 20 * 1000,  //After the set time elapses the request will timeout

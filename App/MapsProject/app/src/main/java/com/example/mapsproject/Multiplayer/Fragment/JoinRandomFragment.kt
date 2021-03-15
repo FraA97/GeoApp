@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
@@ -51,10 +52,12 @@ class JoinRandomFragment:Fragment() {
 
             Log.i("myTag","game id: "+ MultiPlayerServerConf.game_id+"; player id: "+ MultiPlayerServerConf.player_id)
 
-          //  findNavController().navigate(R.id.action_joinRandomFragment_to_poolingNewLevelFragment)
+            findNavController().navigate(R.id.action_joinRandomFragment_to_waitingJoinFragment)
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+            findNavController().navigate(R.id.action_joinRandomFragment_to_joinFragment)
         })
         MultiPlayerServerConf.queue?.add(stringRequest)
 

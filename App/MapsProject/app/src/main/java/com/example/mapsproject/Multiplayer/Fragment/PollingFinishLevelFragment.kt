@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
@@ -33,6 +34,7 @@ class PollingFinishLevelFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
+        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting other players to answer")
         return rootView
     }
 
@@ -53,11 +55,15 @@ class PollingFinishLevelFragment: Fragment() {
             val waiting = reply!!.getBoolean("waiting")
             Log.i("myTag","waiting: "+waiting)
 
-            if (!waiting){
+            if (!waiting) {
                 MultiPlayerServerConf.queue?.cancelAll(activity)
-                val i = Intent(activity, StartGameActivity::class.java)
-                startActivity(i)
-                activity?.finish()
+                MultiPlayerServerConf.player_id += 1
+
+                if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels) {
+                    findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
+                } else {
+                    findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_endFragment3)
+                }
             }
             else
                 Handler(Looper.getMainLooper()).postDelayed({poolFinishLevel()}, MultiPlayerServerConf.pollingPeriod)

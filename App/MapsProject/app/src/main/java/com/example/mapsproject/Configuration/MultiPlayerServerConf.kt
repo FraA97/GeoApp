@@ -22,6 +22,8 @@ class MultiPlayerServerConf {
         var game_id=0
         var player_id = 0
 
+        var levels = 3
+        var played_levels = 0
 
         var canPoll=false
     }

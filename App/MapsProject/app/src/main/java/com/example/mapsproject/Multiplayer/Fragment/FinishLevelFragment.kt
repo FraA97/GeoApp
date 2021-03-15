@@ -1,5 +1,6 @@
 package com.example.mapsproject.Multiplayer.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.DefaultRetryPolicy
@@ -17,6 +19,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
+import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
 
 class FinishLevelFragment : Fragment() {
@@ -33,6 +36,7 @@ class FinishLevelFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
+        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting servere response")
         return rootView
     }
 
@@ -62,4 +66,6 @@ class FinishLevelFragment : Fragment() {
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
         MultiPlayerServerConf.queue?.add(stringRequest)
     }
+
+
 }

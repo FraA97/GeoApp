@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
@@ -78,6 +79,8 @@ class PoolingNewGameFragment: Fragment() {
                 findNavController().navigate(R.id.action_poolingNewGameFragment_to_pollingNewLevelFragment)
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+            findNavController().navigate(R.id.action_poolingNewGameFragment_to_newGameFragment)
         })
         MultiPlayerServerConf.queue?.add(stringRequest)
 

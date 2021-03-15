@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -31,6 +32,7 @@ class WaitingJoinFragment: Fragment(){
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
+        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting master player to start the game")
         return rootView
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +61,8 @@ class WaitingJoinFragment: Fragment(){
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
-            findNavController().navigate(R.id.action_waitingJoinFragment_to_joinIDFragment)
+            Toast.makeText(activity,"Error:" + error.toString(),Toast.LENGTH_SHORT)
+            findNavController().navigate(R.id.action_waitingJoinFragment_to_joinFragment)
         })
         MultiPlayerServerConf.queue?.add(stringRequest)
 

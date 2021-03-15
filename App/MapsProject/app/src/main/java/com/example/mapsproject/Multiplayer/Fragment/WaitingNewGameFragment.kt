@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
@@ -31,6 +33,7 @@ class WaitingNewGameFragment:Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
+        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting server response")
         return rootView
     }
 
@@ -57,6 +60,8 @@ class WaitingNewGameFragment:Fragment() {
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+            findNavController().navigate(R.id.action_waitingNewGameFragment_to_newGameFragment)
         })
         queue?.add(stringRequest)
 
