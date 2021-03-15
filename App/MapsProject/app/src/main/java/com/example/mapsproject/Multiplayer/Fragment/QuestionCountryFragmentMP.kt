@@ -12,9 +12,10 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 
-class QuestionCountryFragmentMP: Fragment(), View.OnClickListener {
+class QuestionCountryFragmentMP: Fragment() {
 
 
     override fun onCreateView(
@@ -31,53 +32,51 @@ class QuestionCountryFragmentMP: Fragment(), View.OnClickListener {
         val btn3 = rootView.findViewById<Button>(R.id.button3)
         val btn4 = rootView.findViewById<Button>(R.id.button4)
 
-        btn1.setOnClickListener(this)
-        btn2.setOnClickListener(this)
-        btn3.setOnClickListener(this)
-        btn4.setOnClickListener(this)
-
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val editor = sharedPref?.edit()
 
-        btn1.setText(sharedPref?.getString("country", "").toString())
+        val country = sharedPref?.getString("country", "").toString()
         //sharedPref?.getString("city","").toString()
 
-        btn2.setText(sharedPref?.getString("fCountry1", "").toString())
+        val fCountry1 = sharedPref?.getString("fCountry1", "").toString()
         //sharedPref?.getString("fCity1", "")
-        btn3.setText(sharedPref?.getString("fCountry2", "").toString())
+        val fCountry2 = sharedPref?.getString("fCountry2", "").toString()
         //sharedPref?.getString("fCity2", "")
-        btn4.setText(sharedPref?.getString("fCountry3", "").toString())
+        val fCountry3 = sharedPref?.getString("fCountry3", "").toString()
         //sharedPref?.getString("fCity3", "")
+
+        val buttons = listOf<Button>(btn1, btn2, btn3, btn4)
+        val shuffled = buttons.shuffled()
+        val btnIter = shuffled.listIterator()
+        val countries = listOf<String>(country, fCountry1, fCountry2, fCountry3)
+        val ctrIter = countries.listIterator()
+        var ctr = 0
+        for (ctr in 0..shuffled.size - 1) {
+            val btn = btnIter.next()
+            val coun = ctrIter.next()
+
+            btn.setText(coun)
+            btn.setOnClickListener { view ->
+                if (ctr == 0) {
+                    SinglePlayerServerConf.score += 1
+                    btn.setBackgroundColor(Color.GREEN)
+                } else {
+                    btn.setBackgroundColor(Color.RED)
+                }
+
+                Handler().postDelayed(
+                        {
+                            // This method will be executed once the timer is over
+                            findNavController().navigate(R.id.action_questionCountryFragmentMP_to_questionCityFragmentMP)
+
+                        },
+                        1000 // value in milliseconds
+                )
+
+            }
+        }
 
         return rootView
     }
 
 
-    override fun onClick(v: View?) {
-
-
-        Log.i("Mytag", "score: " + score.toString())
-
-        when (v?.id) {
-            R.id.button1 -> {
-                v.setBackgroundColor(Color.GREEN)
-                score = score?.plus(1)
-            }
-
-            R.id.button2 -> v.setBackgroundColor(Color.RED)
-            R.id.button3 -> v.setBackgroundColor(Color.RED)
-            R.id.button4 -> v.setBackgroundColor(Color.RED)
-        }
-
-
-        Handler().postDelayed(
-                {
-                    // This method will be executed once the timer is over
-                    findNavController().navigate(R.id.action_questionCountryFragmentMP_to_questionCityFragmentMP)
-
-                },
-                1000 // value in milliseconds
-        )
-
-    }
 }

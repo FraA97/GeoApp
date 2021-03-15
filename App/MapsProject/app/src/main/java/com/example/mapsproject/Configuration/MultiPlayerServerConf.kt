@@ -7,7 +7,6 @@ class MultiPlayerServerConf {
     companion object{
         //var url = "http://fraart.pythonanywhere.com/?"
         var url = "http://10.0.2.2:8080/?"
-        //val clientid="241824565470-884uiqtb5glg4ec4d4l9nfg0el6ac18s.apps.googleusercontent.com"
 
         val pollingPeriod :Long = 2000L
 
