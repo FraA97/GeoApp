@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
 
 class StartFragmentMP: Fragment() {
@@ -19,6 +20,7 @@ class StartFragmentMP: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_start_game_multiplayer, container, false)
+        MultiPlayerServerConf.score=0
         return rootView
     }
 

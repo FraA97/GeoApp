@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
 import com.example.mapsproject.R
 
 class QuestionCityFragmentMP: Fragment(), View.OnClickListener {
@@ -61,9 +62,6 @@ class QuestionCityFragmentMP: Fragment(), View.OnClickListener {
 
 
     override fun onClick(v: View?) {
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val editor = sharedPref?.edit()
-        var score = sharedPref?.getInt(getString(R.string.current_score_key), 0)
 
         Log.i("Mytag","score: "+score.toString())
 
@@ -71,7 +69,6 @@ class QuestionCityFragmentMP: Fragment(), View.OnClickListener {
             R.id.button1 -> {
                 v.setBackgroundColor(Color.GREEN)
                 score = score?.plus(1)
-                editor?.putInt((getString(R.string.current_score_key)), score!!)
 
             }
 
