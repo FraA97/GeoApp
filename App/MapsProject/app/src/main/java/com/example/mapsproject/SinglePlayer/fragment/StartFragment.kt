@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 
 class StartFragment: Fragment() {
@@ -36,7 +37,7 @@ class StartFragment: Fragment() {
 
 
         //set current score to 0
-        editor?.putInt(getString(R.string.current_score_key), 0)
+        SinglePlayerServerConf.score = 0
 
         //set number of sets
         editor?.putInt(getString(R.string.sets_key),resources.getInteger(R.integer.sets_number))

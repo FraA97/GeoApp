@@ -50,9 +50,9 @@ class OptionsFragment:Fragment() {
         val city = sharedPref?.getString("city", "").toString()
         val country = sharedPref?.getString("country", "").toString()
 
-        Log.i("myTag", "request: " + SinglePlayerServerConf.url + "req=" + SecondReq + "&country=\"" + country + "\"&city=\"" + city + "\"")
+        Log.i("myTag", "request: " + SinglePlayerServerConf.url + "req=" + SecondReq + "&level=0"+"&country=\"" + country + "\"&city=\"" + city + "\"")
         val stringRequest = StringRequest(
-                Request.Method.GET, SinglePlayerServerConf.url + "req=" + SinglePlayerServerConf.SecondReq + "&country=\"" + country + "\"&city=\"" + city + "\"", { response ->
+                Request.Method.GET, SinglePlayerServerConf.url + "req=" + SinglePlayerServerConf.SecondReq +"&level=0"+ "&country=\"" + country + "\"&city=\"" + city + "\"", { response ->
             val reply = JSONObject(response.toString())
 
             val fCountry1 = reply!!.get("fCountry1")

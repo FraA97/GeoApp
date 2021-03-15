@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.score
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
@@ -27,7 +28,6 @@ class EndFragment: Fragment() {
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val editor = sharedPref?.edit()
-        var score = sharedPref?.getInt(getString(R.string.current_score_key), 0)
         var highscore = sharedPref?.getInt(getString(R.string.high_score_key), 0)
         if(score!! > highscore!!){
             editor?.putInt(getString(R.string.high_score_key), score)

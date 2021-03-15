@@ -9,6 +9,9 @@ class SinglePlayerServerConf {
         val FirstReq = 0
         val SecondReq = 1
 
+        var score = 0
+
+
         var canPoll=false
         //python3 MyMultiplayerServer.py
     }

@@ -42,9 +42,9 @@ class LatLongFragment: Fragment() {
     }
 
     private fun createLevel() {
-        Log.i("myTag","request: "+url+"req="+ FirstReq)
+        Log.i("myTag","request: "+url+"req="+ FirstReq+"&level=0")
         val stringRequest = StringRequest(
-            Request.Method.GET, url+"req="+ FirstReq,{
+            Request.Method.GET, url+"req="+ FirstReq+"&level=0",{
                 response->
                 val reply = JSONObject(response.toString())
                 val lat = reply!!.getDouble("lat")
