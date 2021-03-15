@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.queue
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 import org.json.JSONObject
 
@@ -50,11 +51,17 @@ class PollingNewLevelFragment: Fragment() {
     }
 
     private fun poolNewLevel() {
+        val l:Int
+        if(MultiPlayerServerConf.played_levels<=3)
+            l= MultiPlayerServerConf.played_levels
+        else
+            l=3
+
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+MultiPlayerServerConf.played_levels)
+                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+l)
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+MultiPlayerServerConf.played_levels,{
+                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+l,{
             response->
             val reply = JSONObject(response.toString())
             val waiting = reply!!.getBoolean("error")
