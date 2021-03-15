@@ -13,6 +13,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.FirstReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.url
 import com.example.mapsproject.R
@@ -42,9 +43,14 @@ class LatLongFragment: Fragment() {
     }
 
     private fun createLevel() {
-        Log.i("myTag","request: "+url+"req="+ FirstReq+"&level=0")
+        val l:Int
+        if(SinglePlayerServerConf.level<=3)
+            l=SinglePlayerServerConf.level
+        else
+            l=3
+        Log.i("myTag","request: "+url+"req="+ FirstReq+"&level="+l)
         val stringRequest = StringRequest(
-            Request.Method.GET, url+"req="+ FirstReq+"&level=0",{
+            Request.Method.GET, url+"req="+ FirstReq+"&level="+l,{
                 response->
                 val reply = JSONObject(response.toString())
                 val lat = reply!!.getDouble("lat")

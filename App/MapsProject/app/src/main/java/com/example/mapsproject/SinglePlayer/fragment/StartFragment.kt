@@ -38,6 +38,7 @@ class StartFragment: Fragment() {
 
         //set current score to 0
         SinglePlayerServerConf.score = 0
+        SinglePlayerServerConf.level = 0
 
         //set number of sets
         editor?.putInt(getString(R.string.sets_key),resources.getInteger(R.integer.sets_number))

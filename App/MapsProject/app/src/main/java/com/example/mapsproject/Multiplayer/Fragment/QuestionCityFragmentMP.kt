@@ -58,7 +58,7 @@ class QuestionCityFragmentMP: Fragment() {
         val cities = listOf<String>(city, fCity1, fCity2, fCity3)
         val citiesIter = cities.listIterator()
 
-        var ctr = 0
+
         for (ctr in 0..shuffled.size - 1) {
             val btn = btnIter.next()
             val coun = citiesIter.next()

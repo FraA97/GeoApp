@@ -68,17 +68,14 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
                 }
 
 
-                //update number of sets
-                val nsets = sets!! -1
-                editor?.putInt(getString(R.string.sets_key),nsets)
-                editor?.apply()
+                SinglePlayerServerConf.level+=1
 
                 Handler().postDelayed(
                         {
                             // This method will be executed once the timer is over
 
                             //if sets are not ended
-                            if(nsets == 0){
+                            if(SinglePlayerServerConf.level == SinglePlayerServerConf.sets){
                                 findNavController().navigate(R.id.action_questionCityFragment_to_endFragment)
                             }else{
                                 findNavController().navigate(R.id.action_questionCityFragment_to_btnFragment)
