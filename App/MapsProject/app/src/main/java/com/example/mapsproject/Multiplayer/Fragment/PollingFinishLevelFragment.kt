@@ -57,7 +57,7 @@ class PollingFinishLevelFragment: Fragment() {
 
             if (!waiting) {
                 MultiPlayerServerConf.queue?.cancelAll(activity)
-                MultiPlayerServerConf.player_id += 1
+                MultiPlayerServerConf.played_levels += 1
 
                 if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels) {
                     findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
