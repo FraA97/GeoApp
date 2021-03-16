@@ -136,6 +136,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 return {"error":False, 'msg':"return number of synchronized players (you excluded)", 'num_sync_pl':sync[game_id]}
         
         elif(req==PLAY_STATE):
+                waiting.pop(game_id, None)
                 if( (level==None and game_id==0) or game_id==None or player_id==None ):
                     return {'error':True, 'msg':"missing parameters [level and/or game_id and/or player_id"}
                 
@@ -153,16 +154,19 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                                 'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
                                 'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
 
-                elif((game_id in list_game_id) and player_id>0 and player_id<=sync[game_id] and num_req[game_id]>0):
-                    if(num_req[game_id]==sync[game_id]+1): num_req[game_id] = 0 #if all player have done their request
-                    lat,long,country,city,false_answers=coordinates_game[game_id]
-                    #coordinates_game[game_id]=None
-                    return {'error':False, 'msg':"return true answer and the three false answers", 
-                                'Country' :country[0],'City':city[0], 'lat' :lat,'long':long,
-                                'fCountry1':false_answers[0]['country'],'fCity1':false_answers[0]['city'],
-                                'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
-                                'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
-
+                elif((game_id in list_game_id) and player_id>0 and player_id<=sync[game_id] and num_req[game_id]>0 ):
+                    if(game_id in coordinates_game):
+                        if(num_req[game_id]==sync[game_id]+1): num_req[game_id] = 0 #if all player have done their request
+                        print(coordinates_game[game_id])
+                        lat,long,country,city,false_answers=coordinates_game[game_id]
+                        #coordinates_game[game_id]=None
+                        return {'error':False, 'msg':"return true answer and the three false answers", 
+                                    'Country' :country[0],'City':city[0], 'lat' :lat,'long':long,
+                                    'fCountry1':false_answers[0]['country'],'fCity1':false_answers[0]['city'],
+                                    'fCountry2':false_answers[1]['country'],'fCity2':false_answers[1]['city'],
+                                    'fCountry3':false_answers[2]['country'],'fCity3':false_answers[2]['city']}
+                    else:
+                        return {'error':True, 'msg':"wait the master player"}
                 elif((game_id in list_game_id) and player_id>0 and num_req[game_id]==0):
                     return {'error':True, 'msg':"wait the master player"}
                     
@@ -172,11 +176,16 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
             return {"error":False, 'msg':"level completed", 'game_id':game_id, 'number of players to wait': sync[game_id]-waiting[game_id]}
         
         elif(req == WAITING_STATE):
+            coordinates_game.pop(game_id, None)
+            if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True}
             if( sync[game_id]-waiting[game_id] == 0): 
                 STATE = PLAY_STATE
                 num_req[game_id]=0
+                #waiting.pop(game_id, None)
                 return {"error":False, 'msg':"return waiting_state", 'waiting': False}
-            else: return {"error":False, 'msg':"return waiting_state", 'waiting': True}
+            else:
+                num_req[game_id]=0 
+                return {"error":False, 'msg':"return waiting_state", 'waiting': True}
         
 
 api.add_resource(GeoApp,"/")

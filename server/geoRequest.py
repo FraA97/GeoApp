@@ -70,7 +70,7 @@ def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
         elif(partialLat< 180-marginLat and partialLat<-180+marginLat):
             east = -180+ marginLat*2
             west = -180
-        elif(partialLat> 180-10 ): 
+        elif(partialLat> 180-marginLat ): 
             east = 180 
             west = 180- marginLat*2
         if(partialLong<=70-marginLong and partialLong>=-60+marginLong): 
