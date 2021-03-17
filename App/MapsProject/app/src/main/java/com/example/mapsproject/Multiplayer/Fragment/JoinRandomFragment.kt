@@ -15,6 +15,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.player_id
 import com.example.mapsproject.R
 import org.json.JSONObject
 
@@ -52,12 +53,16 @@ class JoinRandomFragment:Fragment() {
 
             Log.i("myTag","game id: "+ MultiPlayerServerConf.game_id+"; player id: "+ MultiPlayerServerConf.player_id)
 
-            findNavController().navigate(R.id.action_joinRandomFragment_to_waitingJoinFragment)
-
+            if(player_id==0){
+                findNavController().navigate(R.id.action_joinRandomFragment_to_poolingNewGameFragment)
+            }
+            else {
+                findNavController().navigate(R.id.action_joinRandomFragment_to_waitingJoinFragment)
+            }
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
             Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
-            findNavController().navigate(R.id.action_joinRandomFragment_to_joinFragment)
+            findNavController().navigate(R.id.action_joinRandomFragment_to_startFragmentMP)
         })
         MultiPlayerServerConf.queue?.add(stringRequest)
 

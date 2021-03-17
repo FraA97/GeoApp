@@ -32,8 +32,12 @@ class StartFragmentMP: Fragment() {
         }
 
         view.findViewById<Button>(R.id.join_btn).setOnClickListener { view ->
-            findNavController().navigate(R.id.action_startFragmentMP_to_joinFragment)
+            findNavController().navigate(R.id.action_startFragmentMP_to_joinIDFragment)
 
+        }
+
+        view.findViewById<Button>(R.id.button5).setOnClickListener { view->
+            findNavController().navigate(R.id.action_startFragmentMP_to_joinRandomFragment)
         }
     }
 }
