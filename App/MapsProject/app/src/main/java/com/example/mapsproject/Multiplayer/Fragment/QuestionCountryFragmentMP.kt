@@ -66,7 +66,7 @@ class QuestionCountryFragmentMP: Fragment() {
                 Handler().postDelayed(
                         {
                             // This method will be executed once the timer is over
-                            findNavController().navigate(R.id.action_questionCountryFragmentMP_to_questionCityFragmentMP)
+                            findNavController().navigate(R.id.action_questionCountryFragmentMP_to_streetVFragmentMP)
 
                         },
                         1000 // value in milliseconds

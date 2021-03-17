@@ -23,7 +23,7 @@ class MapsActivity : AppCompatActivity() {
         streetViewPanoramaFragment?.getStreetViewPanoramaAsync { panorama ->
             // Only set the panorama to SYDNEY on startup (when no panoramas have been
             // loaded which is when the savedInstanceState is null).
-            savedInstanceState ?: panorama.setPosition(LOCATION,500000)
+            savedInstanceState ?: panorama.setPosition(LOCATION,50)
             savedInstanceState ?: panorama.setStreetNamesEnabled(false)
             savedInstanceState ?: panorama.setUserNavigationEnabled(false)
             savedInstanceState ?: panorama.setZoomGesturesEnabled(false)
@@ -43,6 +43,6 @@ class MapsActivity : AppCompatActivity() {
 
     companion object {
         // George St, Sydney
-        private val LOCATION = LatLng(56.54717,70.73281)
+        private val LOCATION = LatLng(33.34058, 44.40088)
     }
 }

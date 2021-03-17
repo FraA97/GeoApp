@@ -58,7 +58,15 @@
             android:id="@+id/action_questionCountryFragment_to_btnFragment"
             app:destination="@id/btnFragment" />
         <action
-            android:id="@+id/action_questionCountryFragment_to_questionCityFragment"
+            android:id="@+id/action_questionCountryFragment_to_streetVFragment"
+            app:destination="@id/streetVFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/streetVFragment"
+        android:name="com.example.mapsproject.SinglePlayer.fragment.StreetVFragment"
+        android:label="StreetVFragment" >
+        <action
+            android:id="@+id/action_StreetVFragment_to_questionCityFragment"
             app:destination="@id/questionCityFragment" />
     </fragment>
     <fragment

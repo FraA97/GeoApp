@@ -78,7 +78,15 @@
         android:name="com.example.mapsproject.Multiplayer.Fragment.QuestionCountryFragmentMP"
         android:label="QuestionCountryFragmentMP" >
         <action
-            android:id="@+id/action_questionCountryFragmentMP_to_questionCityFragmentMP"
+            android:id="@+id/action_questionCountryFragmentMP_to_streetVFragmentMP"
+            app:destination="@id/streetVFragmentMP" />
+    </fragment>
+    <fragment
+        android:id="@+id/streetVFragmentMP"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.StreetVFragmentMP"
+        android:label="StreetVFragmentMP" >
+        <action
+            android:id="@+id/action_StreetVFragmentMP_to_questionCityFragmentMP"
             app:destination="@id/questionCityFragmentMP" />
     </fragment>
     <fragment
@@ -142,4 +150,6 @@
         android:id="@+id/endFragment3"
         android:name="com.example.mapsproject.SinglePlayer.fragment.EndFragment"
         android:label="EndFragment" />
+
+
 </navigation>

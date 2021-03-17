@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MapsProject</string>
-    <string name="google_maps_key">AIzaSyCC-wGFNDNuO-KG4kZme2z5xRwtbfSzNl8</string>
+   <!-- <string name="google_maps_key">AIzaSyCC-wGFNDNuO-KG4kZme2z5xRwtbfSzNl8</string>-->
     <string name="single_player">Single Player</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="work_in_progress">Work in Progress</string>
