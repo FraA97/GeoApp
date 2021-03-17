@@ -26,5 +26,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/join_a_game" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/join_a_game_against_random" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,8 +10,11 @@
             android:id="@+id/action_startFragmentMP_to_newGameFragment"
             app:destination="@id/newGameFragment" />
         <action
-            android:id="@+id/action_startFragmentMP_to_joinFragment"
-            app:destination="@id/joinFragment" />
+            android:id="@+id/action_startFragmentMP_to_joinIDFragment"
+            app:destination="@id/joinIDFragment" />
+        <action
+            android:id="@+id/action_startFragmentMP_to_joinRandomFragment"
+            app:destination="@id/joinRandomFragment" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
@@ -20,17 +23,6 @@
         <action
             android:id="@+id/action_newGameFragment_to_waitingNewGameFragment"
             app:destination="@id/waitingNewGameFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/joinFragment"
-        android:name="com.example.mapsproject.Multiplayer.Fragment.JoinFragment"
-        android:label="JoinFragment" >
-        <action
-            android:id="@+id/action_joinFragment_to_joinIDFragment"
-            app:destination="@id/joinIDFragment" />
-        <action
-            android:id="@+id/action_joinFragment_to_joinRandomFragment"
-            app:destination="@id/joinRandomFragment" />
     </fragment>
     <fragment
         android:id="@+id/waitingNewGameFragment"
@@ -132,8 +124,11 @@
             android:id="@+id/action_joinRandomFragment_to_waitingJoinFragment"
             app:destination="@id/waitingJoinFragment" />
         <action
-            android:id="@+id/action_joinRandomFragment_to_joinFragment"
-            app:destination="@id/joinFragment" />
+            android:id="@+id/action_joinRandomFragment_to_startFragmentMP"
+            app:destination="@id/startFragmentMP" />
+        <action
+            android:id="@+id/action_joinRandomFragment_to_poolingNewGameFragment"
+            app:destination="@id/poolingNewGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/waitingJoinFragment"
@@ -144,7 +139,7 @@
             app:destination="@id/pollingNewLevelFragment" />
         <action
             android:id="@+id/action_waitingJoinFragment_to_joinFragment"
-            app:destination="@id/joinFragment" />
+            app:destination="@id/startFragmentMP" />
     </fragment>
     <fragment
         android:id="@+id/endFragment3"
