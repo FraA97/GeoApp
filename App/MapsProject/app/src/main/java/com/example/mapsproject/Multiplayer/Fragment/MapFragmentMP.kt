@@ -11,15 +11,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapFragmentMP: Fragment() {
-    private lateinit var googleMap: GoogleMap
+class MapFragmentMP: Fragment(),OnMapReadyCallback {
+    lateinit var rootView: View
     var mMapView: MapView? = null
 
     override fun onCreateView(
@@ -28,13 +25,9 @@ class MapFragmentMP: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val lat = sharedPref?.getFloat("lat",0f)
-        val long = sharedPref?.getFloat("long",0f)
-        Log.d("myTag", "lat: "+lat+", long: "+long);
 
-        val rootView: View = inflater.inflate(R.layout.fragment_map, container, false)
-        val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
+
+        rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
         mMapView = rootView.findViewById<View>(R.id.map) as MapView
         mMapView!!.onCreate(savedInstanceState)
@@ -48,31 +41,9 @@ class MapFragmentMP: Fragment() {
             e.printStackTrace()
         }
 
-        mMapView!!.getMapAsync { mMap ->
-            googleMap = mMap
-
-            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
+        mMapView!!.getMapAsync(this)
 
 
-
-            val location = LatLng(lat!!.toDouble(), long!!.toDouble())
-            mMap.addMarker(MarkerOptions().position(location).title("Marker "))
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
-            mMap.getUiSettings().setZoomControlsEnabled(false);
-        }
-
-        object : CountDownTimer(10000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                clocktext.setText(""+millisUntilFinished /1000);
-            }
-
-            override fun onFinish() {
-
-                findNavController().navigate(R.id.action_mapFragmentMP_to_questionCountryFragmentMP)
-
-            }
-        }.start()
         return rootView
     }
 
@@ -95,6 +66,39 @@ class MapFragmentMP: Fragment() {
     override fun onLowMemory() {
         super.onLowMemory()
         mMapView!!.onLowMemory()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+        val lat = sharedPref?.getFloat("lat",0f)
+        val long = sharedPref?.getFloat("long",0f)
+        Log.d("myTag", "lat: "+lat+", long: "+long);
+
+        val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
+
+
+        googleMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
+
+
+
+        val location = LatLng(lat!!.toDouble(), long!!.toDouble())
+        googleMap.addMarker(MarkerOptions().position(location).title("Marker "))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
+
+        object : CountDownTimer(10000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                clocktext.setText(""+millisUntilFinished /1000);
+            }
+
+            override fun onFinish() {
+
+                findNavController().navigate(R.id.action_mapFragmentMP_to_questionCountryFragmentMP)
+
+            }
+        }.start()
+
     }
 
 
