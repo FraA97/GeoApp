@@ -116,7 +116,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
-                if( (game_id in sync) and not random_dict[game_id]):
+                if(game_id in sync and not random_dict[game_id]):
                     sync[game_id]+=1
                     return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id]}
                 else:

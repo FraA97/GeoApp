@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
@@ -19,6 +20,7 @@ class EndGameFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        MultiPlayerServerConf.randomVar=0
         val rootView = inflater.inflate(R.layout.fragment_end_singleplayer, container, false)
         rootView.findViewById<Button>(R.id.end_btn).setOnClickListener { view ->
             val i = Intent(activity, StartGameActivity::class.java)

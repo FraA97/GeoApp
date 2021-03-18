@@ -16,6 +16,7 @@ class MultiPlayerServerConf {
         val finishLevelReq = 3
         val waitLevelReq = 4
 
+        var randomVar=0
         var queue : RequestQueue? = null
 
         var game_id=0

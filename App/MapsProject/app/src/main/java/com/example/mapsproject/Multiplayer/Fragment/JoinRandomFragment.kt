@@ -41,6 +41,7 @@ class JoinRandomFragment:Fragment() {
     }
 
     private fun joinRandomGame() {
+        MultiPlayerServerConf.randomVar=1
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&random=1")
         val stringRequest = StringRequest(
                 Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&random=1",{
