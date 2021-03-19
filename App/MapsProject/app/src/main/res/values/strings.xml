@@ -41,4 +41,6 @@
     <string name="game_id">Game ID</string>
     <string name="number_of_players_in_the_game">Number of Players in the game</string>
     <string name="_1">1</string>
+    <string name="number_of_levels">Number of Levels</string>
+    <string name="_3">3</string>
 </resources>

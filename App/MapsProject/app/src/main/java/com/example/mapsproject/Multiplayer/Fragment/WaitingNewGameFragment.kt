@@ -45,7 +45,7 @@ class WaitingNewGameFragment:Fragment() {
     }
 
     private fun createGame() {
-        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq)
+        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&levels="+MultiPlayerServerConf.levels)
         val stringRequest = StringRequest(
                 Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq,{
             response->

@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
 
 class NewGameFragment:Fragment() {
@@ -23,6 +25,8 @@ class NewGameFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.create_btn).setOnClickListener { view->
             findNavController().navigate(R.id.action_newGameFragment_to_waitingNewGameFragment)
+            val l = view.findViewById<EditText>(R.id.levels_input).text.toString().toInt()
+            MultiPlayerServerConf.levels =  l
         }
     }
 }

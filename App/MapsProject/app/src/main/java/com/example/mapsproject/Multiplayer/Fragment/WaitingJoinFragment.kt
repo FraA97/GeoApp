@@ -52,11 +52,14 @@ class WaitingJoinFragment: Fragment(){
                 val reply = JSONObject(response.toString())
                 val error = reply!!.getBoolean("error")
                 val msg = reply!!.getString("msg")
+
                 if (error) {
                     Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
                     return@StringRequest
                 }
                 MultiPlayerServerConf.player_id = reply!!.getInt("player_id")
+                MultiPlayerServerConf.levels = reply!!.getInt("levels")
+
 
                 Log.i("myTag", "game id: " + MultiPlayerServerConf.game_id + "; player id: " + MultiPlayerServerConf.player_id)
 
