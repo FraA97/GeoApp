@@ -33,15 +33,18 @@ class PollingFinishLevelFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
-        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting other players to answer")
+        val rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Handler(Looper.getMainLooper()).postDelayed({poolFinishLevel()}, MultiPlayerServerConf.pollingPeriod)
+        object : Thread() {
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({poolFinishLevel()}, MultiPlayerServerConf.pollingPeriod)
+            }
+        }.start()
     }
 
     private fun poolFinishLevel() {

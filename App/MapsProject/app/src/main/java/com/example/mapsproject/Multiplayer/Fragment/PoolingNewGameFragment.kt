@@ -55,8 +55,12 @@ class PoolingNewGameFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //poolNewGame()
-          Handler(Looper.getMainLooper()).postDelayed({poolNewGame()},MultiPlayerServerConf.pollingPeriod)
+        object :Thread() {
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({poolNewGame()},MultiPlayerServerConf.pollingPeriod)
+            }
+        }.start()
     }
 
     private fun poolNewGame() {

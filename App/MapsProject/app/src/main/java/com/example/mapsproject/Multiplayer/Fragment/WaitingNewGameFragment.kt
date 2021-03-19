@@ -1,6 +1,8 @@
 package com.example.mapsproject.Multiplayer.Fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,15 +34,14 @@ class WaitingNewGameFragment:Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
-        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting server response")
+        val rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createGame()
-        //  Handler(Looper.getMainLooper()).postDelayed({check()},Conf.pollingPeriod)
+
+        Handler(Looper.getMainLooper()).postDelayed({createGame()},MultiPlayerServerConf.pollingPeriod)
     }
 
     private fun createGame() {

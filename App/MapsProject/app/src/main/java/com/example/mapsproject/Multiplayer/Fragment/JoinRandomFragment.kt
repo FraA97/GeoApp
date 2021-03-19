@@ -31,13 +31,18 @@ class JoinRandomFragment:Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
+        val rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({joinRandomGame()},MultiPlayerServerConf.pollingPeriod)
+        object : Thread() {
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({joinRandomGame()}, MultiPlayerServerConf.pollingPeriod)
+            }
+        }.start()
     }
 
     private fun joinRandomGame() {

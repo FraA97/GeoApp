@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
@@ -19,8 +20,8 @@ import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.FirstReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.url
 import com.example.mapsproject.R
-import com.example.mapsproject.View.LoadingView
 import org.json.JSONObject
+
 
 class LatLongFragment: Fragment() {
     var queue : RequestQueue? = null
@@ -31,17 +32,17 @@ class LatLongFragment: Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        val rootView = LoadingView(context)
+        val rootView = inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({createLevel()},SinglePlayerServerConf.pollingPeriod)
+        Handler(Looper.getMainLooper()).postDelayed({ createLevel() }, SinglePlayerServerConf.pollingPeriod)
     }
 
     private fun createLevel() {
@@ -50,32 +51,31 @@ class LatLongFragment: Fragment() {
             l=SinglePlayerServerConf.level
         else
             l=3
-        Log.i("myTag","request: "+url+"req="+ FirstReq+"&level="+l)
+        Log.i("myTag", "request: " + url + "req=" + FirstReq + "&level=" + l)
         val stringRequest = StringRequest(
-            Request.Method.GET, url+"req="+ FirstReq+"&level="+l,{
-                response->
-                val reply = JSONObject(response.toString())
-                val lat = reply!!.getDouble("lat")
-                val long = reply!!.getDouble("long")
-                val responseCountry = reply!!.getString("responseCountry")
-                val responseCity = reply!!.getString("responseCity")
+                Request.Method.GET, url + "req=" + FirstReq + "&level=" + l, { response ->
+            val reply = JSONObject(response.toString())
+            val lat = reply!!.getDouble("lat")
+            val long = reply!!.getDouble("long")
+            val responseCountry = reply!!.getString("responseCountry")
+            val responseCity = reply!!.getString("responseCity")
 
-                //save everything on resource
-                val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-                val editor = sharedPref?.edit()
-                editor?.putFloat("lat", lat.toFloat())
-                editor?.putFloat("long", long.toFloat())
-                editor?.putString("city", responseCity)
-                editor?.putString("country", responseCountry)
-                editor?.apply()
+            //save everything on resource
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+            val editor = sharedPref?.edit()
+            editor?.putFloat("lat", lat.toFloat())
+            editor?.putFloat("long", long.toFloat())
+            editor?.putString("city", responseCity)
+            editor?.putString("country", responseCountry)
+            editor?.apply()
 
-                Log.i("myTag","lat: "+lat+", long: "+long+", City: "+responseCity+", Country: "+responseCountry)
+            Log.i("myTag", "lat: " + lat + ", long: " + long + ", City: " + responseCity + ", Country: " + responseCountry)
 
-                findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+            findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
 
-            },{ error: VolleyError? ->
-                Log.i("info", "Polling: " + error.toString())
-            })
+        }, { error: VolleyError? ->
+            Log.i("info", "Polling: " + error.toString())
+        })
         queue?.add(stringRequest)
     }
 

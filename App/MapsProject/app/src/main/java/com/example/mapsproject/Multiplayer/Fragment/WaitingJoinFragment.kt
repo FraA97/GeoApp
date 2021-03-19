@@ -31,14 +31,17 @@ class WaitingJoinFragment: Fragment(){
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
-        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting master player to start the game")
+        val rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //poolNewGame()
-        Handler(Looper.getMainLooper()).postDelayed({joinGame()}, MultiPlayerServerConf.pollingPeriod)
+        object:Thread(){
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({joinGame()}, MultiPlayerServerConf.pollingPeriod)
+            }
+        }.start()
     }
 
     private fun joinGame(){
