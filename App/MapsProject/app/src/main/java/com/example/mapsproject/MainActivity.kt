@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /*
         auth = FirebaseAuth.getInstance()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -78,13 +79,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-    /*
+    */
 
      /*test multiplayer*/
         val intent = Intent(this, StartGameActivity::class.java)
 
        startActivity(intent)
-    */
+
     }
 
 
