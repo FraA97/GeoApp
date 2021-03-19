@@ -39,8 +39,7 @@ class PollingNewLevelFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_loading, container, false)
-        rootView.findViewById<TextView>(R.id.loading_tv).setText("Waiting server response")
+        val rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
 

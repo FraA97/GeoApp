@@ -38,4 +38,7 @@
     <string name="join_with_game_id">Join with game ID</string>
     <string name="loading">Loading</string>
     <string name="join_a_game_against_random">JOIN A GAME AGAINST RANDOM</string>
+    <string name="game_id">Game ID</string>
+    <string name="number_of_players_in_the_game">Number of Players in the game</string>
+    <string name="_1">1</string>
 </resources>
