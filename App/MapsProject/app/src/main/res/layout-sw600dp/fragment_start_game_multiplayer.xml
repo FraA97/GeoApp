@@ -16,25 +16,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/create_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_new_game" />
-
-        <TextView
+            android:id="@+id/start_new_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/number_of_levels" />
+            android:text="@string/start_new_game" />
 
-        <EditText
-            android:id="@+id/levels_input"
+        <Button
+            android:id="@+id/join_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:inputType="number"
-            android:text="@string/_3" />
+            android:text="@string/join_a_game" />
 
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/join_a_game_against_random" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

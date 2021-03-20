@@ -71,6 +71,7 @@ sync = {}
 waiting = {}
 random_dict = {}
 score_dict = {}
+levels_dict={}
 parser = reqparse.RequestParser()
 
 class GeoApp(Resource):    #Resource for use Crud op and other...
@@ -82,6 +83,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         parser.add_argument('random',type=int,required = False)#=0=> False|| =1=>True
         parser.add_argument('level',type=int,required = False)#number of current level s.t. can be decided the correspondent difficulty
         parser.add_argument('score',type=int,required = False)#score of each player
+        parser.add_argument('levels',type=int,required = False)#number of levels to be played in a game
         args = parser.parse_args() #parse the msg
 
         req = args['req'] #0||1||2||3||4
@@ -91,8 +93,11 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         level = args['level']
         score = args['score']
 
+        levels = args['levels']
         
         if(req == INIT_STATE):
+            if(levels == None):
+                levels = 3
             if(game_id == None):
                 if(random == None or random==0): #not random game
                     g_id = len(list_game_id)
@@ -100,7 +105,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     random_dict[g_id] = False
                     sync[g_id]=0
                     num_req[g_id] = 0
-                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
+                    levels_dict[g_id]=levels
+                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0,'levels':levels_dict[g_id]}
                 elif(random!= None and random==1): #random game                   
                     found=False
                     for key in random_dict:
@@ -109,7 +115,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                             g_id = key
                             sync[g_id]+=1
                             random_dict[g_id] = False
-                            return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':1}
+                            return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':1,'levels':levels_dict[g_id]}
                         
                     if(not found):   
                         g_id = len(list_game_id)
@@ -117,12 +123,13 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         random_dict[g_id] = True
                         sync[g_id]=0
                         num_req[g_id] = 0
-                        return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
+                        levels_dict[g_id] = 3
+                        return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0,'levels':levels_dict[g_id]}
                 
             else: #exist game_id means that no random game
                 if(game_id in sync and not random_dict[game_id]):
                     sync[game_id]+=1
-                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id]}
+                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id],'levels':levels_dict[game_id]}
                 else:
                     return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist"}
         

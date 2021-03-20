@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*auth = FirebaseAuth.getInstance()
+        /*
+        auth = FirebaseAuth.getInstance()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = sharedPref?.edit()
@@ -38,9 +39,9 @@ class MainActivity : AppCompatActivity() {
                 //task is succesfull
                 if (task.isSuccessful) {
 
-                    /*val userid = Firebase.auth.currentUser?.uid
-                    Log.i("myTag","user id: "+userid)
-*/
+                    //val userid = Firebase.auth.currentUser?.uid
+                    //Log.i("myTag","user id: "+userid)
+
                     Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_LONG).show()
 
                     //if checked -> save access credentials
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_main)
+
         //launch login activity
         findViewById<Button>(R.id.log_in_btn).setOnClickListener{ view->
             val intent = Intent(this, LoginActivity::class.java)
@@ -81,8 +83,11 @@ class MainActivity : AppCompatActivity() {
 
      /*test multiplayer*/
         val intent = Intent(this, StartGameActivity::class.java)
-        startActivity(intent)
+
+       startActivity(intent)
+
     }
+
 
 
 

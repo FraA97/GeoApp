@@ -39,6 +39,7 @@ class PoolingNewGameFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         rootView =  inflater.inflate(R.layout.fragment_number_of_player, container, false)
+        rootView.findViewById<TextView>(R.id.game_id_tv).setText(MultiPlayerServerConf.game_id.toString())
         rootView.findViewById<Button>(R.id.share_game_btn).setOnClickListener { view->
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
@@ -55,8 +56,12 @@ class PoolingNewGameFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //poolNewGame()
-          Handler(Looper.getMainLooper()).postDelayed({poolNewGame()},MultiPlayerServerConf.pollingPeriod)
+        object :Thread() {
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({poolNewGame()},MultiPlayerServerConf.pollingPeriod)
+            }
+        }.start()
     }
 
     private fun poolNewGame() {
@@ -70,7 +75,9 @@ class PoolingNewGameFragment: Fragment() {
             val players = reply.getInt("num_sync_pl") +1
 
             Log.i("myTag","number of players: "+players)
-            rootView.findViewById<TextView>(R.id.players_number).setText(players.toString())
+            rootView.findViewById<TextView>(R.id.players_number).text = players.toString()
+
+            Log.i("myTag","starting: "+starting.toString())
 
             if(!starting) {
                 Handler(Looper.getMainLooper()).postDelayed({ poolNewGame() }, MultiPlayerServerConf.pollingPeriod)

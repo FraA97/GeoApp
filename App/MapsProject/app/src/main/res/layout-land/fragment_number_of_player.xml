@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/fragment2"
         android:name="com.example.mapsproject.View.FragmentLoadingView"
         android:layout_width="wrap_content"
@@ -32,14 +32,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/number_of_players_in_the_game" />
 
             <TextView
                 android:id="@+id/players_number"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/_1" />
 
@@ -59,8 +59,9 @@
             <TextView
                 android:id="@+id/game_id_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +77,7 @@
 
             <Button
                 android:id="@+id/share_game_btn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/share" />
