@@ -58,7 +58,8 @@ class PollingFinishLevelFragment: Fragment() {
             if (!waiting) {
                 MultiPlayerServerConf.queue?.cancelAll(activity)
                 MultiPlayerServerConf.played_levels += 1
-
+                val totalScore = reply!!.getJSONObject("total_score")
+                Log.i("myTag","total_score0: "+totalScore["0"]+"total_score1: "+totalScore["1"]+" type: "+totalScore.javaClass.name)
                 if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels) {
                     findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
                 } else {

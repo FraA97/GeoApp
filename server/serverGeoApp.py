@@ -64,12 +64,13 @@ ID_PLAYER = -1
 
 STATE = INIT_STATE
 
-list_game_id =[]
+list_game_id = []
 coordinates_game = {}
 num_req = {}
-sync={}
+sync = {}
 waiting = {}
-random_dict ={}
+random_dict = {}
+score_dict = {}
 parser = reqparse.RequestParser()
 
 class GeoApp(Resource):    #Resource for use Crud op and other...
@@ -80,6 +81,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         parser.add_argument('player_id',type=int,required = False)
         parser.add_argument('random',type=int,required = False)#=0=> False|| =1=>True
         parser.add_argument('level',type=int,required = False)#number of current level s.t. can be decided the correspondent difficulty
+        parser.add_argument('score',type=int,required = False)#score of each player
         args = parser.parse_args() #parse the msg
 
         req = args['req'] #0||1||2||3||4
@@ -87,6 +89,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         player_id = args['player_id']
         random = args['random']
         level = args['level']
+        score = args['score']
+
         
         if(req == INIT_STATE):
             if(game_id == None):
@@ -171,8 +175,13 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     return {'error':True, 'msg':"wait the master player"}
                     
         elif(req == LEVEL_STATE):
+            if(score==None or player_id ==None or game_id==None):
+                return {'error':True, 'msg':"missing parameters [score and/or game_id and/or player_id"}
             if(game_id not in waiting): waiting[game_id] = 0
             else: waiting[game_id] += 1#False
+        
+            if game_id not in score_dict: score_dict[game_id] ={}
+            score_dict[game_id][player_id] = score
             return {"error":False, 'msg':"level completed", 'game_id':game_id, 'number of players to wait': sync[game_id]-waiting[game_id]}
         
         elif(req == WAITING_STATE):
@@ -182,7 +191,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 STATE = PLAY_STATE
                 num_req[game_id]=0
                 #waiting.pop(game_id, None)
-                return {"error":False, 'msg':"return waiting_state", 'waiting': False}
+                return {"error":False, 'msg':"return waiting_state", 'waiting': False, 'total_score':score_dict[game_id]}
             else:
                 num_req[game_id]=0 
                 return {"error":False, 'msg':"return waiting_state", 'waiting': True}

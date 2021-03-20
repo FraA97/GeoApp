@@ -48,10 +48,11 @@ class FinishLevelFragment : Fragment() {
 
     private fun finishLevel() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id)
+                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score)
+        Log.i("myTag","CURRENT_SCORE"+MultiPlayerServerConf.score)
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id, { response ->
+                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score, { response ->
                     val reply = JSONObject(response.toString())
                     MultiPlayerServerConf.queue?.cancelAll(activity)
                     findNavController().navigate(R.id.action_finishLevelFragment_to_pollingFinishLevelFragment)

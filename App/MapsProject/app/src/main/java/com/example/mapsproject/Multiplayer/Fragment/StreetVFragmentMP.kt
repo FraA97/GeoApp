@@ -37,7 +37,7 @@ class StreetVFragmentMP: Fragment() {
                 getChildFragmentManager()?.findFragmentById(R.id.streetviewpanorama) as SupportStreetViewPanoramaFragment?
         streetViewPanoramaFragment?.getStreetViewPanoramaAsync { panorama ->
 
-            savedInstanceState ?: panorama.setPosition(location)
+            savedInstanceState ?: panorama.setPosition(location,1000)
             savedInstanceState ?: panorama.setStreetNamesEnabled(false)
             savedInstanceState ?: panorama.setUserNavigationEnabled(false)
             savedInstanceState ?: panorama.setZoomGesturesEnabled(false)

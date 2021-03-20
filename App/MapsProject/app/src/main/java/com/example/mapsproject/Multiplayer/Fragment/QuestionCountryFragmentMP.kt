@@ -12,7 +12,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
-import com.example.mapsproject.Configuration.SinglePlayerServerConf
+//import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 
 class QuestionCountryFragmentMP: Fragment() {
@@ -57,7 +57,7 @@ class QuestionCountryFragmentMP: Fragment() {
             btn.setText(coun)
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
-                    SinglePlayerServerConf.score += 1
+                    score += 1
                     btn.setBackgroundColor(Color.GREEN)
                 } else {
                     btn.setBackgroundColor(Color.RED)
