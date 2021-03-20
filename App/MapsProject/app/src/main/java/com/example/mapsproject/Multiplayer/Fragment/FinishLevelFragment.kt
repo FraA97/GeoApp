@@ -52,7 +52,6 @@ class FinishLevelFragment : Fragment() {
     private fun finishLevel() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
                 "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score)
-        Log.i("myTag","CURRENT_SCORE"+MultiPlayerServerConf.score)
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
                 "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score, { response ->

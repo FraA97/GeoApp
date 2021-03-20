@@ -2,6 +2,7 @@ package com.example.mapsproject.Configuration
 
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import org.json.JSONObject
 
 class MultiPlayerServerConf {
     companion object{
@@ -26,7 +27,7 @@ class MultiPlayerServerConf {
         var played_levels = 0
 
         var score = 0
-        var totalScore=0
+        var totalScore=JSONObject()
 
         var canPoll=false
     }

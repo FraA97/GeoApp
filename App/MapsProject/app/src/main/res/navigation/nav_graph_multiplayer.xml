@@ -102,8 +102,8 @@
         android:name="com.example.mapsproject.Multiplayer.Fragment.PollingFinishLevelFragment"
         android:label="PollingFinishLevelFragment" >
         <action
-            android:id="@+id/action_pollingFinishLevelFragment_to_endFragment3"
-            app:destination="@id/endFragment3" />
+            android:id="@+id/action_pollingFinishLevelFragment_to_endGameFragmentMp"
+            app:destination="@id/endGameFragmentMp" />
         <action
             android:id="@+id/action_pollingFinishLevelFragment_to_pollingNewLevelFragment2"
             app:destination="@id/pollingNewLevelFragment" />
@@ -142,9 +142,9 @@
             app:destination="@id/startFragmentMP" />
     </fragment>
     <fragment
-        android:id="@+id/endFragment3"
-        android:name="com.example.mapsproject.SinglePlayer.fragment.EndFragment"
-        android:label="EndFragment" />
+        android:id="@+id/endGameFragmentMp"
+        android:name="com.example.mapsproject.Multiplayer.Fragment.EndGameFragment"
+        android:label="EndGameFragment" />
 
 
 </navigation>
