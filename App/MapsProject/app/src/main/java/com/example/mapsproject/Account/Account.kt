@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.mapsproject.R
 import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -82,6 +85,19 @@ object Account {
         return name
     }
 
+    public fun updateUserName(name:String,context:Context){
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(name)
+            .build()
+        user!!.updateProfile(profileUpdates).addOnCompleteListener { task->
+            if(task.isSuccessful) {
+                Log.i("myTag", "User profile updated")
+                Toast.makeText(context, "User profile updated", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
+
     public fun getUserID(): String {
         if(user==null){
             Log.i("myTag","no user")
@@ -93,5 +109,28 @@ object Account {
             uid = user!!.uid.toString()
         }
         return uid
+    }
+
+    public fun getUserEmail():String{
+        if(user==null){
+            Log.i("myTag","no user")
+            return ""
+        }
+        var mail:String=""
+        user?.let{
+            mail = user?.email.toString()
+        }
+        return mail
+    }
+
+    public fun updateUserEmail(email:String,context:Context){
+
+        user!!.updateEmail(email).addOnCompleteListener { task->
+            if(task.isSuccessful) {
+                Log.i("myTag", "User email updated")
+                Toast.makeText(context, "User email updated", Toast.LENGTH_SHORT).show()
+
+            }
+        }
     }
 }

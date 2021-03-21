@@ -10,7 +10,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.mapsproject.Account.Account.getUserEmail
 import com.example.mapsproject.Account.Account.getUserName
+import com.example.mapsproject.Account.Account.updateUserEmail
+import com.example.mapsproject.Account.Account.updateUserName
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
@@ -23,6 +26,7 @@ class AccountSettingsActivity: Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_settings)
         findViewById<TextView>(R.id.account_name).text= getUserName()
+        findViewById<TextView>(R.id.account_email).text= getUserEmail()
 
         findViewById<Button>(R.id.edit_account_name_btn).setOnClickListener { view ->
             var newNameEntry = findViewById<EditText>(R.id.edit_account_name).text
@@ -35,18 +39,33 @@ class AccountSettingsActivity: Activity() {
                 Toast.makeText(this, "Enter a new user name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(newName)
-                .build()
-            user!!.updateProfile(profileUpdates).addOnCompleteListener { task->
-                if(task.isSuccessful){
-                    Log.i("myTag", "User profile updated")
-                    findViewById<TextView>(R.id.account_name).text= getUserName()
-                    findViewById<EditText>(R.id.edit_account_name).setText("")
-                    Toast.makeText(this, "User profile updated", Toast.LENGTH_SHORT).show()
 
-                }
+            updateUserName(newName, this)
+
+            findViewById<TextView>(R.id.account_name).text= getUserName()
+            findViewById<EditText>(R.id.edit_account_name).setText("")
+
+
+        }
+
+        findViewById<Button>(R.id.edit_account_email_btn).setOnClickListener { view ->
+            var newEmailEntry = findViewById<EditText>(R.id.edit_account_email).text
+            if (newEmailEntry == null) {
+                Toast.makeText(this, "Enter a new user name", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+            val newEmail = newEmailEntry.toString()
+            if (newEmail == "") {
+                Toast.makeText(this, "Enter a new user name", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            updateUserEmail(newEmail, this)
+
+            findViewById<TextView>(R.id.account_email).text= getUserEmail()
+            findViewById<EditText>(R.id.edit_account_email).setText("")
+
+
         }
     }
 

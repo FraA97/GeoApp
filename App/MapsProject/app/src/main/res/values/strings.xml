@@ -47,4 +47,5 @@
     <string name="name">Name</string>
     <string name="uid">UID</string>
     <string name="edit_account_name">Edit Account Name</string>
+    <string name="edit_account_email">Edit Account Email</string>
 </resources>
