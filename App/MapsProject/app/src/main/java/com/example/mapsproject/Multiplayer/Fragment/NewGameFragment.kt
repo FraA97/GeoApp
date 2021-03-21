@@ -25,8 +25,8 @@ class NewGameFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.create_btn).setOnClickListener { view->
             findNavController().navigate(R.id.action_newGameFragment_to_waitingNewGameFragment)
-            val l = view.findViewById<EditText>(R.id.levels_input).text.toString().toInt()
-            MultiPlayerServerConf.levels =  l
+            /*val l = view.findViewById<EditText>(R.id.levels_input).text.toString().toInt()
+            MultiPlayerServerConf.levels =  l*/
         }
     }
 }

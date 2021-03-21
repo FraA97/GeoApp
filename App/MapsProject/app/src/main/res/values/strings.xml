@@ -43,4 +43,8 @@
     <string name="_1">1</string>
     <string name="number_of_levels">Number of Levels</string>
     <string name="_3">3</string>
+    <string name="Account">Account</string>
+    <string name="name">Name</string>
+    <string name="uid">UID</string>
+    <string name="edit_account_name">Edit Account Name</string>
 </resources>

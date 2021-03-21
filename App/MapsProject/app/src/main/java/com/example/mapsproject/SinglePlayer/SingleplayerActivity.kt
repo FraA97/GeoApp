@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsproject.Account.Account.logOut
+import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 
@@ -15,7 +17,8 @@ class SingleplayerActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_singleplayer)
 
-    } //inflate menu_main
+    }
+    //inflate menu_main
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main , menu)
         return true
@@ -31,7 +34,9 @@ class SingleplayerActivity: AppCompatActivity() {
             val editor = sharedPref?.edit()
             editor?.remove("email" )
             editor?.remove("password")
-            val success = editor?.apply()
+            val success = editor?.commit()
+
+            logOut()
 
 
             //show logout with Toast
@@ -39,6 +44,14 @@ class SingleplayerActivity: AppCompatActivity() {
 
             //return to MainActivity
             val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
+            true
+        }
+
+        R.id.action_account_settings->{
+            val intent = Intent(this, AccountSettingsActivity::class.java)
             startActivity(intent)
             finish()
 

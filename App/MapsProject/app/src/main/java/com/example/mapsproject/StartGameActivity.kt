@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsproject.Account.Account.logOut
+import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 
@@ -50,12 +52,20 @@ class StartGameActivity: AppCompatActivity() {
             editor?.remove("password")
             val success = editor?.apply()
 
-
+            logOut()
             //show logout with Toast
             Toast.makeText(this, "LogOut Succesful", Toast.LENGTH_LONG).show()
 
             //return to MainActivity
             val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
+            true
+        }
+
+        R.id.action_account_settings->{
+            val intent = Intent(this, AccountSettingsActivity::class.java)
             startActivity(intent)
             finish()
 
