@@ -28,6 +28,8 @@ class SignupActivity:AppCompatActivity() {
         //signup button OnClickListener
         findViewById<Button>(R.id.submit_btn).setOnClickListener { view->
 
+            val username:String = findViewById<EditText>(R.id.username_entry).text.toString()
+
             val email:String = findViewById<EditText>(R.id.email_entry_su).text.toString()
 
             val psw1 = findViewById<EditText>(R.id.psw1_entry_su).text.toString()
@@ -41,7 +43,7 @@ class SignupActivity:AppCompatActivity() {
 
             val password = psw1
 
-            createAccount(email,password,checked,this)
+            createAccount(email,password,username,checked,this)
             if(user != null)
                 updateUI()
 

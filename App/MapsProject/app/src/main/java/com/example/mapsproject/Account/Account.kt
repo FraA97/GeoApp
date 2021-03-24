@@ -49,7 +49,7 @@ object Account {
             }
     }
 
-    fun createAccount(email: String, password: String,saveInfo:Boolean,context:Context) {
+    fun createAccount(email: String, password: String,username:String,saveInfo:Boolean,context:Context) {
         // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
@@ -69,7 +69,9 @@ object Account {
                     Toast.makeText(context, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                 }
+            updateUserName(username,context)
             }
+
         // [END create_user_with_email]
     }
 
@@ -89,7 +91,7 @@ object Account {
         val profileUpdates = UserProfileChangeRequest.Builder()
             .setDisplayName(name)
             .build()
-        user!!.updateProfile(profileUpdates).addOnCompleteListener { task->
+        user?.updateProfile(profileUpdates)?.addOnCompleteListener { task->
             if(task.isSuccessful) {
                 Log.i("myTag", "User profile updated")
                 Toast.makeText(context, "User profile updated", Toast.LENGTH_SHORT).show()
