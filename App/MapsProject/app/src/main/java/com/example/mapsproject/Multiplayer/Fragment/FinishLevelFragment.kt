@@ -17,6 +17,7 @@ import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
@@ -51,10 +52,10 @@ class FinishLevelFragment : Fragment() {
 
     private fun finishLevel() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score)
+                "&user_name="+ Account.getUserName() +"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score)
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
-                "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score, { response ->
+                "&user_name="+ Account.getUserName() +"&game_id="+ MultiPlayerServerConf.game_id+"&score="+MultiPlayerServerConf.score, { response ->
                     val reply = JSONObject(response.toString())
                     MultiPlayerServerConf.queue?.cancelAll(activity)
                     findNavController().navigate(R.id.action_finishLevelFragment_to_pollingFinishLevelFragment)

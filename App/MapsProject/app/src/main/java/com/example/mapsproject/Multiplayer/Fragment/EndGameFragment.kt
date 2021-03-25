@@ -2,9 +2,6 @@ package com.example.mapsproject.Multiplayer.Fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +9,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
-import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
+import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.totalScore
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
+
 
 class EndGameFragment: Fragment() {
     override fun onCreateView(
@@ -31,20 +29,22 @@ class EndGameFragment: Fragment() {
         var maxPt=0
         var winner: MutableList<String> = mutableListOf()
         //rootView.findViewById<TextView>(R.id.finalScore).setText(textString)
-        var i =0
-        while (i < MultiPlayerServerConf.totalScore.length() ){
-            textString = textString+"PLAYER "+i+": "+MultiPlayerServerConf.totalScore[i.toString()]+" PT\n"
+        //var i =0
+        val keys: Iterator<String> = totalScore.keys()
+        while (keys.hasNext() ){
+            val key = keys.next();
+            textString = textString+"PLAYER "+key+": "+totalScore[key]+" PT\n"
 
-            if(maxPt <  MultiPlayerServerConf.totalScore[i.toString()].toString().toInt()){
+            if(maxPt <  totalScore[key].toString().toInt()){
                 winner.clear()
-                winner.add(i.toString())
-                maxPt= MultiPlayerServerConf.totalScore[i.toString()].toString().toInt()
+                winner.add(key)
+                maxPt= totalScore[key].toString().toInt()
             }
-            else if(maxPt ==  MultiPlayerServerConf.totalScore[i.toString()].toString().toInt()){
-                winner.add(i.toString())
+            else if(maxPt ==  totalScore[key].toString().toInt()){
+                winner.add(key)
                 //maxPt= MultiPlayerServerConf.totalScore[i.toString()].toString().toInt()
             }
-            i+=1
+            //i+=1
         }
 
         rootView.findViewById<TextView>(R.id.finalScore).setText(textString)
@@ -56,12 +56,13 @@ class EndGameFragment: Fragment() {
                 rootView.findViewById<TextView>(R.id.title_end_game).setText("WINNER IS")
                 textString=""
                 while (j < winner.size){
-                    textString+= "PLAYER "+winner.get(j)+"\n"
+                    textString+= ""+winner.get(j)+"\n"
                     j+=1
                 }
                 textString +=""+maxPt+" PT\n"
                 rootView.findViewById<TextView>(R.id.finalScore).setText(textString)
-                rootView.findViewById<TextView>(R.id.end_game).setText("END GAME")
+                //rootView.findViewById<TextView>(R.id.finalScore).setTextSize(50, )
+                rootView.findViewById<TextView>(R.id.end_game).text = "END GAME"
             }
             else{
                 //val mRunnable ={

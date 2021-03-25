@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
@@ -31,7 +32,7 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
         val btn2 = rootView.findViewById<Button>(R.id.button2)
         val btn3 = rootView.findViewById<Button>(R.id.button3)
         val btn4 = rootView.findViewById<Button>(R.id.button4)
-
+        val question_title = rootView.findViewById<TextView>(R.id.textView).setText("GUESS THE CITY")
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val editor = sharedPref?.edit()
