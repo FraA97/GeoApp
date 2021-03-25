@@ -1,6 +1,7 @@
 package com.example.mapsproject.SinglePlayer.fragment
 
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -63,8 +64,12 @@ class QuestionCountryFragment : Fragment() {
                 if (ctr == 0) {
                     SinglePlayerServerConf.score += 1
                     btn.setBackgroundColor(Color.GREEN)
+                    val mysong = MediaPlayer.create(context,R.raw.risposta_esatta)
+                    mysong.start()
                 } else {
                     btn.setBackgroundColor(Color.RED)
+                    val mysong = MediaPlayer.create(context,R.raw.risposta_sbagliata)
+                    mysong.start()
                 }
 
                 Handler().postDelayed(

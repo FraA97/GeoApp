@@ -1,6 +1,7 @@
 package com.example.mapsproject.SinglePlayer.fragment
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -20,8 +21,11 @@ class EndFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        val mysong = MediaPlayer.create(context,R.raw.effetto_vincita)
+        mysong.start()
         val rootView = inflater.inflate(R.layout.fragment_end_singleplayer, container, false)
         rootView.findViewById<Button>(R.id.end_btn).setOnClickListener{view->
+            mysong.pause()
             val i =  Intent(activity, StartGameActivity::class.java)
             startActivity(i)
         }

@@ -1,5 +1,6 @@
 package com.example.mapsproject.SinglePlayer.fragment
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class BtnFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.start_game_btn).setOnClickListener{ view->
+            val mysong = MediaPlayer.create(context,R.raw.next_level)
+            mysong.start()
             findNavController().navigate(R.id.action_btnFragment_to_latLongFragment)
         }
     }

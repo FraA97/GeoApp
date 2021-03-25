@@ -1,6 +1,7 @@
 package com.example.mapsproject.Multiplayer.Fragment
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +50,7 @@ class EndGameFragment: Fragment() {
 
         rootView.findViewById<TextView>(R.id.finalScore).setText(textString)
         var count =0
+        val mysong = MediaPlayer.create(context,R.raw.effetto_vincita)
         rootView.findViewById<Button>(R.id.end_game).setOnClickListener { view ->
             if(count==0){
                 count+=1
@@ -63,9 +65,12 @@ class EndGameFragment: Fragment() {
                 rootView.findViewById<TextView>(R.id.finalScore).setText(textString)
                 //rootView.findViewById<TextView>(R.id.finalScore).setTextSize(50, )
                 rootView.findViewById<TextView>(R.id.end_game).text = "END GAME"
+
+                mysong.start()
             }
             else{
                 //val mRunnable ={
+                    mysong.pause()
                     val i = Intent(activity, StartGameActivity::class.java)
                     startActivity(i)
                 //}

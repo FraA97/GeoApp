@@ -1,6 +1,7 @@
 package com.example.mapsproject.Multiplayer.Fragment
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -46,6 +47,8 @@ class FinishLevelFragment : Fragment() {
             override fun run(){
                 super.run()
                 Handler(Looper.getMainLooper()).postDelayed({finishLevel()}, MultiPlayerServerConf.pollingPeriod)
+                val mysong = MediaPlayer.create(context,R.raw.next_level)
+                mysong.start()
             }
         }.start()
     }
