@@ -2,14 +2,12 @@ package com.example.mapsproject.Account
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.mapsproject.Account.Account.getUserEmail
 import com.example.mapsproject.Account.Account.getUserName
 import com.example.mapsproject.Account.Account.updateUserEmail
@@ -17,10 +15,17 @@ import com.example.mapsproject.Account.Account.updateUserName
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.storage.StorageReference
+import java.io.File
 
 
 class AccountSettingsActivity: Activity() {
+
+
+    val storageRef = Account.storage.reference
+    val path : String = "images/"+ Account.getUserID()
+    val  imagesRef: StorageReference? = storageRef.child(path)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +72,15 @@ class AccountSettingsActivity: Activity() {
 
 
         }
+
+        val imageView = findViewById<ImageView>(R.id.avatar)
+        
+
+        findViewById<Button>(R.id.take_picture_btn).setOnClickListener { view->
+            val i = Intent(this, UpdateProfilePicActivity::class.java)
+            startActivity(i)
+            finish()
+        }
     }
 
     // [START on_start_check_user]
@@ -79,6 +93,11 @@ class AccountSettingsActivity: Activity() {
             Handler(Looper.getMainLooper()).postDelayed({ restart() }, 1000L)
             finish()
         }
+        /*
+        val storageRef = Firebase.storage.reference
+
+        val imageView = findViewById<ImageView>(R.id.avatar)
+        Glide.with(this).load(storageRef).into(imageView)*/
     }
 
     private fun restart() {
@@ -87,6 +106,8 @@ class AccountSettingsActivity: Activity() {
         finish()
     }
     // [END on_start_check_user]
+
+
 
 }
 

@@ -49,4 +49,5 @@
     <string name="edit_account_name">Edit Account Name</string>
     <string name="edit_account_email">Edit Account Email</string>
     <string name="username">Username</string>
+    <string name="take_a_picture">Take a Picture</string>
 </resources>

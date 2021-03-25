@@ -14,11 +14,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 object Account {
 
     var auth: FirebaseAuth= Firebase.auth
     var user: FirebaseUser? = null
+    var storage = Firebase.storage
+
 
 
     public fun logOut(){

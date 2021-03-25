@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mapsproject.Account.Account.auth
 import com.example.mapsproject.Account.Account.signIn
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.Account.LoginActivity
 import com.example.mapsproject.Account.SignupActivity
-import com.example.mapsproject.Multiplayer.MultiplayerActivity
 
 
 class MainActivity : AppCompatActivity() {
