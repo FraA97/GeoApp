@@ -33,7 +33,7 @@ class EndGameFragment: Fragment() {
         val keys: Iterator<String> = totalScore.keys()
         while (keys.hasNext() ){
             val key = keys.next();
-            textString = textString+"PLAYER "+key+": "+totalScore[key]+" PT\n"
+            textString = textString+""+key+": "+totalScore[key]+" PT\n"
 
             if(maxPt <  totalScore[key].toString().toInt()){
                 winner.clear()

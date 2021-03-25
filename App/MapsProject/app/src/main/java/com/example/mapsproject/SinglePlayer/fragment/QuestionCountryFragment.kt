@@ -50,13 +50,15 @@ class QuestionCountryFragment : Fragment() {
         val btnIter = shuffled.listIterator()
         val countries = listOf<String>(country, fCountry1, fCountry2, fCountry3)
         val ctrIter = countries.listIterator()
-
+        val letters =  listOf<String>("A: ", "B: ", "C: ", "D:")
         var ctr = 0
         for (ctr in 0..shuffled.size - 1) {
             val btn = btnIter.next()
             val coun = ctrIter.next()
+            val btnString=shuffled[ctr].toString()
+            val btnId =btnString.subSequence(btnString.length-2,btnString.length-1).toString().toInt()
 
-            btn.setText(coun)
+            btn.setText(letters[btnId-1]+coun)
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
                     SinglePlayerServerConf.score += 1

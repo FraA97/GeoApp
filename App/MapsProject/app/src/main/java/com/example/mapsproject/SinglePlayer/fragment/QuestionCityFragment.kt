@@ -53,13 +53,17 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
         val btnIter = shuffled.listIterator()
         val cities = listOf<String>(city, fCity1, fCity2, fCity3)
         val citiesIter = cities.listIterator()
+        val letters =  listOf<String>("A: ", "B: ", "C: ", "D:")
 
         var ctr = 0
         for (ctr in 0..shuffled.size - 1) {
             val btn = btnIter.next()
             val coun = citiesIter.next()
 
-            btn.setText(coun)
+            val btnString=shuffled[ctr].toString()
+            val btnId =btnString.subSequence(btnString.length-2,btnString.length-1).toString().toInt()
+            btn.setText(letters[btnId-1]+coun)
+
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
                     SinglePlayerServerConf.score += 1
