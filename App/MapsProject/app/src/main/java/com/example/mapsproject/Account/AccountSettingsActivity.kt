@@ -2,6 +2,9 @@ package com.example.mapsproject.Account
 
 import android.app.Activity
 import android.content.Intent
+
+import android.graphics.BitmapFactory
+
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +28,7 @@ class AccountSettingsActivity: Activity() {
     val storageRef = Account.storage.reference
     val path : String = "images/"+ Account.getUserID()
     val  imagesRef: StorageReference? = storageRef.child(path)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,9 +78,18 @@ class AccountSettingsActivity: Activity() {
         }
 
         val imageView = findViewById<ImageView>(R.id.avatar)
+        val localFile = File.createTempFile("images", "jpg")
+        imagesRef?.getFile(localFile)?.addOnSuccessListener {
+            // Local temp file has been created
+            imageView.setImageBitmap((BitmapFactory.decodeFile(localFile.path)))
+        }?.addOnFailureListener {
+            // Handle any errors
+            null
+        }
+
         
 
-        findViewById<Button>(R.id.take_picture_btn).setOnClickListener { view->
+        findViewById<Button>(R.id.new_pic_btn).setOnClickListener { view->
             val i = Intent(this, UpdateProfilePicActivity::class.java)
             startActivity(i)
             finish()
