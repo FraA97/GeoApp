@@ -162,7 +162,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 elif((game_id in list_game_id) and player_id>0 and player_id<=sync[game_id] and num_req[game_id]>0 ):
                     if(game_id in coordinates_game):
                         if(num_req[game_id]==sync[game_id]+1): num_req[game_id] = 0 #if all player have done their request
-                        print(coordinates_game[game_id])
+                        #print(coordinates_game[game_id])
                         lat,long,country,city,false_answers=coordinates_game[game_id]
                         #coordinates_game[game_id]=None
                         return {'error':False, 'msg':"return true answer and the three false answers", 
@@ -177,7 +177,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     
         elif(req == LEVEL_STATE):
             if(score==None  or game_id==None or user_name==None):
-                return {'error':True, 'msg':"missing parameters [score and/or game_id  and/or user_name"}
+                return {'error':True, 'msg':"missing parameters [score and/or game_id  and/or user_name]"}
             if(game_id not in waiting): waiting[game_id] = 0
             else: waiting[game_id] += 1#False
         
@@ -187,7 +187,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         
         elif(req == WAITING_STATE):
             coordinates_game.pop(game_id, None)
-            if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True    }
+            if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True}
             if( sync[game_id]-waiting[game_id] == 0): 
                 STATE = PLAY_STATE
                 num_req[game_id]=0

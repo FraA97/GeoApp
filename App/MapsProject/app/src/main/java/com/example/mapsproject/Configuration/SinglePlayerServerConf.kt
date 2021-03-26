@@ -15,6 +15,8 @@ class SinglePlayerServerConf {
         var sets = 3
         var level = 0
 
+        var soundOn = true
+
         var canPoll=false
         //python3 MyMultiplayerServer.py
     }

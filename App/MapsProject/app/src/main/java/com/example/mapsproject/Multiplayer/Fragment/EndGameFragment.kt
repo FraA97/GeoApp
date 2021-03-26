@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.totalScore
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 
@@ -66,11 +67,11 @@ class EndGameFragment: Fragment() {
                 //rootView.findViewById<TextView>(R.id.finalScore).setTextSize(50, )
                 rootView.findViewById<TextView>(R.id.end_game).text = "END GAME"
 
-                mysong.start()
+                if(SinglePlayerServerConf.soundOn){mysong.start()}
             }
             else{
                 //val mRunnable ={
-                    mysong.pause()
+                if(SinglePlayerServerConf.soundOn){mysong.pause()}
                     val i = Intent(activity, StartGameActivity::class.java)
                     startActivity(i)
                 //}

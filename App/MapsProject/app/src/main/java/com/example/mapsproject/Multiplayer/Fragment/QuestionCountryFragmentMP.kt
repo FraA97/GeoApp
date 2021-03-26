@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 //import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 
@@ -66,11 +67,15 @@ class QuestionCountryFragmentMP: Fragment() {
                 if (ctr == 0) {
                     score += 1
                     btn.setBackgroundColor(Color.GREEN)
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_esatta)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn) {
+                        val mysong = MediaPlayer.create(context, R.raw.risposta_esatta)
+                        mysong.start()
+                    }
                 } else {
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_sbagliata)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn) {
+                        val mysong = MediaPlayer.create(context, R.raw.risposta_sbagliata)
+                        mysong.start()
+                    }
                     btn.setBackgroundColor(Color.RED)
 
                 }

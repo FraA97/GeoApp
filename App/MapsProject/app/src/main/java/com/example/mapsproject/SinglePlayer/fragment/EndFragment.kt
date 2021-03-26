@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.score
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
@@ -22,10 +23,10 @@ class EndFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val mysong = MediaPlayer.create(context,R.raw.effetto_vincita)
-        mysong.start()
+        if(SinglePlayerServerConf.soundOn){mysong.start()}
         val rootView = inflater.inflate(R.layout.fragment_end_singleplayer, container, false)
         rootView.findViewById<Button>(R.id.end_btn).setOnClickListener{view->
-            mysong.pause()
+            if(SinglePlayerServerConf.soundOn){mysong.pause()}
             val i =  Intent(activity, StartGameActivity::class.java)
             startActivity(i)
         }

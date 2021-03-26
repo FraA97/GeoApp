@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 
 class QuestionCityFragmentMP: Fragment() {
@@ -73,13 +74,16 @@ class QuestionCityFragmentMP: Fragment() {
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
                     score += 1
-
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_esatta)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn) {
+                        val mysong = MediaPlayer.create(context, R.raw.risposta_esatta)
+                        mysong.start()
+                    }
                     btn.setBackgroundColor(Color.GREEN)
                 } else {
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_sbagliata)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn) {
+                        val mysong = MediaPlayer.create(context, R.raw.risposta_sbagliata)
+                        mysong.start()
+                    }
                     btn.setBackgroundColor(Color.RED)
                 }
 

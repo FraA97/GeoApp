@@ -68,14 +68,17 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
                     SinglePlayerServerConf.score += 1
-
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_esatta)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn) {
+                        val mysong = MediaPlayer.create(context, R.raw.risposta_esatta)
+                        mysong.start()
+                    }
                     btn.setBackgroundColor(Color.GREEN)
 
                 } else {
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_sbagliata)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn) {
+                        val mysong = MediaPlayer.create(context, R.raw.risposta_sbagliata)
+                        mysong.start()
+                    }
                     btn.setBackgroundColor(Color.RED)
 
                 }

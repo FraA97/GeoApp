@@ -64,12 +64,17 @@ class QuestionCountryFragment : Fragment() {
                 if (ctr == 0) {
                     SinglePlayerServerConf.score += 1
                     btn.setBackgroundColor(Color.GREEN)
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_esatta)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn){
+                        val mysong = MediaPlayer.create(context,R.raw.risposta_esatta)
+                        mysong.start()
+                    }
+
                 } else {
                     btn.setBackgroundColor(Color.RED)
-                    val mysong = MediaPlayer.create(context,R.raw.risposta_sbagliata)
-                    mysong.start()
+                    if(SinglePlayerServerConf.soundOn){
+                        val mysong = MediaPlayer.create(context,R.raw.risposta_sbagliata)
+                        mysong.start()
+                    }
                 }
 
                 Handler().postDelayed(

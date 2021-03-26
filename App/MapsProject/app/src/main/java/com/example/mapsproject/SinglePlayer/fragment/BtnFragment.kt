@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 
 class BtnFragment: Fragment() {
@@ -35,8 +36,10 @@ class BtnFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.start_game_btn).setOnClickListener{ view->
-            val mysong = MediaPlayer.create(context,R.raw.next_level)
-            mysong.start()
+            if(SinglePlayerServerConf.soundOn) {
+                val mysong = MediaPlayer.create(context, R.raw.next_level)
+                mysong.start()
+            }
             findNavController().navigate(R.id.action_btnFragment_to_latLongFragment)
         }
     }

@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
@@ -47,8 +48,10 @@ class FinishLevelFragment : Fragment() {
             override fun run(){
                 super.run()
                 Handler(Looper.getMainLooper()).postDelayed({finishLevel()}, MultiPlayerServerConf.pollingPeriod)
-                val mysong = MediaPlayer.create(context,R.raw.next_level)
-                mysong.start()
+                if(SinglePlayerServerConf.soundOn) {
+                    val mysong = MediaPlayer.create(context, R.raw.next_level)
+                    mysong.start()
+                }
             }
         }.start()
     }

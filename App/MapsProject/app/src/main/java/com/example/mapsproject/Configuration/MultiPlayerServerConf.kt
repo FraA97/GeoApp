@@ -29,6 +29,9 @@ class MultiPlayerServerConf {
         var score = 0
         var totalScore=JSONObject()
 
+        var soundOn = true
+
+
         var canPoll=false
     }
 }

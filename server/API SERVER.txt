@@ -7,14 +7,14 @@ create a game:
     127.0.0.1:5000/?req=0&random=1                         //random = true
         return game_id + player_id (0 or 1)
 
-verify if other player (random or not) is ready
+verify if other player (random or not) is ready (POLLING)
     parameters: req=1 + game_id = number returned in the first req
     127.0.0.1:5000/?req=1&game_id=num. 
         return waiting = true || false    //if true then wait the adversary
                                          // else adversary is in!!!
 
 start to play:
-    parameters: req=2 + game_id = number +player_id=number (returned in the first req) + + level=number (number of current level)
+    parameters: req=2 + game_id = number +player_id=number  (returned in the first req)
     127.0.0.1:5000/?req=2&game_id=num.&player_id=num.
             //if(request done for the first time by second player (no master player))
                 //return: error= true, msg="wait the other player"
@@ -27,7 +27,7 @@ finished the level:
         set a variable to false if this req. arrives 2 times for the same game_id
         return msg: "level completed" + game_id
 
-the other player has finished the level? (polling)
+the other player has finished the level? (POLLING)
     27.0.0.1:5000/?req=4&game_id=num.
         return waiting = true || false    //if true then wait that adversary finish the level
                                          // else adversary has finished!!
