@@ -75,7 +75,7 @@
         <activity android:name=".Account.AccountSettingsActivity"></activity>
 
         <activity android:name=".Account.UpdateProfilePicActivity"/>
-
+        <activity android:name=".Settings.Settings"/>
 
     </application>
 

@@ -11,6 +11,7 @@ import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.Settings.Settings
 
 class SingleplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +53,13 @@ class SingleplayerActivity: AppCompatActivity() {
 
         R.id.action_account_settings->{
             val intent = Intent(this, AccountSettingsActivity::class.java)
+            startActivity(intent)
+            finish()
+
+            true
+        }
+        R.id.action_settings->{
+            val intent = Intent(this, Settings::class.java)
             startActivity(intent)
             finish()
 
