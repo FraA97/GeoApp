@@ -60,23 +60,17 @@ class StartGameActivity: AppCompatActivity() {
             //return to MainActivity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish()
-
             true
         }
 
         R.id.action_account_settings->{
             val intent = Intent(this, AccountSettingsActivity::class.java)
             startActivity(intent)
-            finish()
-
             true
         }
         R.id.action_settings->{
             val intent = Intent(this, Settings::class.java)
             startActivity(intent)
-            finish()
-
             true
         }
 

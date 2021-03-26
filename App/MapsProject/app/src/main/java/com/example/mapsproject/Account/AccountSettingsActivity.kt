@@ -14,12 +14,10 @@ import com.example.mapsproject.Account.Account.getUserName
 import com.example.mapsproject.Account.Account.updateUserEmail
 import com.example.mapsproject.Account.Account.updateUserName
 import com.example.mapsproject.Account.Account.user
-import com.example.mapsproject.Configuration.MultiPlayerServerConf
-import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
-import com.example.mapsproject.StartGameActivity
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
 
 class AccountSettingsActivity: Activity() {
