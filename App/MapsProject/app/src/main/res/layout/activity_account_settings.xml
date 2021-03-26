@@ -21,10 +21,10 @@
             android:src="@drawable/common_google_signin_btn_icon_dark" />
 
         <Button
-            android:id="@+id/take_picture_btn"
+            android:id="@+id/new_pic_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/take_a_picture" />
+            android:text="@string/update_profile_picture" />
 
     </LinearLayout>
 
