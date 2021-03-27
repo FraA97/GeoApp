@@ -90,7 +90,6 @@ class AccountSettingsActivity: Activity() {
         findViewById<Button>(R.id.new_pic_btn).setOnClickListener { view->
             val i = Intent(this, UpdateProfilePicActivity::class.java)
             startActivity(i)
-            finish()
         }
     }
 
