@@ -31,11 +31,11 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
     val REQUEST_IMAGE_CAPTURE = 1
     val REQUEST_IMAGE_SELECTION=2
-    val pathCloud : String = "images/"+ Account.getUserID()
-    val storageRef = Firebase.storage.reference
+
 
     // Create a child reference
-    // imagesRef now points to "images"
+    val pathCloud : String = "images/"+ Account.getUserID()
+    val storageRef = Firebase.storage.reference
     val imagesRef = storageRef.child(pathCloud)
 
     var filePath :String = ""
@@ -45,6 +45,8 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_picture)
         findViewById<Button>(R.id.take_pic_btn).setOnClickListener(this)
+        findViewById<Button>(R.id.select_pic_btn).setOnClickListener(this)
+        findViewById<Button>(R.id.upload_pic_btn).setOnClickListener(this)
         downloadPic()
     }
 
@@ -73,7 +75,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
                 val photoFile: File? = try {
                     createImageFile();
                 } catch (ex: IOException) {
-                    // Error occurred while creating the File
+                    Log.i("myTag","Unable to create file")
                     null
                 }
                 // Continue only if the File was successfully created
@@ -130,7 +132,6 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
     //action to be done when returning from intent launched
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(resultCode == RESULT_OK && data!=null){
-            val imageView = findViewById<ImageView>(R.id.avatar2)
 
             when(requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
@@ -207,10 +208,9 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         val data = baos.toByteArray()
         var uploadTask = imagesRef!!.putBytes(data)
         uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
+            Toast.makeText(this,"Unable to upload the photo",Toast.LENGTH_LONG).show()
         }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
+            Toast.makeText(this,"Upload successfull",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -223,7 +223,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
             imageView.setImageBitmap((BitmapFactory.decodeFile(localFile.path)))
             filePath=localFile.path
         }?.addOnFailureListener {
-            // Handle any errors
+            Toast.makeText(this,"No profile pic yet",Toast.LENGTH_LONG).show()
             null
         }
 
