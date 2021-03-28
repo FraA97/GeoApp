@@ -19,7 +19,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Insert game ID" />
+            android:text="@string/insert_g_id" />
 
         <EditText
             android:id="@+id/game_id"

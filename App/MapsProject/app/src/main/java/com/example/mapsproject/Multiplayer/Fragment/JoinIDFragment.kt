@@ -27,20 +27,24 @@ class JoinIDFragment:Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         rootView =  inflater.inflate(R.layout.fragment_join_id, container, false)
-        rootView.findViewById<Button>(R.id.submit_game_id_btn).setOnClickListener { view ->
-            val game_id = rootView.findViewById<EditText>(R.id.game_id).text.toString().toInt()
+        return rootView
+    }
 
-            if(game_id== null)
-            {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.submit_game_id_btn).setOnClickListener { view ->
+            val game_id = rootView.findViewById<EditText>(R.id.game_id).text.toString()
+
+            if(game_id.length==0) {
                 Toast.makeText(activity,"insert a game_id",Toast.LENGTH_SHORT)
                 return@setOnClickListener
             }
-            MultiPlayerServerConf.game_id =game_id
+            MultiPlayerServerConf.game_id =game_id/*.toString()*/.toInt()
 
             findNavController().navigate(R.id.action_joinIDFragment_to_waitingJoinFragment)
 
         }
-        return rootView
     }
 
 }

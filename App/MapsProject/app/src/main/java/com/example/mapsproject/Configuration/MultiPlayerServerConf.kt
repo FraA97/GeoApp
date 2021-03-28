@@ -30,8 +30,7 @@ class MultiPlayerServerConf {
         var totalScore=JSONObject()
 
         var soundOn = true
-
-
+        var language = "en"
         var canPoll=false
     }
 }

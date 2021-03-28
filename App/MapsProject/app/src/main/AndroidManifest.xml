@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MapsProject"
         android:usesCleartextTraffic="true"
+        android:configChanges="locale|orientation"
         >
 
         <meta-data

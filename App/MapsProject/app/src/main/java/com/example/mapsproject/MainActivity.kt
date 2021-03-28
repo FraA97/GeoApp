@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
+            /*val intent = Intent(this, StartGameActivity::class.java)
+            startActivity(intent)
+            finish()*/
         }
 
         //launch signup activity
