@@ -10,8 +10,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,8 +40,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:ems="10"
-            android:inputType="textEmailSubject"
-            android:text="@string/email" />
+            android:inputType="textEmailSubject" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,8 +78,8 @@
         android:id="@+id/submit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="@string/submit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_su" />
