@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Account.Account.getHighScore
 import com.example.mapsproject.Account.Account.uploadUserToFireStore
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
@@ -59,7 +60,8 @@ class EndFragment: Fragment() {
         val editor = sharedPref?.edit()
         var highscore = getHighScore()
         if(score!! > highscore!!){
-            uploadUserToFireStore(score)
+            Account.db.collection("users").document(Account.getUserID()).update("highscore", score)
+
         }
 
         rootView.findViewById<TextView>(R.id.high_score_end).setText(highscore.toString())

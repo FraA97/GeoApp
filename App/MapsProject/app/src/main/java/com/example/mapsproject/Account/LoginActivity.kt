@@ -2,6 +2,8 @@ package com.example.mapsproject.Account
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.*
@@ -37,8 +39,6 @@ class LoginActivity:AppCompatActivity() {
             val email = findViewById<EditText>(R.id.email_entry_li).text.toString()
             val password = findViewById<EditText>(R.id.psw_entry_li).text.toString()
             signIn(email,password,checked,this )
-            if(user!=null)
-                updateUI()
 
 
         }
@@ -48,15 +48,20 @@ class LoginActivity:AppCompatActivity() {
             //launch ForgotPassword Activity
             val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
-            finish()
         }
+        Handler(Looper.getMainLooper()).postDelayed({updateUI()}, 500L)
+
     }
 
 
     private fun updateUI() {
-        //go to Start Activity
-        val intent = Intent(this, StartGameActivity::class.java)
-        startActivity(intent)
-        finish()
+        if(user!= null) {
+            //go to Start Activity
+            val intent = Intent(this, StartGameActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        else
+            Handler(Looper.getMainLooper()).postDelayed({updateUI()}, 500L)
     }
 }
