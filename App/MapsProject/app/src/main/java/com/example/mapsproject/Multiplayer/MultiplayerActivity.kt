@@ -11,6 +11,7 @@ import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.Settings.LeaderBoard
 import com.example.mapsproject.Settings.Settings
 
 class MultiplayerActivity: AppCompatActivity() {
@@ -61,6 +62,12 @@ class MultiplayerActivity: AppCompatActivity() {
             startActivity(intent)
             finish()
 
+            true
+        }
+
+        R.id.action_leaderboard->{
+            val intent = Intent(this, LeaderBoard::class.java)
+            startActivity(intent)
             true
         }
 

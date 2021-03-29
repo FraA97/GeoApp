@@ -15,6 +15,7 @@ import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
+import com.example.mapsproject.Settings.LeaderBoard
 import com.example.mapsproject.Settings.Settings
 import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import java.util.*
@@ -112,6 +113,12 @@ class StartGameActivity: AppCompatActivity() {
         }
         R.id.action_settings->{
             val intent = Intent(this, Settings::class.java)
+            startActivity(intent)
+            true
+        }
+
+        R.id.action_leaderboard->{
+            val intent = Intent(this, LeaderBoard::class.java)
             startActivity(intent)
             true
         }

@@ -13,7 +13,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -147,21 +149,40 @@ object Account {
 
 
     public fun uploadUserToFireStore(highscore:Int) {
-        val user =User(getUserID(),getUserName(),getUserEmail(),highscore )
-        db.collection("users").document(getUserID()).set(user)
-                /*
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d("myTag", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("myTag", "Error adding document", e)
-            }*/
+        val u =User(getUserID(),getUserName(),getUserEmail(),highscore )
+        db.collection("users").document(getUserID()).set(u)
+            .addOnSuccessListener { Log.d("myTag", "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.w("myTag", "Error writing document", e) }
 
     }
 
-    public fun getHighScore(){
+    public fun getHighScore(): Int {
+        var hs = 0
+        db.collection("users").document(getUserID()).get()
+            .addOnSuccessListener {    document->
+                Log.d("myTag", "DocumentSnapshot successfully downloaded!")
+                val u = document.toObject<User>()
+                hs = u!!.highscore!!
+            }
+            .addOnFailureListener { e -> Log.w("myTag", "Error downloading document", e) }
+        return hs
+    }
 
+    //get top 3 users by highscore
+    public fun getLeaderboard(i:Int):List<User>{
+        val list = mutableListOf<User>()
+        val usersRef = db.collection("users")
+        usersRef.orderBy("highscore", Query.Direction.DESCENDING).limit(i.toLong()).get()
+                .addOnSuccessListener {    results->
+                    Log.d("myTag", "QuerySnapshot successfully executed!")
+                    for(document in results){
+                        val u = document.toObject<User>()
+                        list.add(u)
+                    }
+
+                }
+                .addOnFailureListener { e -> Log.w("myTag", "Error executing query", e) }
+        return list
     }
 
 }

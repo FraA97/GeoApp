@@ -83,6 +83,7 @@
         <activity android:name=".Account.UpdateProfilePicActivity"/>
         <activity android:name=".Settings.Settings"/>
 
+        <activity android:name=".Settings.LeaderBoard"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.mapsproject"
