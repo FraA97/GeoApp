@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -21,6 +22,8 @@ object Account {
     var auth: FirebaseAuth= Firebase.auth
     var user: FirebaseUser? = null
     var storage = Firebase.storage
+    val db = Firebase.firestore
+
 
 
 
@@ -66,17 +69,20 @@ object Account {
                         editor?.putString(R.string.password_key.toString(), password)
                         editor?.apply()
                     }
+                    updateUserName(username,context)
+                    uploadUserToFireStore(0)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("myTag", "createUserWithEmail:failure", task.exception)
                     Toast.makeText(context, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                 }
-            updateUserName(username,context)
+
             }
 
         // [END create_user_with_email]
     }
+
 
     public fun getUserName():String{
         if(user==null){
@@ -138,4 +144,24 @@ object Account {
             }
         }
     }
+
+
+    public fun uploadUserToFireStore(highscore:Int) {
+        val user =User(getUserID(),getUserName(),getUserEmail(),highscore )
+        db.collection("users").document(getUserID()).set(user)
+                /*
+            .add(user)
+            .addOnSuccessListener { documentReference ->
+                Log.d("myTag", "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w("myTag", "Error adding document", e)
+            }*/
+
+    }
+
+    public fun getHighScore(){
+
+    }
+
 }

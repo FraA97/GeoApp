@@ -24,7 +24,7 @@ class AccountSettingsActivity: Activity() {
 
 
     val storageRef = Account.storage.reference
-    val path : String = "images/"+ Account.getUserID()
+    val path : String = "images/"+ Account.getUserEmail()
     val  imagesRef: StorageReference? = storageRef.child(path)
 
 

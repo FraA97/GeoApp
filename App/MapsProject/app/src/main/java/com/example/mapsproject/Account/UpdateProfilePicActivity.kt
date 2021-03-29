@@ -34,7 +34,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
 
     // Create a child reference
-    val pathCloud : String = "images/"+ Account.getUserID()
+    val pathCloud : String = "images/"+ Account.getUserEmail()
     val storageRef = Firebase.storage.reference
     val imagesRef = storageRef.child(pathCloud)
 

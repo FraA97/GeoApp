@@ -62,8 +62,9 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-storage-ktx'
 
-    // FirebaseUI Storage only
-    implementation 'com.firebaseui:firebase-ui-storage:6.4.0'
+    // Firebase firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
 
     apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
