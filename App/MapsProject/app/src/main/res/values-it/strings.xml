@@ -7,7 +7,8 @@
     <string name="work_in_progress">Lavoro in Corso</string>
     <string name="start_the_game">Inizia il Gioco</string>
     <string name="next_level">Prossimo Livello</string>
-    <string name="guess_the_country">Indovina lo stato</string>
+    <string name="guess_the_country">INDOVINA LO STATO</string>
+    <string name="guess_the_city">INDOVINA LA CITTÀ</string>
     <string name="preference_file_key">com.example.mapsproject.PREFERENCE_FILE_KEY</string>
     <string name="high_score">MIGLIOR PUNTEGGIO: </string>
     <string name="high_score_key">high_score</string>
@@ -59,5 +60,7 @@
     <string name="english">Inglese</string>
     <string name="language">Lingua </string>
     <string name="insert_g_id">Inserisci ID Partita </string>
+    <string name="title_back_press">TERMINA PARTITA</string>
+    <string name="msg_back_press">Sei sicuro di voler USCIRE dalla Partita?"</string>
 
 </resources>

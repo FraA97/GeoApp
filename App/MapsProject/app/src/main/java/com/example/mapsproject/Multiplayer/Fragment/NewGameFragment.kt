@@ -29,4 +29,6 @@ class NewGameFragment:Fragment() {
             MultiPlayerServerConf.levels =  l*/
         }
     }
+
+
 }

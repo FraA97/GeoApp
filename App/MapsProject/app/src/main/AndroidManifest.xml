@@ -23,7 +23,7 @@
         android:theme="@style/Theme.MapsProject"
         android:usesCleartextTraffic="true"
         android:configChanges="locale|orientation"
-        android:requestLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true">
 
 
         <meta-data

@@ -40,4 +40,6 @@ class StartFragmentMP: Fragment() {
             findNavController().navigate(R.id.action_startFragmentMP_to_joinRandomFragment)
         }
     }
+
+
 }
