@@ -24,16 +24,26 @@ class MainActivity : AppCompatActivity() {
         //if email and password are saved, try firebase login
         if(sharedPref?.contains("email") == true && sharedPref?.contains("password")) {
             //get email and password
-
-            val email = sharedPref?.getString("email", "")
-            val password = sharedPref?.getString("password", "")
-
-            Log.i("myTag", "try login with email: " + email + ", pws: " + password)
-
-            signIn(email!!, password!!,false,this)
             if(user != null){
-               val intent = Intent(this, StartGameActivity::class.java)
-               startActivity(intent)
+                Log.i("myTag", "user didn't loged out")
+                val intent = Intent(this, StartGameActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+
+                val email = sharedPref?.getString("email", "")
+                val password = sharedPref?.getString("password", "")
+
+                Log.i("myTag", "try login with email: " + email + ", pws: " + password)
+
+                signIn(email!!, password!!, false, this)
+                if (user != null) {
+                    val intent = Intent(this, StartGameActivity::class.java)
+                    startActivity(intent)
+                }
+                else{
+                    Log.i("myTag", "unable to login")
+                }
             }
         }
         else{
@@ -47,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             /*val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()*/
-            val intent = Intent(this, StartGameActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

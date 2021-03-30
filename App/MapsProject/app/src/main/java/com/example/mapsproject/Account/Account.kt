@@ -20,6 +20,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
+import java.net.URL
 import kotlin.coroutines.coroutineContext
 
 
@@ -167,6 +168,15 @@ object Account {
 
             }
         }
+    }
+
+    public fun getUserPhotoUrl(): String {
+        if(user==null){
+            Log.i("myTag", "no user")
+            return ""
+        }
+       return "https://firebasestorage.googleapis.com/b/bucket/o/images%"+ getUserID()+".jpeg"
+
     }
 
 
