@@ -67,5 +67,7 @@
     <string name="n">NO</string>
     <string name="title_end_g">MASTER PLAYER HAS ENDED THE GAME</string>
     <string name="exit">Exit</string>
+    <string name="leaderboard">Leaderboard</string>
+
 
 </resources>

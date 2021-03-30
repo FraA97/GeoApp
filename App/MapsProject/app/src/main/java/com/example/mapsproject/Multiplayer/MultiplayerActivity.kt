@@ -21,6 +21,7 @@ import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.Settings.LeaderBoard
 import com.example.mapsproject.Settings.Settings
 import org.json.JSONObject
 
@@ -72,6 +73,12 @@ class MultiplayerActivity: AppCompatActivity() {
             startActivity(intent)
             finish()
 
+            true
+        }
+
+        R.id.action_leaderboard->{
+            val intent = Intent(this, LeaderBoard::class.java)
+            startActivity(intent)
             true
         }
 

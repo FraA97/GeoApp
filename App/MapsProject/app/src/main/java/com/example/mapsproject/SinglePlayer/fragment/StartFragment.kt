@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Account.Account.getHighScore
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.SinglePlayer.SingleplayerActivity
@@ -27,10 +28,9 @@ class StartFragment: Fragment() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
 
         val editor = sharedPref?.edit()
-        val defaultValue = resources.getInteger(R.integer.saved_high_score_default_key)
         val highScore:Int
 
-        highScore = sharedPref?.getInt(getString(R.string.high_score_key), defaultValue)!!
+        highScore = getHighScore()
 
         Log.i("myTag", highScore.toString())
 

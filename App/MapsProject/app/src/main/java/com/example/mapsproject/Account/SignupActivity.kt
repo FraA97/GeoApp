@@ -2,6 +2,8 @@ package com.example.mapsproject.Account
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.*
@@ -9,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.createAccount
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.MainActivity
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 
@@ -45,8 +48,8 @@ class SignupActivity:AppCompatActivity() {
             val password = psw1
 
             createAccount(email,password,username,checked,this)
-            if(user != null)
-                updateUI()
+            Handler(Looper.getMainLooper()).postDelayed({updateUI()}, 500L)
+
 
         }
 
@@ -54,10 +57,16 @@ class SignupActivity:AppCompatActivity() {
 
 
     private fun updateUI() {
-        //goto Start Activity
-        val intent = Intent(this, StartGameActivity::class.java)
-        startActivity(intent)
-        finish()
+        if(user!= null) {
+            //goto Start Activity
+            val intent = Intent(this, StartGameActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        else{
+            Handler(Looper.getMainLooper()).postDelayed({updateUI()}, 500L)
+
+        }
     }
 
     override fun onBackPressed() {
