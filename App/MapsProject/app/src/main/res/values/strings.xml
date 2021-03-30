@@ -68,6 +68,7 @@
     <string name="title_end_g">MASTER PLAYER HAS ENDED THE GAME</string>
     <string name="exit">Exit</string>
     <string name="leaderboard">Leaderboard</string>
+    <string name="share_g_id_msg">join my game on GeoApp, this is my game id:</string>
 
 
 </resources>

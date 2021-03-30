@@ -57,6 +57,7 @@ WAITING_STATE = 4
     #GET4: req=4 [required] + game_id="1234567" //polling on variable WAITING
         #return |||WAITING (=true) (if waiting other player ) or WAITING( =false) (player2 is ready)
         #IF WAITING== false => set STATE = PLAY_STATE
+INTERRUPT_STATE = 5
 ID_PLAYER = -1
 
 
@@ -206,7 +207,19 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
             else:
                 num_req[game_id]=0 
                 return {"error":False, 'msg':"return waiting_state", 'waiting': True}
-        
+        elif(req == INTERRUPT_STATE):
+            #coordinates_game.pop(game_id, None)
+            #print(interrupt)
+            #print(interrupt_dict)
+            if(interrupt==1 and game_id in interrupt_dict):
+                interrupt_dict[game_id]+=1
+                return {"error":False, 'msg':"game stopped"}
+            elif(interrupt!=1):
+                return {"error":True, 'msg':"interrupt != 1"}
+            elif(game_id not in interrupt_dict):
+                return {"error":True, 'msg':"game id not exist"}
+            else:
+                return {"error":True, 'msg':"ERROR"}
 
 api.add_resource(GeoApp,"/")
 

@@ -90,10 +90,11 @@ class MultiplayerActivity: AppCompatActivity() {
     }
 
     fun interruptGame() {
-        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.finishLevelReq+
-                "&user_name="+ Account.getUserName() +"&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1")
+        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
+                "&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1")
+        MultiPlayerServerConf.played_levels = 0 //reset number of levels
         val stringRequest = StringRequest(
-                Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.waitLevelReq+
+                Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
                 "&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1", { response ->
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.queue?.cancelAll(this)

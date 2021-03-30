@@ -63,7 +63,7 @@ class PoolingNewGameFragment: Fragment() {
         rootView.findViewById<Button>(R.id.share_game_btn).setOnClickListener { view->
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "join my game on GeoApp, this is my game id: "+MultiPlayerServerConf.game_id)
+            sendIntent.putExtra(Intent.EXTRA_TEXT, R.string.share_g_id_msg +MultiPlayerServerConf.game_id)
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
 
