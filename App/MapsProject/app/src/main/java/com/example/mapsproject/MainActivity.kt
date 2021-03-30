@@ -44,12 +44,12 @@ class MainActivity : AppCompatActivity() {
 
         //launch login activity
         findViewById<Button>(R.id.log_in_btn).setOnClickListener{ view->
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-            /*val intent = Intent(this, StartGameActivity::class.java)
+            /*val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()*/
+            val intent = Intent(this, StartGameActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         //launch signup activity

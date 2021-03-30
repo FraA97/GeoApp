@@ -21,6 +21,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
@@ -40,6 +41,7 @@ class PoolingNewGameFragment: Fragment() {
                         .setTitle(getString(R.string.title_back_press))
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
+                            (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
                             // finish()
                             startActivity(i)

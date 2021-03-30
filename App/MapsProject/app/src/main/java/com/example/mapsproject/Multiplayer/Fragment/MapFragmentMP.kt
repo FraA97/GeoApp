@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.maps.*
@@ -31,6 +32,7 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback {
                         .setTitle(getString(R.string.title_back_press))
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
+                            (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
                             // finish()
                             startActivity(i)

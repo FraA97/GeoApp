@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.totalScore
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 
@@ -28,6 +29,8 @@ class EndGameFragment: Fragment() {
                         .setTitle(getString(R.string.title_back_press))
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
+                            MultiPlayerServerConf.wantToPlay = false
+                            (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
                             // finish()
                             startActivity(i)
@@ -91,7 +94,9 @@ class EndGameFragment: Fragment() {
 
                 if(SinglePlayerServerConf.soundOn){mysong.start()}
             }
-            else{
+            else{//eng game => reset parameters of game
+                MultiPlayerServerConf.wantToPlay = false
+                MultiPlayerServerConf.played_levels = 0
                 //val mRunnable ={
                 if(SinglePlayerServerConf.soundOn){mysong.pause()}
                     val i = Intent(activity, StartGameActivity::class.java)

@@ -3,16 +3,24 @@ package com.example.mapsproject.SinglePlayer
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.android.volley.Request
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
+import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.queue
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.Settings.Settings
+import org.json.JSONObject
 
 class SingleplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +81,7 @@ class SingleplayerActivity: AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
 
 
 

@@ -1,11 +1,13 @@
 package com.example.mapsproject.Account
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.auth
+import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.google.android.gms.tasks.OnCompleteListener
 
@@ -29,5 +31,11 @@ class ForgotPasswordActivity:AppCompatActivity() {
                     }
                 })
         }
+    }
+
+    override fun onBackPressed() {
+        val i = Intent(this, MainActivity::class.java)
+        finish()
+        startActivity(i)
     }
 }

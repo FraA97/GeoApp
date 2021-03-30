@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.auth
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.Account.Account.signIn
+import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.tasks.OnCompleteListener
@@ -58,5 +59,11 @@ class LoginActivity:AppCompatActivity() {
         val intent = Intent(this, StartGameActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        val i = Intent(this, MainActivity::class.java)
+        finish()
+        startActivity(i)
     }
 }

@@ -16,6 +16,7 @@ import com.example.mapsproject.Account.Account.updateUserName
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.StartGameActivity
 import com.google.firebase.storage.StorageReference
 import java.io.File
 
@@ -117,7 +118,11 @@ class AccountSettingsActivity: Activity() {
     }
     // [END on_start_check_user]
 
-
+    override fun onBackPressed() {
+        val i = Intent(this, StartGameActivity::class.java)
+        finish()
+        startActivity(i)
+    }
 
 }
 

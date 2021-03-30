@@ -19,6 +19,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
@@ -35,6 +36,7 @@ class PollingFinishLevelFragment: Fragment() {
                         .setTitle(getString(R.string.title_back_press))
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
+                            (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
                             // finish()
                             startActivity(i)
@@ -82,7 +84,46 @@ class PollingFinishLevelFragment: Fragment() {
                 MultiPlayerServerConf.played_levels += 1
                 MultiPlayerServerConf.totalScore = reply!!.getJSONObject("total_score")
                 Log.i("myTag","total_score: "+MultiPlayerServerConf.totalScore)
-                //Log.i("myTag","class:"+MultiPlayerServerConf.totalScore["0"].javaClass.name)
+                val num_pl_left = reply!!.getInt("num_pl_left")
+                Log.i("myTag","num_pl_left: "+num_pl_left)
+                if(num_pl_left>0 && !MultiPlayerServerConf.wantToPlay){
+                    //show popup
+                    if(MultiPlayerServerConf.player_id > 0){
+                        AlertDialog.Builder(context)
+                                .setTitle(getString(R.string.title_end_g))
+                                //.setMessage(R.string.msg_end_g)
+                                .setPositiveButton(R.string.exit) { dialog, which ->
+                                    MultiPlayerServerConf.wantToPlay = false
+                                    (activity as MultiplayerActivity).interruptGame()
+                                    val i = Intent(activity, StartGameActivity::class.java)
+                                    startActivity(i)
+                                }
+                                /*.setNegativeButton(R.string.n) { dialog, which ->
+                                    (activity as MultiplayerActivity).interruptGame()
+                                    val i = Intent(activity, StartGameActivity::class.java)
+                                    // finish()
+                                    startActivity(i)
+                                }*/
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show()
+                    }
+                    else {
+                        AlertDialog.Builder(context)
+                                .setTitle(getString(R.string.title_pl_left))
+                                .setMessage(R.string.msg_pl_left)
+                                .setPositiveButton(R.string.y) { dialog, which ->
+                                    MultiPlayerServerConf.wantToPlay = true
+                                }
+                                .setNegativeButton(R.string.n) { dialog, which ->
+                                    (activity as MultiplayerActivity).interruptGame()
+                                    val i = Intent(activity, StartGameActivity::class.java)
+                                    // finish()
+                                    startActivity(i)
+                                }
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show()
+                    }
+                }
                 if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels) {
                     findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
                 } else {

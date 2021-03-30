@@ -32,5 +32,6 @@ class MultiPlayerServerConf {
         var soundOn = true
         var language = "en"
         var canPoll=false
+        var wantToPlay = false
     }
 }

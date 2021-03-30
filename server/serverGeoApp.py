@@ -71,6 +71,7 @@ sync = {}
 waiting = {}
 random_dict = {}
 score_dict = {}
+interrupt_dict = {}
 parser = reqparse.RequestParser()
 
 class GeoApp(Resource):    #Resource for use Crud op and other...
@@ -83,6 +84,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         parser.add_argument('level',type=int,required = False)#number of current level s.t. can be decided the correspondent difficulty
         parser.add_argument('score',type=int,required = False)#score of each player
         parser.add_argument('user_name',type=str,required = False)
+        parser.add_argument('interrupt',type=int,required = False)
         args = parser.parse_args() #parse the msg
 
         req = args['req'] #0||1||2||3||4
@@ -92,7 +94,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         level = args['level']
         score = args['score']
         user_name = args['user_name']
-        
+        interrupt = args['interrupt']
+
         if(req == INIT_STATE):
             if(game_id == None):
                 if(random == None or random==0): #not random game
@@ -101,6 +104,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     random_dict[g_id] = False
                     sync[g_id]=0
                     num_req[g_id] = 0
+                    interrupt_dict[g_id]= 0
                     return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 elif(random!= None and random==1): #random game                   
                     found=False
@@ -118,6 +122,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         random_dict[g_id] = True
                         sync[g_id]=0
                         num_req[g_id] = 0
+                        interrupt_dict[g_id] = 0
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
@@ -138,7 +143,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
             #    return {"error":False, 'msg':"return waiting state", 'waiting':False}
             else:
                 STATE = PLAY_STATE
-                return {"error":False, 'msg':"return number of synchronized players (you excluded)", 'num_sync_pl':sync[game_id]}
+                return {"error":False, 'msg':"return number of synchronized players (you excluded)", 'num_sync_pl':sync[game_id],'num_pl_left':interrupt_dict[game_id]}
         
         elif(req==PLAY_STATE):
                 waiting.pop(game_id, None)
@@ -183,16 +188,21 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         
             if game_id not in score_dict: score_dict[game_id] ={}
             score_dict[game_id][user_name] = score
-            return {"error":False, 'msg':"level completed", 'game_id':game_id, 'number of players to wait': sync[game_id]-waiting[game_id]}
+            return {"error":False, 'msg':"level completed", 'game_id':game_id, 'number of players to wait': sync[game_id]-waiting[game_id]-interrupt_dict[game_id]}
         
         elif(req == WAITING_STATE):
             coordinates_game.pop(game_id, None)
+            #print(interrupt)
+            #print(interrupt_dict)
+            if(interrupt==1 and game_id in interrupt_dict):
+                interrupt_dict[game_id]+=1
+                return {"error":False, 'msg':"game stopped"}
             if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True}
-            if( sync[game_id]-waiting[game_id] == 0): 
+            if( sync[game_id]-waiting[game_id]-interrupt_dict[game_id] == 0): 
                 STATE = PLAY_STATE
                 num_req[game_id]=0
                 #waiting.pop(game_id, None)
-                return {"error":False, 'msg':"return waiting_state", 'waiting': False, 'total_score':score_dict[game_id]}
+                return {"error":False, 'msg':"return waiting_state, total_score and players_left", 'waiting': False, 'total_score':score_dict[game_id],'num_pl_left':interrupt_dict[game_id]}
             else:
                 num_req[game_id]=0 
                 return {"error":False, 'msg':"return waiting_state", 'waiting': True}
