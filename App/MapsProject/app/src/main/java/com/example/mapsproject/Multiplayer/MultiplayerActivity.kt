@@ -6,6 +6,9 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
@@ -29,7 +32,12 @@ class MultiplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multiplayer)
+        this.findViewById<TextView>(R.id.curr_lev).setVisibility(View.INVISIBLE)
+        this.findViewById<TextView>(R.id.num_levels).setVisibility(View.INVISIBLE)
+        this.findViewById<TextView>(R.id.curr_score).setVisibility(View.INVISIBLE)
+        this.findViewById<TextView>(R.id.score).setVisibility(View.INVISIBLE)
     }
+
     //inflate menu_main
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main , menu)
@@ -93,23 +101,15 @@ class MultiplayerActivity: AppCompatActivity() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
                 "&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1")
         MultiPlayerServerConf.played_levels = 0 //reset number of levels
+        MultiPlayerServerConf.wantToPlay=false
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
                 "&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1", { response ->
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.queue?.cancelAll(this)
-            //findNavController().navigate(R.id.action_finishLevelFragment_to_pollingFinishLevelFragment)
-
-
         },{ error: VolleyError? ->
             Log.i("info", "Game Stopped: " + error.toString())
         })
-       /* stringRequest.setRetryPolicy(DefaultRetryPolicy(
-                20 * 1000,  //After the set time elapses the request will timeout
-                0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))*/
         MultiPlayerServerConf.queue?.add(stringRequest)
-
     }
-
 }

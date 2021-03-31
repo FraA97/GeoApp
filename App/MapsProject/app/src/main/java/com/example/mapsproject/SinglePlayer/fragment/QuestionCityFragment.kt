@@ -103,7 +103,7 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
                     btn.setBackgroundColor(Color.RED)
 
                 }
-
+                btn.setOnClickListener(null);
 
                 SinglePlayerServerConf.level+=1
 

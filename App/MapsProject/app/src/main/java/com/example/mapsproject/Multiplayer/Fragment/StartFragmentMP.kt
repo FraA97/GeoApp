@@ -11,9 +11,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 
 class StartFragmentMP: Fragment() {
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

@@ -10,8 +10,10 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.Toast.LENGTH_SHORT
+import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
+import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import java.util.*
@@ -82,8 +84,6 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        /*Log.i("tyTag","SVEGLIAAAAAAAAAAAAAAAAAAAAAA")
-        Log.i("tyTag",""+parent.getItemAtPosition(pos))*/
         if(parent.getItemAtPosition(pos)=="scegli la lingua" || parent.getItemAtPosition(pos)=="choose language"){
         }
         else if(parent.getItemAtPosition(pos)=="English" || parent.getItemAtPosition(pos)=="Inglese"){
@@ -120,9 +120,17 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onBackPressed() {
-        val i = Intent(this, StartGameActivity::class.java)
-        finish()
-        startActivity(i)
+        if(Account.getUserID()==""){
+            val i = Intent(this, MainActivity::class.java)
+            finish()
+            startActivity(i)
+        }
+        else{
+            val i = Intent(this, StartGameActivity::class.java)
+            finish()
+            startActivity(i)
+        }
+
 
     }
 

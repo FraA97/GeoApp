@@ -38,7 +38,7 @@ class PollingFinishLevelFragment: Fragment() {
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            //(activity as MultiplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)
@@ -113,6 +113,13 @@ class PollingFinishLevelFragment: Fragment() {
                                 .setMessage(R.string.msg_pl_left)
                                 .setPositiveButton(R.string.y) { dialog, which ->
                                     MultiPlayerServerConf.wantToPlay = true
+                                    MultiPlayerServerConf.num_players= MultiPlayerServerConf.num_players-num_pl_left
+                                    Log.i("myTag","num_players: "+MultiPlayerServerConf.num_players)
+                                    if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels) {
+                                        findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
+                                    } else  {
+                                        findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_endGameFragmentMp)
+                                    }
                                 }
                                 .setNegativeButton(R.string.n) { dialog, which ->
                                     (activity as MultiplayerActivity).interruptGame()
@@ -124,9 +131,9 @@ class PollingFinishLevelFragment: Fragment() {
                                 .show()
                     }
                 }
-                if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels) {
+                if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels && (num_pl_left==0 || MultiPlayerServerConf.wantToPlay)) {
                     findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
-                } else {
+                } else if(MultiPlayerServerConf.played_levels > MultiPlayerServerConf.levels && (num_pl_left==0 || MultiPlayerServerConf.wantToPlay)) {
                     findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_endGameFragmentMp)
                 }
             }

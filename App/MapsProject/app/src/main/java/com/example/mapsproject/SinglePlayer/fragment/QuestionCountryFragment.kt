@@ -99,7 +99,7 @@ class QuestionCountryFragment : Fragment() {
                         mysong.start()
                     }
                 }
-
+                btn.setOnClickListener(null);
                 Handler().postDelayed(
                         {
                             // This method will be executed once the timer is over

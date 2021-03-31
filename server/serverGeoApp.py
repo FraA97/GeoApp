@@ -199,7 +199,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 interrupt_dict[game_id]+=1
                 return {"error":False, 'msg':"game stopped"}
             if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True}
-            if( sync[game_id]-waiting[game_id]-interrupt_dict[game_id] == 0): 
+            if( sync[game_id]-waiting[game_id]-interrupt_dict[game_id] <= 0): 
+                print(sync[game_id]-waiting[game_id]-interrupt_dict[game_id])
                 STATE = PLAY_STATE
                 num_req[game_id]=0
                 #waiting.pop(game_id, None)

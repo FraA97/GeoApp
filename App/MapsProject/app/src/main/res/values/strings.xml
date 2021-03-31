@@ -69,6 +69,9 @@
     <string name="exit">Exit</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="share_g_id_msg">join my game on GeoApp, this is my game id:</string>
+    <string name="level">level</string>
+    <string name="points">points</string>
+    <string name="players">players</string>
 
 
 </resources>

@@ -96,7 +96,7 @@ class PoolingNewGameFragment: Fragment() {
 
             Log.i("myTag","number of players: "+players)
             rootView.findViewById<TextView>(R.id.players_number).text = players.toString()
-
+            MultiPlayerServerConf.num_players = players
             Log.i("myTag","starting: "+starting.toString())
 
             if(!starting) {

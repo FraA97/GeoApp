@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.score
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
@@ -97,6 +98,7 @@ class QuestionCountryFragmentMP: Fragment() {
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
                     score += 1
+                    (activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_score).setText(score.toString()) //update visualization of score
                     btn.setBackgroundColor(Color.GREEN)
                     if(SinglePlayerServerConf.soundOn) {
                         val mysong = MediaPlayer.create(context, R.raw.risposta_esatta)
@@ -110,6 +112,7 @@ class QuestionCountryFragmentMP: Fragment() {
                     btn.setBackgroundColor(Color.RED)
 
                 }
+                btn.setOnClickListener(null);
 
                 Handler().postDelayed(
                         {

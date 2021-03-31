@@ -95,6 +95,7 @@ class QuestionCityFragmentMP: Fragment() {
             btn.setOnClickListener { view ->
                 if (ctr == 0) {
                     score += 1
+                    (activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_score).setText(score.toString()) //update visualization of score
                     if(SinglePlayerServerConf.soundOn) {
                         val mysong = MediaPlayer.create(context, R.raw.risposta_esatta)
                         mysong.start()
@@ -107,6 +108,7 @@ class QuestionCityFragmentMP: Fragment() {
                     }
                     btn.setBackgroundColor(Color.RED)
                 }
+                btn.setOnClickListener(null);
 
                 Handler().postDelayed(
                         {

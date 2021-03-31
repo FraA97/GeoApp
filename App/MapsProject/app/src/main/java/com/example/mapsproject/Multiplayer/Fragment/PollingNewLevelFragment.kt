@@ -34,6 +34,20 @@ class PollingNewLevelFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_levels).setVisibility(View.VISIBLE)
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_lev).setVisibility(View.VISIBLE)
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_lev).setText(MultiPlayerServerConf.played_levels.toString()+"/"+MultiPlayerServerConf.levels.toString())
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.score).setVisibility(View.VISIBLE)
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_score).setVisibility(View.VISIBLE)
+        //(activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_score).setText(MultiPlayerServerConf.score.toString())
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setVisibility(View.VISIBLE)
+        (activity as MultiplayerActivity).findViewById<TextView>(R.id.players).setVisibility(View.VISIBLE)
+        if(MultiPlayerServerConf.randomVar!=0 && MultiPlayerServerConf.player_id>0){
+            (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText("2")
+        }
+        else{
+            (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
+        }
         queue = Volley.newRequestQueue(context)
 
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {

@@ -69,4 +69,7 @@
     <string name="title_end_g">IL GIOCATORE LEADER HA CHIUSO LA PARTITA</string>
     <string name="exit">Esci</string>
     <string name="share_g_id_msg">Unisciti alla mia partita su GeoApp, questo è l\'ID della partita:</string>
+    <string name="level">livello</string>
+    <string name="points">punti</string>
+    <string name="players">giocatori</string>
 </resources>
