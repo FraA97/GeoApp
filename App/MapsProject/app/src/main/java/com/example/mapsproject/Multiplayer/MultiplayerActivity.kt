@@ -84,11 +84,6 @@ class MultiplayerActivity: AppCompatActivity() {
             true
         }
 
-        R.id.action_leaderboard->{
-            val intent = Intent(this, LeaderBoard::class.java)
-            startActivity(intent)
-            true
-        }
 
         else -> {
             // If we got here, the user's action was not recognized.
