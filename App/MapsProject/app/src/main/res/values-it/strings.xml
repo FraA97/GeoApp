@@ -72,4 +72,10 @@
     <string name="level">livello</string>
     <string name="points">punti</string>
     <string name="players">giocatori</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="input">Input</string>
+    <string name="chat">Chat</string>
+    <string name="levels">Livelli</string>
+
+
 </resources>

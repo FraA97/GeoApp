@@ -24,7 +24,7 @@
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="end">END</string>
-    <string name="todo">TODO</string>
+
     <string name="button">Button</string>
     <string name="email_regular_expr">*@*.*</string>
     <string name="log_out">Log Out</string>
@@ -75,11 +75,10 @@
     <string name="chat">Chat</string>
     <string name="todo">TODO</string>
 
-    <string name="share_g_id_msg">join my game on GeoApp, this is my game id:</string>
     <string name="level">level</string>
     <string name="points">points</string>
     <string name="players">players</string>
-
+    <string name="levels">Levels</string>
 
 
 </resources>
