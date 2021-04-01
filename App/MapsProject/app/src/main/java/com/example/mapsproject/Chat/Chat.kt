@@ -6,12 +6,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mapsproject.Account.Account.getUserID
 import com.example.mapsproject.Account.Account.getUserName
-import com.example.mapsproject.Account.Account.getUserPhotoUrl
 import com.example.mapsproject.R
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -66,7 +65,7 @@ class Chat: Activity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view->
             val msg = ChatMessage(
                 findViewById<EditText>(R.id.message_input).text.toString(),
-                getUserName(), getUserPhotoUrl()
+                getUserName(), getUserID()
             )
             messagesRef.push().setValue(msg)
             findViewById<EditText>(R.id.message_input).setText("")
