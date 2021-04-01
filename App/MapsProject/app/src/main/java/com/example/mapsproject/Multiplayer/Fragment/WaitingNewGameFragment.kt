@@ -67,9 +67,9 @@ class WaitingNewGameFragment:Fragment() {
     }
 
     private fun createGame() {
-        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&levels="+MultiPlayerServerConf.levels)
+        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels)
         val stringRequest = StringRequest(
-                Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq,{
+                Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels,{
             response->
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.game_id = reply!!.getInt("game_id")
@@ -77,7 +77,7 @@ class WaitingNewGameFragment:Fragment() {
 
 
 
-            Log.i("myTag","game id: "+MultiPlayerServerConf.game_id+"; player id: "+MultiPlayerServerConf.player_id)
+            Log.i("myTag","game id: "+MultiPlayerServerConf.game_id+"; player id: "+MultiPlayerServerConf.player_id+"; num_levels: "+MultiPlayerServerConf.levels)
 
             findNavController().navigate(R.id.action_waitingNewGameFragment_to_poolingNewGameFragment)
 

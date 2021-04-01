@@ -73,6 +73,7 @@ waiting = {}
 random_dict = {}
 score_dict = {}
 interrupt_dict = {}
+num_levels_dict = {}
 parser = reqparse.RequestParser()
 
 class GeoApp(Resource):    #Resource for use Crud op and other...
@@ -83,6 +84,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         parser.add_argument('player_id',type=int,required = False)
         parser.add_argument('random',type=int,required = False)#=0=> False|| =1=>True
         parser.add_argument('level',type=int,required = False)#number of current level s.t. can be decided the correspondent difficulty
+        parser.add_argument('num_levels',type=int,required = False)
         parser.add_argument('score',type=int,required = False)#score of each player
         parser.add_argument('user_name',type=str,required = False)
         parser.add_argument('interrupt',type=int,required = False)
@@ -93,6 +95,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         player_id = args['player_id']
         random = args['random']
         level = args['level']
+        num_levels = args['num_levels']
         score = args['score']
         user_name = args['user_name']
         interrupt = args['interrupt']
@@ -105,6 +108,12 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     random_dict[g_id] = False
                     sync[g_id]=0
                     num_req[g_id] = 0
+                    print(num_levels)
+                    print("------------")
+                    if(num_levels == None or num_levels==0):
+                        num_levels_dict[g_id] = 3
+                    else:
+                        num_levels_dict[g_id] = num_levels
                     interrupt_dict[g_id]= 0
                     return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 elif(random!= None and random==1): #random game                   
@@ -127,11 +136,11 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
-                if(game_id in sync and not random_dict[game_id]):
+                if(game_id in sync and not random_dict[game_id] and game_id in num_levels_dict):
                     sync[game_id]+=1
-                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id]}
+                    return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id],'num_levels':num_levels_dict[game_id]}
                 else:
-                    return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist"}
+                    return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist or missing num_levels"}
         
         elif(req == SYNC_STATE):
             if(game_id not in sync):

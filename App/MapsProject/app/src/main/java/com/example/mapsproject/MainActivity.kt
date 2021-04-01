@@ -68,12 +68,12 @@ class MainActivity : AppCompatActivity() {
 
         //launch login activity
         findViewById<Button>(R.id.log_in_btn).setOnClickListener{ view->
-            /*val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()*/
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
+            /*val intent = Intent(this, StartGameActivity::class.java)
+            startActivity(intent)
+            finish()*/
         }
 
         //launch signup activity
@@ -90,10 +90,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main , menu)
        // menu?.findItem(1)?.setVisible(false)
-        var i = 1
+        var i = 0
         while ( i < menu?.size() ?: 4){
-            menu?.getItem(i)?.setVisible(false)
-            i+=1
+            if(i!=1) {
+                menu?.getItem(i)?.setVisible(false)
+            }
+            i += 1
         }
         //this.findViewById<>(R.id.action_leaderboard).setVisibility(View.INVISIBLE)
         return true
