@@ -15,18 +15,21 @@ import java.io.File
 
 class MessageViewHolder(v: View?) : RecyclerView.ViewHolder(v!!) {
 
-    val pathCloud : String = "images/"+ Account.getUserID()
+
     val storageRef = Firebase.storage.reference
-    val imagesRef = storageRef.child(pathCloud)
 
     var messageTextView: TextView
     var messengerImageView: ImageView
     var messengerTextView: TextView
 
+
     fun bindMessage(friendlyMessage: ChatMessage) {
         if (friendlyMessage.text != null) {
-            messageTextView.setText(friendlyMessage.text);
+            messageTextView.setText(friendlyMessage.text)
             messengerTextView.setText(friendlyMessage.name)
+
+            val pathCloud : String = "images/"+friendlyMessage.photoUrl
+            val imagesRef = storageRef.child(pathCloud)
 
             val localFile = File.createTempFile("images", "jpg")
             imagesRef?.getFile(localFile)?.addOnSuccessListener {
