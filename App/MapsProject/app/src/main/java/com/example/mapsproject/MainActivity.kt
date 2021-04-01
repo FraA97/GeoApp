@@ -35,6 +35,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i("myTag",Integer.valueOf(android.os.Build.VERSION.SDK).toString())
         super.onCreate(savedInstanceState)
         val myLocale = Locale(MultiPlayerServerConf.language)
         val res: Resources = resources
@@ -92,6 +93,8 @@ class MainActivity : AppCompatActivity() {
                 layout.visibility = View.GONE
             }
         }
+        else
+            Handler(Looper.getMainLooper()).postDelayed({updateUI(layout)}, 1000)
     }
 
     //inflate menu_main

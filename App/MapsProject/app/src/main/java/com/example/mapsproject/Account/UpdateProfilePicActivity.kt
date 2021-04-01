@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.*
+import android.os.Environment.isExternalStorageLegacy
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
@@ -66,6 +67,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
 
     //send intent to take pic with camera
+    @RequiresApi(Build.VERSION_CODES.R)
     private fun dispatchTakePictureIntent() {
         Log.i("myTag","launching action image capture intent")
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
@@ -73,6 +75,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
             takePictureIntent.resolveActivity(packageManager)?.also {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
+                    Log.i("myTag","Creating file")
                     createImageFile();
                 } catch (ex: IOException) {
                     Log.i("myTag","Unable to create file")
@@ -82,7 +85,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                             this,
-                            "com.example.mapsProject",
+                            "com.example.mapsproject",
                             it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -96,16 +99,27 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
     //send intent to select pic from gallery
     @RequiresApi(Build.VERSION_CODES.R)
     private fun dispatchSelectPictureIntent() {
-        if(!Environment.isExternalStorageManager()){
-            Toast.makeText(applicationContext,"Application needs permission to read storage",Toast.LENGTH_SHORT).show()
-            Handler(Looper.getMainLooper()).postDelayed({dispatchStoragePermissionIntent()},2000L)
-
+        if( Integer.valueOf(Build.VERSION.SDK) >= 30 ){
+            if (!Environment.isExternalStorageManager()) {
+                Toast.makeText(applicationContext, "Application needs permission to read storage", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).postDelayed({ dispatchStoragePermissionIntent() }, 2000L)
+            }else {
+                val pickPhoto = Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, REQUEST_IMAGE_SELECTION)
+            }
         }
         else {
-            val pickPhoto = Intent(Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(pickPhoto, REQUEST_IMAGE_SELECTION)
+            if(! Environment.isExternalStorageLegacy()){
+                Toast.makeText(applicationContext, "Application needs permission to read storage", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).postDelayed({ dispatchStoragePermissionIntent() }, 2000L)
+            }else {
+                val pickPhoto = Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, REQUEST_IMAGE_SELECTION)
+            }
         }
+
     }
 
     private fun dispatchStoragePermissionIntent() {
@@ -135,6 +149,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
             when(requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
+                    Log.i("myTag","request image capture result")
                     galleryAddPic()
                     updateImageView()
                 }
@@ -166,11 +181,13 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
     //create file for image to be saved in
     @Throws(IOException::class)
-    private fun createImageFile(): File {
+    private fun createImageFile(): File? {
+        var storageDir: File? = null
+
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        Log.i("myTag", storageDir.toString())
+        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
                 ".jpg", /* suffix */
@@ -178,8 +195,10 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
             filePath = absolutePath
+            Log.i("myTag","updated filePath: "+filePath)
         }
     }
+
 
     //add picture in filePath to gallery
     private fun galleryAddPic() {
