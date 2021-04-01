@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Account.Account.getHighScore
-import com.example.mapsproject.Account.Account.uploadUserToFireStore
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.score
-import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EndFragment: Fragment() {
 
@@ -56,17 +57,26 @@ class EndFragment: Fragment() {
             startActivity(i)
         }
 
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val editor = sharedPref?.edit()
-        var highscore = getHighScore()
-        if(score!! > highscore!!){
-            Account.db.collection("users").document(Account.getUserID()).update("highscore", score)
+        //update Highscore
+        val tv = rootView.findViewById<TextView>(R.id.high_score_end)
+        updateHighScore(tv,score)
 
-        }
-
-        rootView.findViewById<TextView>(R.id.high_score_end).setText(highscore.toString())
         rootView.findViewById<TextView>(R.id.score_end).setText(score.toString())
 
         return rootView
+    }
+
+    private fun updateHighScore(tv: TextView, score: Int) {
+        var highscore = 0
+        CoroutineScope(Dispatchers.Main).launch{
+            withContext(Dispatchers.Default) {
+                highscore = getHighScore()
+            }
+            tv.setText(highscore.toString())
+            if(score!! > highscore!!){
+                Account.db.collection("users").document(Account.getUserID()).update("highscore", score)
+            }
+        }
+
     }
 }

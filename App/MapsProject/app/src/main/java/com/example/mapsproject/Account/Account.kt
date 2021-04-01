@@ -1,5 +1,6 @@
 package com.example.mapsproject.Account
 
+import android.content.ComponentCallbacks
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -19,6 +20,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.net.URL
 import kotlin.coroutines.coroutineContext
@@ -202,17 +208,19 @@ object Account {
 
     }
 
-    public fun getHighScore(): Int {
+    suspend fun getHighScore():Int {
         var hs = 0
         db.collection("users").document(getUserID()).get()
-            .addOnSuccessListener { document->
-                Log.d("myTag", "DocumentSnapshot successfully downloaded!")
-                val u = document.toObject<User>()
-                Log.i("myTag","user seen by get high score" + u.toString())
-                hs = u!!.highscore!!
-            }
-            .addOnFailureListener { e -> Log.w("myTag", "Error downloading document", e) }
+                .addOnSuccessListener { document ->
+                    Log.d("myTag", "DocumentSnapshot successfully downloaded!")
+                    val u = document.toObject<User>()
+                    Log.i("myTag", "user seen by get high score" + u.toString())
+                    hs=(u!!.highscore!!)
+                }
+                .addOnFailureListener { e -> Log.w("myTag", "Error downloading document", e) }
+                .await()
         return hs
+
     }
 
     private fun uploadDefaultPic(context: Context) {

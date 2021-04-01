@@ -1,9 +1,6 @@
 package com.example.mapsproject.SinglePlayer.fragment
 
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Account.Account.getHighScore
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
-import com.example.mapsproject.SinglePlayer.SingleplayerActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class StartFragment: Fragment() {
     override fun onCreateView(
@@ -25,12 +25,8 @@ class StartFragment: Fragment() {
         val rootView =  inflater.inflate(R.layout.fragment_start_game, container, false)
 
         //get High Score
-        val highScore = getHighScore()
-
-        Log.i("myTag", highScore.toString())
-
-        //print highscore
-        rootView.findViewById<TextView>(R.id.high_score_tv).setText(highScore.toString())
+        val hstv = rootView.findViewById<TextView>(R.id.high_score_tv)
+        updateHighScore(hstv)
         rootView.findViewById<TextView>(R.id.levels_tv).setText(SinglePlayerServerConf.sets.toString())
 
 
@@ -42,6 +38,16 @@ class StartFragment: Fragment() {
 
 
         return rootView
+    }
+
+    private fun updateHighScore(tv: TextView) {
+        var hs = 100000
+        CoroutineScope(Dispatchers.Main).launch{
+            withContext(Dispatchers.Default) {
+                 hs = getHighScore()
+            }
+            tv.setText(hs.toString())
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
