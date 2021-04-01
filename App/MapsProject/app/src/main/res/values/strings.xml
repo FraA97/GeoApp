@@ -79,6 +79,7 @@
     <string name="points">points</string>
     <string name="players">players</string>
     <string name="levels">Levels</string>
+    <string name="is_already_logged_in">is already logged in</string>
 
 
 </resources>

@@ -34,8 +34,19 @@ object Account {
 
 
 
-    public fun logOut(){
-        user = null
+    public fun logOut(context: Context){
+
+            //erase email and password values from Shared preferences
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+            val editor = sharedPref?.edit()
+            if(sharedPref?.contains(R.string.email_key.toString()) == true)
+                editor?.remove(R.string.email_key.toString() )
+
+            if(sharedPref?.contains(R.string.password_key.toString()) == true)
+                editor?.remove(R.string.password_key.toString() )
+            val success = editor?.apply()
+
+            user = null
     }
 
     public fun signIn(email: String, password: String, saveInfo: Boolean, context: Context){
@@ -44,9 +55,9 @@ object Account {
                     // Sign in success, update UI with the signed-in user's information
                     Log.i("myTag", "signInWithEmail:success")
                     user = auth.currentUser
-                    Log.i("myTag","user is : "+user.toString())
                     //if checked -> save access credentials
                     if(saveInfo) {
+                        Log.i("myTag","saving email and password in shared preference")
                         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
                         val editor = sharedPref?.edit()
                         editor?.putString(R.string.email_key.toString(), email)
@@ -54,6 +65,7 @@ object Account {
                         editor?.apply()
                     }
                 } else {
+                    user = null
                     // If sign in fails, display a message to the user.
                     Log.w("myTag", "signInWithEmail:failure", task.exception)
                     Toast.makeText(
@@ -88,6 +100,7 @@ object Account {
                     uploadUserToFireStore(username, 0)
                     uploadDefaultPic(context)
                 } else {
+                    user=null
                     // If sign in fails, display a message to the user.
                     Log.w("myTag", "createUserWithEmail:failure", task.exception)
                     Toast.makeText(

@@ -5,19 +5,30 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsproject.Account.Account.getUserName
+import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.Account.signIn
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.Account.LoginActivity
 import com.example.mapsproject.Account.SignupActivity
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Settings.Settings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.util.*
 
 
@@ -32,70 +43,60 @@ class MainActivity : AppCompatActivity() {
         conf.locale = myLocale
         res.updateConfiguration(conf, dm)
 
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-
-
-        //if email and password are saved, try firebase login
-        if(sharedPref?.contains("email") == true && sharedPref?.contains("password")) {
-            //get email and password
-            if(user != null){
-                Log.i("myTag", "user didn't loged out")
-                val intent = Intent(this, StartGameActivity::class.java)
-                startActivity(intent)
-            }
-            else {
-
-                val email = sharedPref?.getString("email", "")
-                val password = sharedPref?.getString("password", "")
-
-                Log.i("myTag", "try login with email: " + email + ", pws: " + password)
-
-                signIn(email!!, password!!, false, this)
-                if (user != null) {
-                    val intent = Intent(this, StartGameActivity::class.java)
-                    startActivity(intent)
-                }
-                else{
-                    Log.i("myTag", "unable to login")
-                }
-            }
-        }
-        else{
-            Log.i("myTag", "no password or email stored")
-        }
-
         setContentView(R.layout.activity_main)
-
         //launch login activity
-        findViewById<Button>(R.id.log_in_btn).setOnClickListener{ view->
-            /*val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()*/
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+        findViewById<Button>(R.id.log_in_btn).setOnClickListener { view ->
+            if(user!= null){
+                logOut(applicationContext)
+            }
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
         }
 
         //launch signup activity
-        findViewById<Button>(R.id.sign_up_btn).setOnClickListener{ view->
+        findViewById<Button>(R.id.sign_up_btn).setOnClickListener { view ->
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
             finish()
         }
 
 
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        //if email and password are saved, try firebase login
+        if(sharedPref?.contains(R.string.email_key.toString()) == true) {
+            if (sharedPref?.contains(R.string.password_key.toString()) == true) {
+                //get email and password
+                val email = sharedPref?.getString(R.string.email_key.toString(), "")
+                val password = sharedPref?.getString(R.string.password_key.toString(), "")
+                Log.i("myTag", "try login with email: " + email + ", pws: " + password)
+                signIn(email!!, password!!, false, applicationContext)
+                val linearLayout = findViewById<LinearLayout>(R.id.layout_logged)
+                Handler(Looper.getMainLooper()).postDelayed({updateUI(linearLayout)}, 1000)
+            }
+        }
+
+    }
+
+
+    private fun updateUI(layout: LinearLayout) {
+        if(user!=null) {
+            layout.visibility= View.VISIBLE
+            layout.findViewById<TextView>(R.id.tv_main_activity).visibility= View.VISIBLE
+            layout.findViewById<TextView>(R.id.logged_user_name).setText(getUserName())
+            layout.findViewById<TextView>(R.id.log_in_tv).setOnClickListener{
+                startActivity(Intent(this,StartGameActivity::class.java))
+            }
+            layout.findViewById<TextView>(R.id.log_out_tv).setOnClickListener {
+                logOut(applicationContext)
+                layout.visibility = View.GONE
+            }
+        }
     }
 
     //inflate menu_main
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main , menu)
-       // menu?.findItem(1)?.setVisible(false)
-        var i = 1
-        while ( i < menu?.size() ?: 4){
-            menu?.getItem(i)?.setVisible(false)
-            i+=1
-        }
-        //this.findViewById<>(R.id.action_leaderboard).setVisibility(View.INVISIBLE)
+        menuInflater.inflate(R.menu.menu_start , menu)
         return true
     }
 

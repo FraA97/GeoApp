@@ -48,14 +48,9 @@ class MultiplayerActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
 
         R.id.action_logout -> {
-            //erase email and password values from Shared preferences
-            val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-            val editor = sharedPref?.edit()
-            editor?.remove("email" )
-            editor?.remove("password")
-            val success = editor?.commit()
 
-           logOut()
+
+           logOut(applicationContext)
 
 
             //show logout with Toast

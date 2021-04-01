@@ -39,11 +39,10 @@ class LoginActivity:AppCompatActivity() {
             //get email and password
             val email = findViewById<EditText>(R.id.email_entry_li).text.toString()
             val password = findViewById<EditText>(R.id.psw_entry_li).text.toString()
-            signIn(email,password,checked,this )
-
-
+            if(email!= "" && password!= "") {
+                signIn(email, password, checked, this)
+            }
         }
-
         //password forgotten string onCliCkListener
         findViewById<TextView>(R.id.psw_forgot).setOnClickListener{ view->
             //launch ForgotPassword Activity

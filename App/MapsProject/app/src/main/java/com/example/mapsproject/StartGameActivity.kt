@@ -6,11 +6,13 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.Chat.Chat
@@ -58,7 +60,17 @@ class StartGameActivity: AppCompatActivity() {
 
     }
     override fun onBackPressed() {
-        logOut()
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+
+        //if email and password are not saved, log out
+        if((sharedPref?.contains(R.string.email_key.toString()) == false) ||
+             (sharedPref?.contains(R.string.password_key.toString()) == false) ){
+                //get email and password
+                    Log.i("myTag","logging out")
+               logOut(applicationContext)
+            }
+
+
         finish()
     }
 
@@ -105,14 +117,7 @@ class StartGameActivity: AppCompatActivity() {
 
 
         R.id.action_logout -> {
-           //erase email and password values from Shared preferences
-            val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-            val editor = sharedPref?.edit()
-            editor?.remove("email" )
-            editor?.remove("password")
-            val success = editor?.apply()
-
-            logOut()
+            logOut(applicationContext)
             //show logout with Toast
             Toast.makeText(this, "LogOut Succesful", Toast.LENGTH_LONG).show()
 
