@@ -17,6 +17,7 @@ class SinglePlayerServerConf {
 
         var soundOn = true
 
+
         var canPoll=false
         //python3 MyMultiplayerServer.py
     }

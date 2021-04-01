@@ -16,6 +16,7 @@ import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
+import com.google.android.material.switchmaterial.SwitchMaterial
 import java.util.*
 
 
@@ -24,7 +25,7 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val sound = findViewById<Switch>(R.id.soundSetting)
+        val sound = findViewById<SwitchMaterial>(R.id.soundSetting)
         if(!SinglePlayerServerConf.soundOn){sound.setChecked(false)}
         sound?.setOnCheckedChangeListener({ _, isChecked ->
             if (isChecked) {
@@ -120,6 +121,13 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onBackPressed() {
+        val lev = findViewById<EditText>(R.id.levels_int).text
+        if(lev!= null){
+            val levels = lev.toString()
+            if(levels != "") {
+                SinglePlayerServerConf.sets = levels.toInt()
+            }
+        }
         if(Account.getUserID()==""){
             val i = Intent(this, MainActivity::class.java)
             finish()

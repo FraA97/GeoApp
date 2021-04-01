@@ -25,27 +25,22 @@ class StartFragment: Fragment() {
         val rootView =  inflater.inflate(R.layout.fragment_start_game, container, false)
 
         //get High Score
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-
-        val editor = sharedPref?.edit()
-        val highScore:Int
-
-        highScore = getHighScore()
+        val highScore = getHighScore()
 
         Log.i("myTag", highScore.toString())
 
         //print highscore
-        rootView.findViewById<TextView>(R.id.high_score_tv).text = highScore.toString()
+        rootView.findViewById<TextView>(R.id.high_score_tv).setText(highScore.toString())
+        rootView.findViewById<TextView>(R.id.levels_tv).setText(SinglePlayerServerConf.sets.toString())
 
 
         //set current score to 0
         SinglePlayerServerConf.score = 0
         SinglePlayerServerConf.level = 0
 
-        //set number of sets
-        editor?.putInt(getString(R.string.sets_key),resources.getInteger(R.integer.sets_number))
 
-        editor?.apply()
+
+
         return rootView
     }
 

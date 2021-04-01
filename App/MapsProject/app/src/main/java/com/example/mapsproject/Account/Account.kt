@@ -42,8 +42,9 @@ object Account {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("myTag", "signInWithEmail:success")
+                    Log.i("myTag", "signInWithEmail:success")
                     user = auth.currentUser
+                    Log.i("myTag","user is : "+user.toString())
                     //if checked -> save access credentials
                     if(saveInfo) {
                         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -194,6 +195,7 @@ object Account {
             .addOnSuccessListener { document->
                 Log.d("myTag", "DocumentSnapshot successfully downloaded!")
                 val u = document.toObject<User>()
+                Log.i("myTag","user seen by get high score" + u.toString())
                 hs = u!!.highscore!!
             }
             .addOnFailureListener { e -> Log.w("myTag", "Error downloading document", e) }
