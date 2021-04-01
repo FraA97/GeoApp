@@ -26,14 +26,22 @@ class LeaderBoard:Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
+        val usersRef = Account.db.collection("users")
+
+        GlobalScope.launch(Dispatchers.Main) { // launches coroutine in main thread
+            snapshot = usersRef.orderBy("highscore", Query.Direction.DESCENDING).limit(element_numbers.toLong()).get().await()
+            Log.i("myTag", "QuerySnapshot successfully executed!")
+            updateUi()
+        }
+
         findViewById<Button>(R.id.leaderboard_btn).setOnClickListener {
+
             val n = findViewById<EditText>(R.id.editTextNumber).text
             if (n != null && n.toString() != "") {
                 element_numbers = n.toString().toInt()
             }
             GlobalScope.launch(Dispatchers.Main) { // launches coroutine in main thread
-                val usersRef = Account.db.collection("users")
-                 snapshot = usersRef.orderBy("highscore", Query.Direction.DESCENDING).limit(element_numbers.toLong()).get().await()
+                snapshot = usersRef.orderBy("highscore", Query.Direction.DESCENDING).limit(element_numbers.toLong()).get().await()
                 Log.i("myTag", "QuerySnapshot successfully executed!")
                 updateUi()
             }
@@ -43,6 +51,7 @@ class LeaderBoard:Activity() {
 
      private fun updateUi() {
         val layout = findViewById<LinearLayout>(R.id.leaderboard_layout)
+         layout.removeAllViews()
         val  list = snapshot.documents
         Log.i("myTag","list length: "+list.size)
         for (document in list){
