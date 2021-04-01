@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -22,7 +23,9 @@ import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.FirstReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.url
+import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
 
@@ -32,6 +35,9 @@ class LatLongFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as SingleplayerActivity).findViewById<TextView>(R.id.score_sp).setVisibility(View.VISIBLE)
+        (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.VISIBLE)
+
         queue = Volley.newRequestQueue(context)
 
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {

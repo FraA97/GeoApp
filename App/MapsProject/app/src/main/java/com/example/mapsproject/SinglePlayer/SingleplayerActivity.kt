@@ -6,6 +6,8 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -27,7 +29,8 @@ class SingleplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_singleplayer)
-
+        this.findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.INVISIBLE)
+        this.findViewById<TextView>(R.id.score_sp).setVisibility(View.INVISIBLE)
     }
     //inflate menu_main
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

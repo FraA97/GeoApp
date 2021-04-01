@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 
 class QuestionCityFragment: Fragment(), View.OnClickListener {
@@ -94,7 +95,7 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
                         mysong.start()
                     }
                     btn.setBackgroundColor(Color.GREEN)
-
+                    (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_score_sp).setText(SinglePlayerServerConf.score.toString()) //update visualization of score
                 } else {
                     if(SinglePlayerServerConf.soundOn) {
                         val mysong = MediaPlayer.create(context, R.raw.risposta_sbagliata)

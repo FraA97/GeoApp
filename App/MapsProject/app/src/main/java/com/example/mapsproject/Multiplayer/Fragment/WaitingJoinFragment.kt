@@ -80,10 +80,10 @@ class WaitingJoinFragment: Fragment(){
                     return@StringRequest
                 }
                 MultiPlayerServerConf.player_id = reply!!.getInt("player_id")
-                MultiPlayerServerConf.levels = reply!!.getInt("levels")
+                MultiPlayerServerConf.levels = reply!!.getInt("num_levels")
 
 
-                Log.i("myTag", "game id: " + MultiPlayerServerConf.game_id + "; player id: " + MultiPlayerServerConf.player_id)
+                Log.i("myTag", "game id: " + MultiPlayerServerConf.game_id + "; player id: " + MultiPlayerServerConf.player_id+ "; num_levels: " + MultiPlayerServerConf.levels)
 
                 findNavController().navigate(R.id.action_waitingJoinFragment_to_pollingNewLevelFragment)
 
