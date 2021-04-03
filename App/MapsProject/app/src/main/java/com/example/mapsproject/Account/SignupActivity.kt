@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.createAccount
@@ -13,6 +15,7 @@ import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
+import com.example.mapsproject.Settings.Settings
 import com.example.mapsproject.StartGameActivity
 
 class SignupActivity:AppCompatActivity() {
@@ -55,7 +58,6 @@ class SignupActivity:AppCompatActivity() {
 
     }
 
-
     private fun updateUI() {
         if(user!= null) {
             //goto Start Activity
@@ -66,6 +68,28 @@ class SignupActivity:AppCompatActivity() {
         else{
             Handler(Looper.getMainLooper()).postDelayed({updateUI()}, 500L)
 
+        }
+    }
+
+    //inflate menu_main
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_start , menu)
+        return true
+    }
+
+    //handle menu actions
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings->{
+            val intent = Intent(this, Settings::class.java)
+            startActivity(intent)
+            finish()
+
+            true
+        }
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
         }
     }
 

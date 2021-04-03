@@ -74,6 +74,7 @@ random_dict = {}
 score_dict = {}
 interrupt_dict = {}
 num_levels_dict = {}
+master_pl_left_dict = {}
 parser = reqparse.RequestParser()
 
 class GeoApp(Resource):    #Resource for use Crud op and other...
@@ -115,6 +116,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     else:
                         num_levels_dict[g_id] = num_levels
                     interrupt_dict[g_id]= 0
+                    master_pl_left_dict[g_id] = False
                     return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 elif(random!= None and random==1): #random game                   
                     found=False
@@ -133,6 +135,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         sync[g_id]=0
                         num_req[g_id] = 0
                         interrupt_dict[g_id] = 0
+                        master_pl_left_dict[g_id] = 0
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
@@ -202,32 +205,30 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         
         elif(req == WAITING_STATE):
             coordinates_game.pop(game_id, None)
-            #print(interrupt)
-            #print(interrupt_dict)
-            if(interrupt==1 and game_id in interrupt_dict):
-                interrupt_dict[game_id]+=1
-                return {"error":False, 'msg':"game stopped"}
+
             if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True}
             if( sync[game_id]-waiting[game_id]-interrupt_dict[game_id] <= 0): 
                 print(sync[game_id]-waiting[game_id]-interrupt_dict[game_id])
                 STATE = PLAY_STATE
                 num_req[game_id]=0
                 #waiting.pop(game_id, None)
-                return {"error":False, 'msg':"return waiting_state, total_score and players_left", 'waiting': False, 'total_score':score_dict[game_id],'num_pl_left':interrupt_dict[game_id]}
+                return {'error':False, 'msg':"return waiting_state, total_score and players_left", 
+                        'waiting': False, 'total_score':score_dict[game_id],'num_pl_left':interrupt_dict[game_id],
+                        'master_pl_left':master_pl_left_dict[game_id]}
             else:
                 num_req[game_id]=0 
                 return {"error":False, 'msg':"return waiting_state", 'waiting': True}
-        elif(req == INTERRUPT_STATE):
-            #coordinates_game.pop(game_id, None)
-            #print(interrupt)
-            #print(interrupt_dict)
-            if(interrupt==1 and game_id in interrupt_dict):
+        elif(req == INTERRUPT_STATE): #required parameters: game_id, player_id, interrupt=1
+            if(interrupt==1 and game_id in interrupt_dict and player_id!=None):
                 interrupt_dict[game_id]+=1
+                if(player_id==0): master_pl_left_dict[game_id] = True
                 return {"error":False, 'msg':"game stopped"}
             elif(interrupt!=1):
                 return {"error":True, 'msg':"interrupt != 1"}
             elif(game_id not in interrupt_dict):
                 return {"error":True, 'msg':"game id not exist"}
+            elif(player_id==None):
+                return {"error":True, 'msg':"insert player id"}
             else:
                 return {"error":True, 'msg':"ERROR"}
 

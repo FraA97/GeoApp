@@ -77,6 +77,8 @@
     <string name="chat">Chat</string>
     <string name="levels">Livelli</string>
     <string name="is_already_logged_in">è acceduto</string>
+    <string name="msg_forgot_pw">Link per il reset inviato alla tua email</string>
+    <string name="msg_forgot_pw_fail">Impossibile inviare l\'email per il reset</string>
 
 
 

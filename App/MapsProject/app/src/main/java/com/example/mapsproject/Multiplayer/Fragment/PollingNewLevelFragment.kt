@@ -31,6 +31,7 @@ import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
 
 class PollingNewLevelFragment: Fragment() {
+    lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +74,13 @@ class PollingNewLevelFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
+        rootView =  inflater.inflate(R.layout.fragment_loading_view, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //if(MultiPlayerServerConf.game_id>0) getNumPlayers()
         object : Thread() {
             override fun run() {
                 super.run()
@@ -94,6 +96,8 @@ class PollingNewLevelFragment: Fragment() {
             l= MultiPlayerServerConf.played_levels
         else
             l=3
+
+        if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0) getNumPlayers()
 
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startLevelReq+
                 "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+l)
@@ -159,6 +163,27 @@ class PollingNewLevelFragment: Fragment() {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
         queue?.add(stringRequest)
 
+    }
+    private  fun getNumPlayers(){
+        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.waitPlayerReq+
+                "&game_id="+MultiPlayerServerConf.game_id)
+        val stringRequest = StringRequest(
+                Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.waitPlayerReq+
+                "&game_id="+MultiPlayerServerConf.game_id,{
+            response->
+            val reply = JSONObject(response.toString())
+            val players = reply.getInt("num_sync_pl") +1
+
+            Log.i("myTag","number of players: "+players)
+            //rootView.findViewById<TextView>(R.id.num_players).text = players.toString()
+            MultiPlayerServerConf.num_players = players
+            (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
+
+        },{ error: VolleyError? ->
+            Log.i("info", "Polling: " + error.toString())
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+        })
+       queue?.add(stringRequest)
     }
 
 

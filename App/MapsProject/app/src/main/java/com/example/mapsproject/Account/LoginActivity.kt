@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.auth
@@ -13,6 +15,7 @@ import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.Account.Account.signIn
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.Settings.Settings
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -63,6 +66,28 @@ class LoginActivity:AppCompatActivity() {
         }
         else
             Handler(Looper.getMainLooper()).postDelayed({updateUI()}, 500L)
+    }
+
+    //inflate menu_main
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_start , menu)
+        return true
+    }
+
+    //handle menu actions
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings->{
+            val intent = Intent(this, Settings::class.java)
+            startActivity(intent)
+            finish()
+
+            true
+        }
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onBackPressed() {

@@ -89,12 +89,12 @@ class MultiplayerActivity: AppCompatActivity() {
 
     fun interruptGame() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
-                "&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1")
+                "&game_id="+ MultiPlayerServerConf.game_id+"&player_id="+ MultiPlayerServerConf.player_id+"&interrupt=1")
         MultiPlayerServerConf.played_levels = 0 //reset number of levels
         MultiPlayerServerConf.wantToPlay=false
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
-                "&game_id="+ MultiPlayerServerConf.game_id+"&interrupt=1", { response ->
+                "&game_id="+ MultiPlayerServerConf.game_id+"&player_id="+ MultiPlayerServerConf.player_id+"&interrupt=1", { response ->
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.queue?.cancelAll(this)
         },{ error: VolleyError? ->

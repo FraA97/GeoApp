@@ -86,9 +86,11 @@ class PollingFinishLevelFragment: Fragment() {
                 Log.i("myTag","total_score: "+MultiPlayerServerConf.totalScore)
                 val num_pl_left = reply!!.getInt("num_pl_left")
                 Log.i("myTag","num_pl_left: "+num_pl_left)
+                val master_pl_left = reply!!.getBoolean("master_pl_left")
+                Log.i("myTag","master_pl_left: "+master_pl_left)
                 if(num_pl_left>0 && !MultiPlayerServerConf.wantToPlay){
                     //show popup
-                    if(MultiPlayerServerConf.player_id > 0){
+                    if(MultiPlayerServerConf.player_id > 0 && master_pl_left){
                         AlertDialog.Builder(context)
                                 .setTitle(getString(R.string.title_end_g))
                                 //.setMessage(R.string.msg_end_g)
@@ -98,12 +100,6 @@ class PollingFinishLevelFragment: Fragment() {
                                     val i = Intent(activity, StartGameActivity::class.java)
                                     startActivity(i)
                                 }
-                                /*.setNegativeButton(R.string.n) { dialog, which ->
-                                    (activity as MultiplayerActivity).interruptGame()
-                                    val i = Intent(activity, StartGameActivity::class.java)
-                                    // finish()
-                                    startActivity(i)
-                                }*/
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show()
                     }

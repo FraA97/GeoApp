@@ -27,7 +27,7 @@ class NewGameFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var num_l = ""
+        var num_l =  view.findViewById<EditText>(R.id.levels_input).getText().toString()
         var editText = view.findViewById<EditText>(R.id.levels_input)
 
         editText.addTextChangedListener(object : TextWatcher {
@@ -41,8 +41,12 @@ class NewGameFragment:Fragment() {
 
         view.findViewById<Button>(R.id.create_btn).setOnClickListener { view->
             Log.i("MyTag", "text_num_lev: " + num_l)
-            MultiPlayerServerConf.levels = num_l.toInt()
-            findNavController().navigate(R.id.action_newGameFragment_to_waitingNewGameFragment)
+            if(num_l==""){
+            }
+            else{
+                MultiPlayerServerConf.levels = num_l.toInt()
+                findNavController().navigate(R.id.action_newGameFragment_to_waitingNewGameFragment)
+            }
         }
     }
 
