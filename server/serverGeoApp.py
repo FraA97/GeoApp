@@ -109,8 +109,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     random_dict[g_id] = False
                     sync[g_id]=0
                     num_req[g_id] = 0
-                    print(num_levels)
-                    print("------------")
+                    #print(num_levels)
+                    #print("------------")
                     if(num_levels == None or num_levels==0):
                         num_levels_dict[g_id] = 3
                     else:
@@ -135,7 +135,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         sync[g_id]=0
                         num_req[g_id] = 0
                         interrupt_dict[g_id] = 0
-                        master_pl_left_dict[g_id] = 0
+                        master_pl_left_dict[g_id] = False
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
@@ -165,8 +165,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 
                 if( (game_id in list_game_id) and player_id==0 and num_req[game_id]==0):
                     num_req[game_id] +=1 
-                    lat, long, country,city = retrieveGeoInfo(level,3,None) 
-                    f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,1,country) 
+                    lat, long, country,city = retrieveGeoInfo(level,3,None,1) 
+                    f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,1,country[0],1) 
                     false_answers = retrieveSimilarAnswers(country,city,false_country,false_city)
                     
                     coordinates_game[game_id] = [lat,long,country,city,false_answers]
@@ -208,7 +208,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
 
             if(game_id not in waiting): return {"error":False, 'msg':"return waiting_state", 'waiting': True}
             if( sync[game_id]-waiting[game_id]-interrupt_dict[game_id] <= 0): 
-                print(sync[game_id]-waiting[game_id]-interrupt_dict[game_id])
+                #print(sync[game_id]-waiting[game_id]-interrupt_dict[game_id])
                 STATE = PLAY_STATE
                 num_req[game_id]=0
                 #waiting.pop(game_id, None)

@@ -20,6 +20,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.FirstReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.url
@@ -37,6 +38,9 @@ class LatLongFragment: Fragment() {
         super.onCreate(savedInstanceState)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.score_sp).setVisibility(View.VISIBLE)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.VISIBLE)
+        //(activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setVisibility(View.VISIBLE)
+        //(activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setText(SinglePlayerServerConf.played_levels.toString()+"/"+ MultiPlayerServerConf.levels.toString())
+        //(activity as SingleplayerActivity).findViewById<TextView>(R.id.num_levels_sp).setVisibility(View.VISIBLE)
 
         queue = Volley.newRequestQueue(context)
 

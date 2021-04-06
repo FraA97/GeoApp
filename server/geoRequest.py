@@ -4,12 +4,15 @@ import json
 import time
 import xml.etree.ElementTree 
 
-def retrieveGeoInfo(level,num_answers,princ_country):
+def retrieveGeoInfo(level,num_answers,princ_country,player):
+    if(princ_country==None): princ_country='NotInsertedCountry'
     lat, long, country, city='','','',''
     latRange =[-180,+180]
     lonRange =[-60,+70]
-    while(country=='' or country==princ_country):
-        lat,long,country,city = chooseGoodCoordinates(latRange,lonRange,level,num_answers)
+    while(country=='' or country==princ_country or princ_country in country):
+        lat,long,country,city = chooseGoodCoordinates(latRange,lonRange,level,num_answers,player)
+        #print("country: "+str(country))
+        #print("princ_country: "+princ_country)
     return lat,long,country,city 
 
         
@@ -30,7 +33,7 @@ def retrieveSimilarAnswers(sourceCountry, sourceCity,false_coutry,false_city):
             j+=1
     return answers
 
-def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
+def chooseGoodCoordinates(latRange,lonRange,level,num_answers,player):
     lat,long = [],[]
     country,city =[],[]
     #goodCoord=False
@@ -62,7 +65,9 @@ def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
     #        goodCoord = True
     #SEND REQUESTS UNTIL RETURN A RESPONSE
    
-    while(len(country)<num_answers):
+    while(len(country)<num_answers):#retrieve num. land = num_answers
+
+        #choose range for fin lands
         if(count>0): marginLat*=2; marginLong*=2
         if(partialLat<= 180-marginLat and partialLat>=-180+marginLat):
             east = partialLat+marginLat
@@ -87,7 +92,7 @@ def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
         southStr = str("%.6f" % south)
         eastStr = str("%.6f" % east)
         weastStr = str("%.6f" % west)
-        if(num_answers==1): 
+        if(num_answers==1 and player!=0): 
             r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows=1'+'&username=fraart')
             resp =r.content
             tree = xml.etree.ElementTree.fromstring(resp)
@@ -97,7 +102,16 @@ def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
                 if(child.tag=="lat" ): lat.append(child.text)
                 if(child.tag=="lng" ): long.append(child.text)
             count+=1
-            
+        elif(num_answers==1 and player==0):
+            r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows='+str(level+1)+'&username=fraart')
+            resp =r.content
+            tree = xml.etree.ElementTree.fromstring(resp)
+            for child in tree.iter('*'):
+                if(child.tag=="countryName" ): country.append(child.text)
+                if(child.tag=="name"): city.append(child.text)
+                if(child.tag=="lat" ): lat.append(child.text)
+                if(child.tag=="lng" ): long.append(child.text)
+            count+=1
         else:
             r =requests.get('http://api.geonames.org/cities?north='+northStr+'&south='+southStr+'&east='+eastStr+'&west='+weastStr+'&maxRows='+maxRows+'&username=fraart')
             #http://api.geonames.org/countrySubdivision?lat='+lat+'&lng='+long+'&maxRows=1&radius=40&username=fraart'
@@ -149,7 +163,8 @@ def chooseGoodCoordinates(latRange,lonRange,level,num_answers):
                         lat.append(fake_lat[i])
                         long.append(fake_long[i])
                     i+=1
-    if(num_answers==1):return lat[0],long[0],country[0], city[0]
+    if(num_answers==1 and player!=0):return lat[0],long[0],country[0], city[0]
+    elif(num_answers==1 and player==0):return lat[-1],long[-1],country[-1], city[-1]
     else: return lat[0],long[0],country[0:num_answers], city[0:num_answers]
 
    ###ADD LEVELS:

@@ -23,13 +23,13 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                          #must be setted to 1 if are required the theree other possible false Answer
         level = args['level']
         if(req == trueAnswer):
-            lat, long, country,city = retrieveGeoInfo(level,1,None)
+            lat, long, country,city = retrieveGeoInfo(level,1,None,0)
             return {"error":False, 'msg':"return true answer", 'lat':lat,'long':long, 'responseCountry':country,'responseCity':city }
         elif(req==falseAnsw):
             if(args['country'] and args['city']):
                 country = args['country']
                 city = args['city']
-                f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,3,country) 
+                f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,3,country,0) 
                 falseAnswers = retrieveSimilarAnswers(country,city,false_country,false_city)
                 #falseAnswers = retrieveSimilarAnswers( country,city)
                 return {'error':False, 'msg':"return false answers", 

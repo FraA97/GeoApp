@@ -46,8 +46,10 @@ class StreetVFragment: Fragment() {
     ): View? {
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val lat = sharedPref?.getFloat("lat",0f)
-        val long = sharedPref?.getFloat("long",0f)
+        val randomLat= floatArrayOf(0.007f,-0.007f)
+        val randomLong= floatArrayOf(0.01f,-0.01f)
+        val lat = sharedPref?.getFloat("lat",0f)?.plus(randomLat[(0..1).random()]*Math.random())
+        val long = sharedPref?.getFloat("long",0f)?.plus(randomLong[(0..1).random()]*Math.random())
         Log.d("myTag", "lat: "+lat+", long: "+long);
         val location = LatLng(lat!!.toDouble(), long!!.toDouble())
 
@@ -57,7 +59,8 @@ class StreetVFragment: Fragment() {
         val streetViewPanoramaFragment =
                 getChildFragmentManager()?.findFragmentById(R.id.streetviewpanorama) as SupportStreetViewPanoramaFragment?
         streetViewPanoramaFragment?.getStreetViewPanoramaAsync { panorama ->
-
+            //lat: 1 grado = 111 km => 0.007 gradi = 800 metri
+            //long:1 grado = 84 km=> 0.01 gradi = 800 metri
             savedInstanceState ?: panorama.setPosition(location,1000)
             savedInstanceState ?: panorama.setStreetNamesEnabled(false)
             savedInstanceState ?: panorama.setUserNavigationEnabled(false)
