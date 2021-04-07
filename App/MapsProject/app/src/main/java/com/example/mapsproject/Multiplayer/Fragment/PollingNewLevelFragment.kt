@@ -177,7 +177,7 @@ class PollingNewLevelFragment: Fragment() {
             Log.i("myTag","number of players: "+players)
             //rootView.findViewById<TextView>(R.id.num_players).text = players.toString()
             MultiPlayerServerConf.num_players = players
-            (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
+            if(activity!= null) (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())

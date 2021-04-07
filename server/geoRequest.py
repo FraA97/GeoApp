@@ -171,4 +171,9 @@ def chooseGoodCoordinates(latRange,lonRange,level,num_answers,player):
     #from 0  to n growth the difficulty selecting the lowest famous places
    ###3 SIMILAR ANSWERS AND 1 DIFFERENT
     
-
+def randomizeLocation(lat,long):
+    rangeLat = [0.007,-0.007]
+    rangeLong = [0.01,-0.01]
+    newLat = float(lat) + ( rangeLat[ random.randint(0,1) ]*random.random() )
+    newLong = float(long) + ( rangeLong[ random.randint(0,1) ]*random.random() )
+    return newLat, newLong

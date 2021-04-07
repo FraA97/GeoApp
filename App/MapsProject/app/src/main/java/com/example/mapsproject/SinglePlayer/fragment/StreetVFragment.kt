@@ -46,10 +46,10 @@ class StreetVFragment: Fragment() {
     ): View? {
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val randomLat= floatArrayOf(0.007f,-0.007f)
-        val randomLong= floatArrayOf(0.01f,-0.01f)
-        val lat = sharedPref?.getFloat("lat",0f)?.plus(randomLat[(0..1).random()]*Math.random())
-        val long = sharedPref?.getFloat("long",0f)?.plus(randomLong[(0..1).random()]*Math.random())
+        //val randomLat= floatArrayOf(0.007f,-0.007f)
+        //val randomLong= floatArrayOf(0.01f,-0.01f)
+        val lat = sharedPref?.getFloat("lat",0f)//?.plus(randomLat[(0..1).random()]*Math.random())
+        val long = sharedPref?.getFloat("long",0f)//?.plus(randomLong[(0..1).random()]*Math.random())
         Log.d("myTag", "lat: "+lat+", long: "+long);
         val location = LatLng(lat!!.toDouble(), long!!.toDouble())
 

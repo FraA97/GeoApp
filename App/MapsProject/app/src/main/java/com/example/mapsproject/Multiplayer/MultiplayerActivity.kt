@@ -1,5 +1,6 @@
 package com.example.mapsproject.Multiplayer
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -48,33 +49,58 @@ class MultiplayerActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
 
         R.id.action_logout -> {
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.title_back_press)
+                    .setMessage(R.string.msg_back_press)
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                        this.interruptGame()
+                        logOut(applicationContext)
 
+                        //show logout with Toast
+                        Toast.makeText(this, "LogOut Succesful", Toast.LENGTH_LONG).show()
 
-           logOut(applicationContext)
-
-
-            //show logout with Toast
-            Toast.makeText(this, "LogOut Succesful", Toast.LENGTH_LONG).show()
-
-            //return to MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+                        //return to MainActivity
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        //finish()
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
 
             true
         }
 
         R.id.action_account_settings->{
-            val intent = Intent(this, AccountSettingsActivity::class.java)
-            startActivity(intent)
-            finish()
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.title_back_press)
+                    .setMessage(R.string.msg_back_press)
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                        this.interruptGame()
+                        val intent = Intent(this, AccountSettingsActivity::class.java)
+                        startActivity(intent)
+                        //finish()
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
 
             true
         }
         R.id.action_settings->{
-            val intent = Intent(this, Settings::class.java)
-            startActivity(intent)
-            finish()
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.title_back_press)
+                    .setMessage(R.string.msg_back_press)
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                        this.interruptGame()
+                        val intent = Intent(this, Settings::class.java)
+                        //finish()
+                        startActivity(intent)
+
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
 
             true
         }

@@ -1,4 +1,4 @@
-from geoRequest import retrieveGeoInfo, retrieveSimilarAnswers 
+from geoRequest import randomizeLocation, retrieveGeoInfo, retrieveSimilarAnswers 
 from flask import Flask
 from flask_restful import Api,Resource,reqparse   #for parse request and replies automatically    
             
@@ -166,6 +166,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 if( (game_id in list_game_id) and player_id==0 and num_req[game_id]==0):
                     num_req[game_id] +=1 
                     lat, long, country,city = retrieveGeoInfo(level,3,None,1) 
+                    lat, long = randomizeLocation(lat,long)
                     f_lat,f_long,false_country,false_city = retrieveGeoInfo(level,1,country[0],1) 
                     false_answers = retrieveSimilarAnswers(country,city,false_country,false_city)
                     

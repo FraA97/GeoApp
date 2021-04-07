@@ -80,7 +80,7 @@ class OptionsFragment:Fragment() {
 
         Log.i("myTag", "request: " + SinglePlayerServerConf.url + "req=" + SecondReq + "&level="+l+"&country=" + country + "&city=" + city + "")
         val stringRequest = StringRequest(
-                Request.Method.GET, SinglePlayerServerConf.url + "req=" + SinglePlayerServerConf.SecondReq +"&level="+l+ "&country=" + country + "&city=" + city + "", { response ->
+                Request.Method.GET, SinglePlayerServerConf.url + "req=" + SecondReq +"&level="+l+ "&country=" + country + "&city=" + city + "", { response ->
             val reply = JSONObject(response.toString())
 
             val fCountry1 = reply!!.get("fCountry1")

@@ -38,9 +38,9 @@ class LatLongFragment: Fragment() {
         super.onCreate(savedInstanceState)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.score_sp).setVisibility(View.VISIBLE)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.VISIBLE)
-        //(activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setVisibility(View.VISIBLE)
-        //(activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setText(SinglePlayerServerConf.played_levels.toString()+"/"+ MultiPlayerServerConf.levels.toString())
-        //(activity as SingleplayerActivity).findViewById<TextView>(R.id.num_levels_sp).setVisibility(View.VISIBLE)
+        (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setVisibility(View.VISIBLE)
+        (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setText(SinglePlayerServerConf.level.toString()+"/"+ SinglePlayerServerConf.sets.toString())
+        (activity as SingleplayerActivity).findViewById<TextView>(R.id.num_levels_sp).setVisibility(View.VISIBLE)
 
         queue = Volley.newRequestQueue(context)
 

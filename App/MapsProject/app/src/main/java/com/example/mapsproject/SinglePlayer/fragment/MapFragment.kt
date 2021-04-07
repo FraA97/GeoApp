@@ -118,7 +118,7 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
             override fun onFinish() {
 
-                findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
+                if(activity!=null) findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
 
             }
         }.start()
