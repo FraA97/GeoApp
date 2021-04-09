@@ -75,6 +75,7 @@ score_dict = {}
 interrupt_dict = {}
 num_levels_dict = {}
 master_pl_left_dict = {}
+name_players_dict = {}
 parser = reqparse.RequestParser()
 
 class GeoApp(Resource):    #Resource for use Crud op and other...
@@ -101,7 +102,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         user_name = args['user_name']
         interrupt = args['interrupt']
 
-        if(req == INIT_STATE):
+        if(req == INIT_STATE): #ALWAYS: req=0 + user_name+ SOMETIMES: game_id + random
             if(game_id == None):
                 if(random == None or random==0): #not random game
                     g_id = len(list_game_id)
@@ -109,6 +110,9 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     random_dict[g_id] = False
                     sync[g_id]=0
                     num_req[g_id] = 0
+                    name_players_dict[g_id]=[]
+                    name_players_dict[g_id].append(user_name)
+                    print(name_players_dict[g_id])
                     #print(num_levels)
                     #print("------------")
                     if(num_levels == None or num_levels==0):
@@ -126,6 +130,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                             g_id = key
                             sync[g_id]+=1
                             random_dict[g_id] = False
+                            name_players_dict[g_id].append(user_name)
+                            print(name_players_dict[g_id])
                             return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':1}
                         
                     if(not found):   
@@ -136,11 +142,15 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         num_req[g_id] = 0
                         interrupt_dict[g_id] = 0
                         master_pl_left_dict[g_id] = False
+                        name_players_dict[g_id] =[]
+                        name_players_dict[g_id].append(user_name)
+                        print(name_players_dict[g_id])
                         return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':0}
                 
             else: #exist game_id means that no random game
                 if(game_id in sync and not random_dict[game_id] and game_id in num_levels_dict):
                     sync[game_id]+=1
+                    name_players_dict[game_id].append(user_name)
                     return {"error":False, 'msg':"return game_id and id_player", 'game_id':game_id,'player_id':sync[game_id],'num_levels':num_levels_dict[game_id]}
                 else:
                     return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist or missing num_levels"}
@@ -148,6 +158,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         elif(req == SYNC_STATE):
             if(game_id not in sync):
                 return {"error":True, 'msg':"Error: game_id = "+str(game_id)+" not exist"}
+            elif(game_id not in name_players_dict):
+                return {"error":True, 'msg':"Error: name_players_dict not yet initialized = "+str(game_id)}
             #elif(sync[game_id]):
              #   STATE = PLAY_STATE
               #  return {"error":False, 'msg':"return waiting state", 'waiting':True}
@@ -156,7 +168,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
             #    return {"error":False, 'msg':"return waiting state", 'waiting':False}
             else:
                 STATE = PLAY_STATE
-                return {"error":False, 'msg':"return number of synchronized players (you excluded)", 'num_sync_pl':sync[game_id],'num_pl_left':interrupt_dict[game_id]}
+                return {"error":False, 'msg':"return number of synchronized players (you excluded)", 'num_sync_pl':sync[game_id],
+                        'num_pl_left':interrupt_dict[game_id],'name_players':'-'.join(name_players_dict[game_id])}
         
         elif(req==PLAY_STATE):
                 waiting.pop(game_id, None)
@@ -219,10 +232,12 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
             else:
                 num_req[game_id]=0 
                 return {"error":False, 'msg':"return waiting_state", 'waiting': True}
-        elif(req == INTERRUPT_STATE): #required parameters: game_id, player_id, interrupt=1
+
+        elif(req == INTERRUPT_STATE): #required parameters: game_id, player_id, interrupt=1, user_name
             if(interrupt==1 and game_id in interrupt_dict and player_id!=None):
                 interrupt_dict[game_id]+=1
                 if(player_id==0): master_pl_left_dict[game_id] = True
+                name_players_dict[game_id].remove(user_name)
                 return {"error":False, 'msg':"game stopped"}
             elif(interrupt!=1):
                 return {"error":True, 'msg':"interrupt != 1"}

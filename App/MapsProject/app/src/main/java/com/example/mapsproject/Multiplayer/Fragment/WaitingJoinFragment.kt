@@ -18,6 +18,7 @@ import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
@@ -68,9 +69,9 @@ class WaitingJoinFragment: Fragment(){
 
     private fun joinGame(){
         if(MultiPlayerServerConf.randomVar==0) {
-            Log.i("myTag", "request: " + MultiPlayerServerConf.url + "req=" + MultiPlayerServerConf.startGameReq + "&game_id=" + MultiPlayerServerConf.game_id)
+            Log.i("myTag", "request: " + MultiPlayerServerConf.url + "req=" + MultiPlayerServerConf.startGameReq + "&game_id=" + MultiPlayerServerConf.game_id+"&user_name="+ Account.getUserName())
             val stringRequest = StringRequest(
-                    Request.Method.GET, MultiPlayerServerConf.url + "req=" + MultiPlayerServerConf.startGameReq + "&game_id=" + MultiPlayerServerConf.game_id, { response ->
+                    Request.Method.GET, MultiPlayerServerConf.url + "req=" + MultiPlayerServerConf.startGameReq + "&game_id=" + MultiPlayerServerConf.game_id+"&user_name="+ Account.getUserName(), { response ->
                 val reply = JSONObject(response.toString())
                 val error = reply!!.getBoolean("error")
                 val msg = reply!!.getString("msg")

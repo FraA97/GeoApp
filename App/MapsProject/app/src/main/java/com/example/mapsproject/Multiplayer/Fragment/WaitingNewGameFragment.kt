@@ -20,6 +20,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.queue
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
@@ -67,9 +68,9 @@ class WaitingNewGameFragment:Fragment() {
     }
 
     private fun createGame() {
-        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels)
+        Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels+"&user_name="+ Account.getUserName())
         val stringRequest = StringRequest(
-                Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels,{
+                Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels+"&user_name="+ Account.getUserName(),{
             response->
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.game_id = reply!!.getInt("game_id")

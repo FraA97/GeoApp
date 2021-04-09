@@ -97,7 +97,7 @@ class PollingNewLevelFragment: Fragment() {
         else
             l=3
 
-        if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0) getNumPlayers()
+        /*if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0)*/ getNumAndNamePlayers()
 
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startLevelReq+
                 "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+l)
@@ -164,7 +164,7 @@ class PollingNewLevelFragment: Fragment() {
         queue?.add(stringRequest)
 
     }
-    private  fun getNumPlayers(){
+    private  fun getNumAndNamePlayers(){
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.waitPlayerReq+
                 "&game_id="+MultiPlayerServerConf.game_id)
         val stringRequest = StringRequest(
@@ -172,13 +172,16 @@ class PollingNewLevelFragment: Fragment() {
                 "&game_id="+MultiPlayerServerConf.game_id,{
             response->
             val reply = JSONObject(response.toString())
-            val players = reply.getInt("num_sync_pl") +1
-
-            Log.i("myTag","number of players: "+players)
+            if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0){
+                val players = reply.getInt("num_sync_pl") +1
+                Log.i("myTag","number of players: "+players)
+                MultiPlayerServerConf.num_players = players
+                if(activity!= null) (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
+            }
+            val name_players = reply.getString("name_players")
+            Log.i("myTag","name of players: "+name_players)
             //rootView.findViewById<TextView>(R.id.num_players).text = players.toString()
-            MultiPlayerServerConf.num_players = players
-            if(activity!= null) (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
-
+            MultiPlayerServerConf.name_players = name_players
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
             Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)

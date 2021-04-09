@@ -26,7 +26,9 @@ import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.Settings.LeaderBoard
+import com.example.mapsproject.Settings.MyCustomDialog
 import com.example.mapsproject.Settings.Settings
+import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
 
 class MultiplayerActivity: AppCompatActivity() {
@@ -37,6 +39,19 @@ class MultiplayerActivity: AppCompatActivity() {
         this.findViewById<TextView>(R.id.num_levels).setVisibility(View.INVISIBLE)
         this.findViewById<TextView>(R.id.curr_score).setVisibility(View.INVISIBLE)
         this.findViewById<TextView>(R.id.score).setVisibility(View.INVISIBLE)
+
+        this.findViewById<TextView>(R.id.num_players).setOnClickListener { view ->
+            MyCustomDialog().show(supportFragmentManager, "MyCustomFragment")
+           // val name_players ="aaaaa"
+           /* AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.pl_in_game))
+                    .setMessage(MultiPlayerServerConf.name_players)
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    }
+                    //.setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show()*/
+        }
     }
 
     //inflate menu_main
@@ -115,12 +130,12 @@ class MultiplayerActivity: AppCompatActivity() {
 
     fun interruptGame() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
-                "&game_id="+ MultiPlayerServerConf.game_id+"&player_id="+ MultiPlayerServerConf.player_id+"&interrupt=1")
+                "&game_id="+ MultiPlayerServerConf.game_id+"&player_id="+ MultiPlayerServerConf.player_id+"&interrupt=1"+"&user_name="+ Account.getUserName())
         MultiPlayerServerConf.played_levels = 0 //reset number of levels
         MultiPlayerServerConf.wantToPlay=false
         val stringRequest = StringRequest(
                 Request.Method.GET,   MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.interruptGameReq+
-                "&game_id="+ MultiPlayerServerConf.game_id+"&player_id="+ MultiPlayerServerConf.player_id+"&interrupt=1", { response ->
+                "&game_id="+ MultiPlayerServerConf.game_id+"&player_id="+ MultiPlayerServerConf.player_id+"&interrupt=1"+"&user_name="+ Account.getUserName(), { response ->
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.queue?.cancelAll(this)
         },{ error: VolleyError? ->
