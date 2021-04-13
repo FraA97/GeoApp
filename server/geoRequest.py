@@ -177,3 +177,12 @@ def randomizeLocation(lat,long):
     newLat = float(lat) + ( rangeLat[ random.randint(0,1) ]*random.random() )
     newLong = float(long) + ( rangeLong[ random.randint(0,1) ]*random.random() )
     return newLat, newLong
+
+
+def findFirstAvailableID(list_game_id):
+        game_id = 1000
+        while(True):
+            if(game_id not in list_game_id):
+                return game_id
+            else:
+                game_id+=1

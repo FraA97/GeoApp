@@ -69,9 +69,9 @@ class StartGameActivity: AppCompatActivity() {
                     Log.i("myTag","logging out")
                logOut(applicationContext)
             }
-
-
         finish()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onResume() {

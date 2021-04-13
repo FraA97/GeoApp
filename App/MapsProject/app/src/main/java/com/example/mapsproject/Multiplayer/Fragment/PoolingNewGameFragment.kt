@@ -92,18 +92,25 @@ class PoolingNewGameFragment: Fragment() {
                 "&player_id="+MultiPlayerServerConf.player_id+"&game_id="+MultiPlayerServerConf.game_id,{
             response->
             val reply = JSONObject(response.toString())
-            val players = reply.getInt("num_sync_pl") +1
+            val error = reply.getBoolean("error")
 
-            Log.i("myTag","number of players: "+players)
-            rootView.findViewById<TextView>(R.id.players_number).text = players.toString()
-            MultiPlayerServerConf.num_players = players
-            Log.i("myTag","starting: "+starting.toString())
+            if(!error) {
+                val players = reply.getInt("num_sync_pl") + 1
 
-            if(!starting) {
-                Handler(Looper.getMainLooper()).postDelayed({ poolNewGame() }, MultiPlayerServerConf.pollingPeriod)
+                Log.i("myTag", "number of players: " + players)
+                rootView.findViewById<TextView>(R.id.players_number).text = players.toString()
+                MultiPlayerServerConf.num_players = players
+                Log.i("myTag", "starting: " + starting.toString())
+
+                if (!starting) {
+                    Handler(Looper.getMainLooper()).postDelayed({ poolNewGame() }, MultiPlayerServerConf.pollingPeriod)
+                } else
+                    findNavController().navigate(R.id.action_poolingNewGameFragment_to_pollingNewLevelFragment)
             }
-            else
-                findNavController().navigate(R.id.action_poolingNewGameFragment_to_pollingNewLevelFragment)
+            else{
+                val msg = reply!!.getString("msg")
+                Log.i("info", "Error: "+ msg)
+            }
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
             Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)

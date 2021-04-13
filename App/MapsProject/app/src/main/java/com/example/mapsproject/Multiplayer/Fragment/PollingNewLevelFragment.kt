@@ -106,51 +106,52 @@ class PollingNewLevelFragment: Fragment() {
                 "&player_id="+ MultiPlayerServerConf.player_id+"&game_id="+ MultiPlayerServerConf.game_id+"&level="+l,{
             response->
             val reply = JSONObject(response.toString())
-            val waiting = reply!!.getBoolean("error")
             val msg = reply!!.getString("msg")
-            Log.i("myTag","waiting: "+waiting+", msg: "+msg)
+                val waiting = reply!!.getBoolean("error")
+                Log.i("myTag","waiting: "+waiting+", msg: "+msg)
+                if (!waiting){
 
-            if (!waiting){
+                    val country = reply!!.getString("Country")
+                    val city = reply!!.getString("City")
+                    val fCountry1 = reply!!.getString("fCountry1")
+                    val fCity1 = reply!!.getString("fCity1")
+                    val fCountry2 = reply!!.getString("fCountry2")
+                    val fCity2 = reply!!.getString("fCity2")
+                    val fCountry3 = reply!!.getString("fCountry3")
+                    val fCity3 = reply!!.getString("fCity3")
 
-                val country = reply!!.getString("Country")
-                val city = reply!!.getString("City")
-                val fCountry1 = reply!!.getString("fCountry1")
-                val fCity1 = reply!!.getString("fCity1")
-                val fCountry2 = reply!!.getString("fCountry2")
-                val fCity2 = reply!!.getString("fCity2")
-                val fCountry3 = reply!!.getString("fCountry3")
-                val fCity3 = reply!!.getString("fCity3")
+                    val lat = reply!!.getDouble("lat")
+                    val long = reply!!.getDouble("long")
 
-                val lat = reply!!.getDouble("lat")
-                val long = reply!!.getDouble("long")
+                    Log.i("myTag","country: "+country+", city: "+city+
+                            ", fCountry1: "+fCountry1+", fCity1: "+fCity1+
+                            ", fCountry2: "+fCountry2+", fCity2: "+fCity2+
+                            ", fCountry3: "+fCountry3+", fCity3: "+fCity3)
 
-                Log.i("myTag","country: "+country+", city: "+city+
-                                        ", fCountry1: "+fCountry1+", fCity1: "+fCity1+
-                                        ", fCountry2: "+fCountry2+", fCity2: "+fCity2+
-                                        ", fCountry3: "+fCountry3+", fCity3: "+fCity3)
+                    //save everything on resource
+                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+                    val editor = sharedPref?.edit()
+                    editor?.putString("country", country.toString())
+                    editor?.putString("city", city.toString())
+                    editor?.putString("fCountry1", fCountry1.toString())
+                    editor?.putString("fCity1", fCity1.toString())
+                    editor?.putString("fCountry2", fCountry2.toString())
+                    editor?.putString("fCity2", fCity2.toString())
+                    editor?.putString("fCountry3", fCountry3.toString())
+                    editor?.putString("fCity3", fCity3.toString())
+                    editor?.putFloat("lat", lat.toFloat())
+                    editor?.putFloat("long", long.toFloat())
+                    editor?.apply()
 
-                //save everything on resource
-                val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-                val editor = sharedPref?.edit()
-                editor?.putString("country", country.toString())
-                editor?.putString("city", city.toString())
-                editor?.putString("fCountry1", fCountry1.toString())
-                editor?.putString("fCity1", fCity1.toString())
-                editor?.putString("fCountry2", fCountry2.toString())
-                editor?.putString("fCity2", fCity2.toString())
-                editor?.putString("fCountry3", fCountry3.toString())
-                editor?.putString("fCity3", fCity3.toString())
-                editor?.putFloat("lat", lat.toFloat())
-                editor?.putFloat("long", long.toFloat())
-                editor?.apply()
-
-                MultiPlayerServerConf.queue?.cancelAll(activity)
-                findNavController().navigate(R.id.action_pollingNewLevelFragment_to_mapFragmentMP)
+                    MultiPlayerServerConf.queue?.cancelAll(activity)
+                    findNavController().navigate(R.id.action_pollingNewLevelFragment_to_mapFragmentMP)
 
 
-            }
-            else
-                Handler(Looper.getMainLooper()).postDelayed({poolNewLevel()}, MultiPlayerServerConf.pollingPeriod)
+                }
+                else if(msg=="wait the master player")
+                    Handler(Looper.getMainLooper()).postDelayed({poolNewLevel()}, MultiPlayerServerConf.pollingPeriod)
+                else
+                    Log.i("info","Error: "+msg)
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
@@ -172,16 +173,23 @@ class PollingNewLevelFragment: Fragment() {
                 "&game_id="+MultiPlayerServerConf.game_id,{
             response->
             val reply = JSONObject(response.toString())
-            if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0){
-                val players = reply.getInt("num_sync_pl") +1
-                Log.i("myTag","number of players: "+players)
-                MultiPlayerServerConf.num_players = players
-                if(activity!= null) (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
+            val error = reply.getBoolean("error")
+            val msg = reply.getString("msg")
+            if(!error){
+                if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0){
+                    val players = reply.getInt("num_sync_pl") +1
+                    Log.i("myTag","number of players: "+players)
+                    MultiPlayerServerConf.num_players = players
+                    if(activity!= null) (activity as MultiplayerActivity).findViewById<TextView>(R.id.num_players).setText(MultiPlayerServerConf.num_players.toString())
+                }
+                val name_players = reply.getString("name_players")
+                Log.i("myTag","name of players: "+name_players)
+                //rootView.findViewById<TextView>(R.id.num_players).text = players.toString()
+                MultiPlayerServerConf.name_players = name_players
             }
-            val name_players = reply.getString("name_players")
-            Log.i("myTag","name of players: "+name_players)
-            //rootView.findViewById<TextView>(R.id.num_players).text = players.toString()
-            MultiPlayerServerConf.name_players = name_players
+            else{
+                Log.i("myTag","Error in the request: "+msg)
+            }
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
             Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)

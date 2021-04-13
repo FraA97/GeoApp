@@ -34,14 +34,13 @@ class NewGameFragment:Fragment() {
             override fun afterTextChanged(s: Editable) {
                 num_l = view.findViewById<EditText>(R.id.levels_input).getText().toString()
             }
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
         view.findViewById<Button>(R.id.create_btn).setOnClickListener { view->
             Log.i("MyTag", "text_num_lev: " + num_l)
-            if(num_l==""){
+            if(num_l=="" || num_l=="0"){
             }
             else{
                 MultiPlayerServerConf.levels = num_l.toInt()

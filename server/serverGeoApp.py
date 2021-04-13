@@ -1,4 +1,4 @@
-from geoRequest import randomizeLocation, retrieveGeoInfo, retrieveSimilarAnswers 
+from geoRequest import randomizeLocation, retrieveGeoInfo, retrieveSimilarAnswers, findFirstAvailableID
 from flask import Flask
 from flask_restful import Api,Resource,reqparse   #for parse request and replies automatically    
             
@@ -57,7 +57,9 @@ WAITING_STATE = 4
     #GET4: req=4 [required] + game_id="1234567" //polling on variable WAITING
         #return |||WAITING (=true) (if waiting other player ) or WAITING( =false) (player2 is ready)
         #IF WAITING== false => set STATE = PLAY_STATE
-INTERRUPT_STATE = 5
+INTERRUPT_STATE = 5 #when a player exit from the game
+
+END_STATE = 6 #when game is ended
 ID_PLAYER = -1
 
 
@@ -66,6 +68,7 @@ ID_PLAYER = -1
 STATE = INIT_STATE
 
 list_game_id = []
+unavailable_g_id = []
 coordinates_game = {}
 num_req = {}
 sync = {}
@@ -105,7 +108,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         if(req == INIT_STATE): #ALWAYS: req=0 + user_name+ SOMETIMES: game_id + random
             if(game_id == None):
                 if(random == None or random==0): #not random game
-                    g_id = len(list_game_id)
+                    g_id = findFirstAvailableID(list_game_id)#len(list_game_id) #or 
                     list_game_id.append(g_id)
                     random_dict[g_id] = False
                     sync[g_id]=0
@@ -135,7 +138,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                             return {"error":False, 'msg':"return game_id and id_player", 'game_id':g_id,'player_id':1}
                         
                     if(not found):   
-                        g_id = len(list_game_id)
+                        g_id = findFirstAvailableID(list_game_id) #or findFirstAvailableID(id_list)
                         list_game_id.append(g_id)
                         random_dict[g_id] = True
                         sync[g_id]=0
@@ -206,6 +209,8 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                         return {'error':True, 'msg':"wait the master player"}
                 elif((game_id in list_game_id) and player_id>0 and num_req[game_id]==0):
                     return {'error':True, 'msg':"wait the master player"}
+                else:
+                    return {'error':True, 'msg':"game ended"}
                     
         elif(req == LEVEL_STATE):
             if(score==None  or game_id==None or user_name==None):
@@ -238,6 +243,19 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 interrupt_dict[game_id]+=1
                 if(player_id==0): master_pl_left_dict[game_id] = True
                 name_players_dict[game_id].remove(user_name)
+                if(master_pl_left_dict[game_id] and (sync[game_id]-interrupt_dict[game_id]<=0)):
+                    print("remove game"+str(game_id))
+                    list_game_id.remove(game_id)
+                    coordinates_game.pop(game_id,None)
+                    num_req.pop(game_id,None)
+                    sync.pop(game_id,None)
+                    waiting.pop(game_id,None)
+                    random_dict.pop(game_id,None)
+                    score_dict.pop(game_id,None)
+                    interrupt_dict.pop(game_id,None)
+                    num_levels_dict.pop(game_id,None)
+                    master_pl_left_dict.pop(game_id,None)
+                    name_players_dict.pop(game_id,None)
                 return {"error":False, 'msg':"game stopped"}
             elif(interrupt!=1):
                 return {"error":True, 'msg':"interrupt != 1"}
@@ -247,6 +265,26 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 return {"error":True, 'msg':"insert player id"}
             else:
                 return {"error":True, 'msg':"ERROR"}
+        
+        elif(req == END_STATE):
+            #remove the game from all data structures
+            if(game_id!=None):
+                list_game_id.remove(game_id,None)
+                coordinates_game.pop(game_id,None)
+                num_req.pop(game_id,None)
+                sync.pop(game_id,None)
+                waiting.pop(game_id,None)
+                random_dict.pop(game_id,None)
+                score_dict.pop(game_id,None)
+                interrupt_dict.pop(game_id,None)
+                num_levels_dict.pop(game_id,None)
+                master_pl_left_dict.pop(game_id,None)
+                name_players_dict.pop(game_id,None)
+                return {"error":False, 'msg':"game correctly ended"}
+            else:
+                return {"error":True, 'msg':"missed game_id parameter"}
+
+
 
 api.add_resource(GeoApp,"/")
 
@@ -256,4 +294,7 @@ if __name__ == "__main__":
     #app.run(host = "0.0.0.0")
     from waitress import serve
     serve(app, host="0.0.0.0", port=8080)
+
+
+
 
