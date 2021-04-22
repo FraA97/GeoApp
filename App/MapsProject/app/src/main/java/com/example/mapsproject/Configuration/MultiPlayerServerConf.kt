@@ -36,5 +36,7 @@ class MultiPlayerServerConf {
         var language = "en"
         var canPoll=false
         var wantToPlay = false
+
+        var touch=0
     }
 }

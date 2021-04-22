@@ -59,6 +59,7 @@ class WaitingJoinFragment: Fragment(){
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //(activity as MultiplayerActivity).findViewById<TextView>(R.id.scoreBallGame).setVisibility(View.VISIBLE)
         object:Thread(){
             override fun run(){
                 super.run()

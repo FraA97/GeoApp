@@ -9,11 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -26,6 +28,7 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setVisibility(View.INVISIBLE)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 AlertDialog.Builder(context)

@@ -80,6 +80,7 @@
     <string name="msg_forgot_pw">Link per il reset inviato alla tua email</string>
     <string name="msg_forgot_pw_fail">Impossibile inviare l\'email per il reset</string>
     <string name="pl_in_game">GIOCATORI NELLA PARTITA</string>
+    <string name="continue_game">CONTINUA LA PARTITA</string>
 
 
 

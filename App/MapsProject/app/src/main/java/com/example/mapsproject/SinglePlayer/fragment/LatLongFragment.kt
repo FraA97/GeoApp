@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -101,7 +102,15 @@ class LatLongFragment: Fragment() {
 
             Log.i("myTag", "lat: " + lat + ", long: " + long + ", City: " + responseCity + ", Country: " + responseCountry)
 
-            findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+            if(MultiPlayerServerConf.touch ==1) {
+                (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setVisibility(View.VISIBLE)
+                (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).background.setAlpha(100)
+                MultiPlayerServerConf.touch = 0
+                (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setOnClickListener { view ->
+                    findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+                }
+            }
+            else findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
 
         }, { error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())

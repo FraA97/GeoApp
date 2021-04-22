@@ -82,6 +82,6 @@
     <string name="levels">Levels</string>
     <string name="is_already_logged_in">is already logged in</string>
     <string name="pl_in_game">PLAYERS IN THE GAME</string>
-
+    <string name="continue_game">CONTINUE THE GAME</string>
 
 </resources>

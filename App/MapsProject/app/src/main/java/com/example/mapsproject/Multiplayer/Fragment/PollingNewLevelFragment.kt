@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.queue
+import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.touch
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
@@ -143,8 +144,16 @@ class PollingNewLevelFragment: Fragment() {
                     editor?.putFloat("long", long.toFloat())
                     editor?.apply()
 
-                    MultiPlayerServerConf.queue?.cancelAll(activity)
-                    findNavController().navigate(R.id.action_pollingNewLevelFragment_to_mapFragmentMP)
+                    queue?.cancelAll(activity)
+                    if(touch==1) {
+                        (activity as MultiplayerActivity).findViewById<Button>(R.id.ready_button).setVisibility(View.VISIBLE)
+                        (activity as MultiplayerActivity).findViewById<Button>(R.id.ready_button).background.setAlpha(100)
+                        touch=0
+                        (activity as MultiplayerActivity).findViewById<Button>(R.id.ready_button).setOnClickListener { view ->
+                            findNavController().navigate(R.id.action_pollingNewLevelFragment_to_mapFragmentMP)
+                        }
+                    }
+                    else findNavController().navigate(R.id.action_pollingNewLevelFragment_to_mapFragmentMP)
 
 
                 }
