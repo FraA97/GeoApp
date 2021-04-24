@@ -73,18 +73,23 @@ class WaitingNewGameFragment:Fragment() {
                 Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&num_levels="+MultiPlayerServerConf.levels+"&user_name="+ Account.getUserName(),{
             response->
             val reply = JSONObject(response.toString())
-            MultiPlayerServerConf.game_id = reply!!.getInt("game_id")
-            MultiPlayerServerConf.player_id = reply!!.getInt("player_id")
+            val error = reply!!.getBoolean("error")
+            val msg = reply!!.getString("msg")
+            if(!error){
+                MultiPlayerServerConf.game_id = reply!!.getInt("game_id")
+                MultiPlayerServerConf.player_id = reply!!.getInt("player_id")
 
-
-
-            Log.i("myTag","game id: "+MultiPlayerServerConf.game_id+"; player id: "+MultiPlayerServerConf.player_id+"; num_levels: "+MultiPlayerServerConf.levels)
-
-            findNavController().navigate(R.id.action_waitingNewGameFragment_to_poolingNewGameFragment)
+                Log.i("myTag","game id: "+MultiPlayerServerConf.game_id+"; player id: "+MultiPlayerServerConf.player_id+"; num_levels: "+MultiPlayerServerConf.levels)
+                findNavController().navigate(R.id.action_waitingNewGameFragment_to_poolingNewGameFragment)
+            }
+            else{
+                Toast.makeText(activity,"ERROR: "+msg,Toast.LENGTH_SHORT).show()
+                Log.i("myTag","Error:" + msg)
+            }
 
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
-            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_waitingNewGameFragment_to_newGameFragment)
         })
         queue?.add(stringRequest)

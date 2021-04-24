@@ -42,15 +42,6 @@ class MultiplayerActivity: AppCompatActivity() {
 
         this.findViewById<TextView>(R.id.num_players).setOnClickListener { view ->
             MyCustomDialog().show(supportFragmentManager, "MyCustomFragment")
-           // val name_players ="aaaaa"
-           /* AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.pl_in_game))
-                    .setMessage(MultiPlayerServerConf.name_players)
-                    .setPositiveButton(android.R.string.yes) { dialog, which ->
-                    }
-                    //.setNegativeButton(android.R.string.no, null)
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .show()*/
         }
     }
 
@@ -139,7 +130,7 @@ class MultiplayerActivity: AppCompatActivity() {
             val reply = JSONObject(response.toString())
             MultiPlayerServerConf.queue?.cancelAll(this)
         },{ error: VolleyError? ->
-            Log.i("info", "Game Stopped: " + error.toString())
+            Log.i("info", "Error: " + error.toString())
         })
         MultiPlayerServerConf.queue?.add(stringRequest)
     }

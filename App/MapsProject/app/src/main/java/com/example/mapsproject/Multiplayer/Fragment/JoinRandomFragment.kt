@@ -9,8 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -78,18 +76,23 @@ class JoinRandomFragment:Fragment() {
                 Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.startGameReq+"&random=1"+"&user_name="+ Account.getUserName(),{
             response->
             val reply = JSONObject(response.toString())
-            MultiPlayerServerConf.game_id = reply!!.getInt("game_id")
-            MultiPlayerServerConf.player_id = reply!!.getInt("player_id")
+            val error = reply!!.getBoolean("error")
+            val msg = reply!!.getString("msg")
+            if(!error) {
+                MultiPlayerServerConf.game_id = reply!!.getInt("game_id")
+                MultiPlayerServerConf.player_id = reply!!.getInt("player_id")
 
+                Log.i("myTag", "game id: " + MultiPlayerServerConf.game_id + "; player id: " + MultiPlayerServerConf.player_id+"; msg: "+msg)
 
-
-            Log.i("myTag","game id: "+ MultiPlayerServerConf.game_id+"; player id: "+ MultiPlayerServerConf.player_id)
-
-            if(player_id==0){
-                findNavController().navigate(R.id.action_joinRandomFragment_to_poolingNewGameFragment)
+                if (player_id == 0) {
+                    findNavController().navigate(R.id.action_joinRandomFragment_to_poolingNewGameFragment)
+                } else {
+                    findNavController().navigate(R.id.action_joinRandomFragment_to_waitingJoinFragment)
+                }
             }
-            else {
-                findNavController().navigate(R.id.action_joinRandomFragment_to_waitingJoinFragment)
+            else{
+                Toast.makeText(context,"ERROR in the request",Toast.LENGTH_SHORT).show()
+                Log.i("myTag", ""+msg)
             }
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())

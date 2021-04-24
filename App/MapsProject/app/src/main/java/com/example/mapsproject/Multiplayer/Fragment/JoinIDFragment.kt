@@ -10,12 +10,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.volley.Request
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
-import org.json.JSONObject
 
 class JoinIDFragment:Fragment() {
 

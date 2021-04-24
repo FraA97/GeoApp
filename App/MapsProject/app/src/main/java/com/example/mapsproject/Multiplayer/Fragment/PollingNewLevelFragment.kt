@@ -25,7 +25,6 @@ import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.queue
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.touch
-import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity

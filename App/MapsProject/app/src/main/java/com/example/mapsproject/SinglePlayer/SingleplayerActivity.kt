@@ -77,8 +77,8 @@ class SingleplayerActivity: AppCompatActivity() {
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             val intent = Intent(this, Settings::class.java)
-                            finish()
                             startActivity(intent)
+                            finish()
 
                         }
                         .setNegativeButton(android.R.string.no, null)

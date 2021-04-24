@@ -113,7 +113,7 @@ class PoolingNewGameFragment: Fragment() {
             }
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
-            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT)
+            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_poolingNewGameFragment_to_newGameFragment)
         })
         MultiPlayerServerConf.queue?.add(stringRequest)

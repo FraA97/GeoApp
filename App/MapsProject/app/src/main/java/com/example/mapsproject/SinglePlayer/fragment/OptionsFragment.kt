@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -82,30 +83,38 @@ class OptionsFragment:Fragment() {
         val stringRequest = StringRequest(
                 Request.Method.GET, SinglePlayerServerConf.url + "req=" + SecondReq +"&level="+l+ "&country=" + country + "&city=" + city + "", { response ->
             val reply = JSONObject(response.toString())
+            val error = reply!!.getBoolean("error")
+            if(!error){
+                val fCountry1 = reply!!.get("fCountry1")
+                val fCity1 = reply!!.get("fCity1")
+                val fCountry2 = reply!!.get("fCountry2")
+                val fCity2 = reply!!.get("fCity2")
+                val fCountry3 = reply!!.get("fCountry3")
+                val fCity3 = reply!!.get("fCity3")
 
-            val fCountry1 = reply!!.get("fCountry1")
-            val fCity1 = reply!!.get("fCity1")
-            val fCountry2 = reply!!.get("fCountry2")
-            val fCity2 = reply!!.get("fCity2")
-            val fCountry3 = reply!!.get("fCountry3")
-            val fCity3 = reply!!.get("fCity3")
+                Log.i("myTag", "country: " + fCountry1 + ", city: " + fCity1 + "\n" +
+                        "country: " + fCountry2 + ", city: " + fCity2 + "\n" +
+                        "country: " + fCountry3 + ", city: " + fCity3)
 
-            Log.i("myTag", "country: " + fCountry1 + ", city: " + fCity1 + "\n" +
-                    "country: " + fCountry2 + ", city: " + fCity2 + "\n" +
-                    "country: " + fCountry3 + ", city: " + fCity3)
+                //save everything on resource
+                val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+                val editor = sharedPref?.edit()
+                editor?.putString("fCountry1", fCountry1.toString())
+                editor?.putString("fCity1", fCity1.toString())
+                editor?.putString("fCountry2", fCountry2.toString())
+                editor?.putString("fCity2", fCity2.toString())
+                editor?.putString("fCountry3", fCountry3.toString())
+                editor?.putString("fCity3", fCity3.toString())
+                editor?.apply()
 
-            //save everything on resource
-            val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-            val editor = sharedPref?.edit()
-            editor?.putString("fCountry1", fCountry1.toString())
-            editor?.putString("fCity1", fCity1.toString())
-            editor?.putString("fCountry2", fCountry2.toString())
-            editor?.putString("fCity2", fCity2.toString())
-            editor?.putString("fCountry3", fCountry3.toString())
-            editor?.putString("fCity3", fCity3.toString())
-            editor?.apply()
+                findNavController().navigate(R.id.action_optionsFragment_to_questionCountryFragment)
+            }
+            else{
+                val msg = reply!!.getString("msg")
+                Toast.makeText(activity,"Error: "+msg,Toast.LENGTH_SHORT).show()
+                Log.i("myTag", "Error: "+msg)
+            }
 
-            findNavController().navigate(R.id.action_optionsFragment_to_questionCountryFragment)
 
         }, { error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())

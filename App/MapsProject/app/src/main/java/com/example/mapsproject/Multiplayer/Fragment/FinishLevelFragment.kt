@@ -85,7 +85,6 @@ class FinishLevelFragment : Fragment() {
                     MultiPlayerServerConf.queue?.cancelAll(activity)
                     findNavController().navigate(R.id.action_finishLevelFragment_to_pollingFinishLevelFragment)
 
-
                 },{ error: VolleyError? ->
                     Log.i("info", "Polling: " + error.toString())
                 })
