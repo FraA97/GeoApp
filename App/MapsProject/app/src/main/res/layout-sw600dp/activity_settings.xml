@@ -49,6 +49,7 @@
                 android:id="@+id/levels_int"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/layout_bg"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number"
