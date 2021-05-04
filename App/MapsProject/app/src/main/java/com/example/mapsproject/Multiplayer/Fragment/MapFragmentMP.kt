@@ -18,12 +18,13 @@ import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapFragmentMP: Fragment(),OnMapReadyCallback {
+class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
     lateinit var rootView: View
-    var mMapView: MapView? = null
+    private lateinit var mMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,68 +53,57 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
-
-
         rootView = inflater.inflate(R.layout.fragment_map, container, false)
-
-        mMapView = rootView.findViewById<View>(R.id.map) as MapView
-        mMapView!!.onCreate(savedInstanceState)
-
-        mMapView!!.onResume() // needed to get the map to display immediately
-
-
-        try {
-            MapsInitializer.initialize(requireActivity().applicationContext)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        mMapView!!.getMapAsync(this)
-
-
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fr) as SupportMapFragment
+        mapFragment.getMapAsync(this)
         return rootView
     }
 
 
     override fun onResume() {
         super.onResume()
-        mMapView!!.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mMapView!!.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mMapView!!.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mMapView!!.onLowMemory()
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
+    override fun onMapReady(googleMap: GoogleMap) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val lat = sharedPref?.getFloat("lat",0f)
         val long = sharedPref?.getFloat("long",0f)
         Log.d("myTag", "lat: "+lat+", long: "+long);
 
-        val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
 
 
-        googleMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
-
+        mMap=googleMap
+        mMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
+        mMap.setOnMapLoadedCallback(this)
 
 
         val location = LatLng(lat!!.toDouble(), long!!.toDouble())
-        googleMap.addMarker(MarkerOptions().position(location).title("Marker "))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
-        googleMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
+        mMap.addMarker(MarkerOptions().position(location))
+        val cameraPosition = CameraPosition.Builder().target(location).zoom(14.0f).build()
+        val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+        mMap.moveCamera(cameraUpdate)
+
+
+
+
+    }
+
+    override fun onMapLoaded() {
+
+        val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
 
         object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -125,10 +115,7 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback {
                 findNavController().navigate(R.id.action_mapFragmentMP_to_questionCountryFragmentMP)
 
             }
-        }.start()
-
-    }
-
+        }.start()    }
 
 
 }
