@@ -114,6 +114,7 @@ class LatLongFragment: Fragment() {
 
         }, { error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
+                Handler(Looper.getMainLooper()).postDelayed({ createLevel() }, SinglePlayerServerConf.pollingPeriod)
         })
         queue?.add(stringRequest)
     }

@@ -3,6 +3,8 @@ package com.example.mapsproject.SinglePlayer.fragment
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +22,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.SecondReq
+import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.pollingPeriod
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
@@ -62,8 +65,8 @@ class OptionsFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getOptions()
-        //  Handler(Looper.getMainLooper()).postDelayed({check()},Conf.pollingPeriod)
+
+        Handler(Looper.getMainLooper()).postDelayed({getOptions()},pollingPeriod)
     }
 
     private fun getOptions() {
@@ -117,8 +120,10 @@ class OptionsFragment:Fragment() {
 
 
         }, { error: VolleyError? ->
-            Log.i("info", "Polling: " + error.toString())
-        })
+                Log.i("info", "Polling: " + error.toString())
+                Handler(Looper.getMainLooper()).postDelayed({getOptions()},pollingPeriod)
+
+            })
         stringRequest.setRetryPolicy(DefaultRetryPolicy(
                 20 * 1000,  //After the set time elapses the request will timeout
                 0,

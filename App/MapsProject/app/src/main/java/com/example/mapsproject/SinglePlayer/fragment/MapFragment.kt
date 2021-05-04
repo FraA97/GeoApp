@@ -18,6 +18,7 @@ import com.example.mapsproject.R
 import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.GoogleMap.CancelableCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -28,20 +29,22 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setVisibility(View.INVISIBLE)
+        (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setVisibility(
+            View.INVISIBLE
+        )
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 AlertDialog.Builder(context)
-                        .setTitle(getString(R.string.title_back_press))
-                        .setMessage(R.string.msg_back_press)
-                        .setPositiveButton(android.R.string.yes) { dialog, which ->
-                            val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
-                            startActivity(i)
-                        }
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show()
+                    .setTitle(getString(R.string.title_back_press))
+                    .setMessage(R.string.msg_back_press)
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                        val i = Intent(activity, StartGameActivity::class.java)
+                        // finish()
+                        startActivity(i)
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
             }
         })
     }
@@ -94,11 +97,15 @@ class MapFragment: Fragment(), OnMapReadyCallback {
         mMapView!!.onLowMemory()
     }
 
+    override fun onStop(){
+        super.onStop()
+    }
+
     override fun onMapReady(googleMap: GoogleMap?) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val lat = sharedPref?.getFloat("lat",0f)
-        val long = sharedPref?.getFloat("long",0f)
-        Log.d("myTag", "lat: "+lat+", long: "+long);
+        val lat = sharedPref?.getFloat("lat", 0f)
+        val long = sharedPref?.getFloat("long", 0f)
+        Log.d("myTag", "lat: " + lat + ", long: " + long);
 
         val clocktext:TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
 
@@ -108,23 +115,33 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
 
         val location = LatLng(lat!!.toDouble(), long!!.toDouble())
-        googleMap.addMarker(MarkerOptions().position(location).title("Marker "))
+        googleMap!!.addMarker(MarkerOptions().position(location).title("Marker "))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
-        googleMap.getUiSettings().setZoomControlsEnabled(false);
+        googleMap.getUiSettings().setZoomGesturesEnabled(false)
+        googleMap.animateCamera(
+            CameraUpdateFactory.zoomTo(17.0f),
+            object:CancelableCallback{
+                override fun onFinish() {
+                    object : CountDownTimer(10000, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            clocktext.setText("" + millisUntilFinished / 1000);
+                        }
 
+                        override fun onFinish() {
 
-        object : CountDownTimer(10000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                clocktext.setText(""+millisUntilFinished /1000);
+                            if(activity!=null) findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
+
+                        }
+                    }.start()
+                }
+
+                override fun onCancel() {}
             }
+        )
 
-            override fun onFinish() {
 
-                if(activity!=null) findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
 
-            }
-        }.start()
+
     }
 
 
