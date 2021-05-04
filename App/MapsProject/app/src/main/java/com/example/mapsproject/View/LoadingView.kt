@@ -10,7 +10,7 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
 
     private var touched=false //ball already touched
     private val howclose = 1.3f //how close the finger needs to be for touching
-    private var radius = 100f
+    private var radius = 50f
 
     var bx = radius
     var by = radius
