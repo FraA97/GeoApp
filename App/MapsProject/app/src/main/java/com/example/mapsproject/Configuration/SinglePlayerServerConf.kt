@@ -3,7 +3,7 @@ package com.example.mapsproject.Configuration
 class SinglePlayerServerConf {
     companion object{
         //var url = "http://10.0.2.2:5000/?"
-        var url = "https://marcocerin.pythonanywhere.com/?"
+        var url = "https://marcocerino.pythonanywhere.com/?"
 
         val pollingPeriod :Long = 2000L
 
