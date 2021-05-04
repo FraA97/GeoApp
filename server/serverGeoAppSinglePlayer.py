@@ -15,7 +15,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         parser.add_argument('req',type=int,required = True)
         parser.add_argument('country',type=str,required = False)
         parser.add_argument('city',type=str, required = False)
-        parser.add_argument('level',type=int, required = False)
+        parser.add_argument('level',type=int, required = True)
 
         args = parser.parse_args() #parse the msg
 
@@ -25,7 +25,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         if(req == trueAnswer):
             lat, long, country,city = retrieveGeoInfo(level,1,None,0)
             lat, long = randomizeLocation(lat,long)
-            return {"error":False, 'msg':"return true answer", 'lat':lat,'long':long, 'responseCountry':country,'responseCity':city }
+            return {"error":False, z'msg':"return true answer", 'lat':lat,'long':long, 'responseCountry':country,'responseCity':city }
         elif(req==falseAnsw):
             if(args['country'] and args['city']):
                 country = args['country']
