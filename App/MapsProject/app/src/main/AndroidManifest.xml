@@ -80,7 +80,7 @@
 
         <activity android:name=".Account.AccountSettingsActivity"></activity>
 
-        <activity android:name=".Account.UpdateProfilePicActivity"/>
+        <activity android:name=".Account.UpdatePicActivity"/>
         <activity android:name=".Settings.Settings"/>
 
         <activity android:name=".Chat.Chat"/>

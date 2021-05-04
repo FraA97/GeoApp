@@ -1,14 +1,16 @@
 package com.example.mapsproject.Account
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.*
-import android.os.Environment.isExternalStorageLegacy
+import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
@@ -16,7 +18,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.mapsproject.BuildConfig
 import com.example.mapsproject.R
@@ -28,11 +32,10 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UpdateProfilePicActivity: Activity(),View.OnClickListener {
-
+class UpdatePicActivity : AppCompatActivity(), View.OnClickListener {
     val REQUEST_IMAGE_CAPTURE = 1
     val REQUEST_IMAGE_SELECTION=2
-
+    val REQUEST_FILE_MANAGER = 3
 
     // Create a child reference
     val pathCloud : String = "images/"+ Account.getUserID()
@@ -41,23 +44,58 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
     var filePath :String = ""
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_picture)
         findViewById<Button>(R.id.take_pic_btn).setOnClickListener(this)
         findViewById<Button>(R.id.select_pic_btn).setOnClickListener(this)
         findViewById<Button>(R.id.upload_pic_btn).setOnClickListener(this)
-        downloadPic()
+        object : Thread() {
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({downloadPic()}, 0)
+            }
+        }.start()
+
     }
 
-
-
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.take_pic_btn->dispatchTakePictureIntent()
-            R.id.select_pic_btn->dispatchSelectPictureIntent()
+            R.id.take_pic_btn->{
+                when {
+                    ContextCompat.checkSelfPermission(
+                        applicationContext,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        // You can use the API that requires the permission.
+                        dispatchTakePhotoIntent()
+                    }
+                    else -> {
+                        // You can directly ask for the permission.
+                        // The registered ActivityResultCallback gets the result of this request.
+                        Toast.makeText(applicationContext, "Application needs permission to write storage", Toast.LENGTH_SHORT).show()
+                        dispatchStoragePermissionIntentWrite()
+                    }
+                }
+            }
+
+            R.id.select_pic_btn->{
+                when {
+                    ContextCompat.checkSelfPermission(
+                        applicationContext,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        // You can use the API that requires the permission.
+                        dispatchSelectPictureIntent()
+                    }
+                    else -> {
+                        // You can directly ask for the permission.
+                        // The registered ActivityResultCallback gets the result of this request.
+                        Toast.makeText(applicationContext, "Application needs permission to read storage", Toast.LENGTH_SHORT).show()
+                        dispatchStoragePermissionIntentRead()
+                    }
+                }
+            }
             R.id.upload_pic_btn->{
                 if(filePath!="")
                     uploadPic()
@@ -66,9 +104,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
     }
 
 
-    //send intent to take pic with camera
-    @RequiresApi(Build.VERSION_CODES.R)
-    private fun dispatchTakePictureIntent() {
+    private fun dispatchTakePhotoIntent() {
         Log.i("myTag","launching action image capture intent")
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
@@ -84,9 +120,9 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
                 // Continue only if the File was successfully created
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
-                            this,
-                            "com.example.mapsproject",
-                            it
+                        this,
+                        "com.example.mapsproject",
+                        it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -95,58 +131,28 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         }
     }
 
-
-    //send intent to select pic from gallery
-    @RequiresApi(Build.VERSION_CODES.R)
     private fun dispatchSelectPictureIntent() {
-        if( Integer.valueOf(Build.VERSION.SDK) >= 30 ){
-            if (!Environment.isExternalStorageManager()) {
-                Toast.makeText(applicationContext, "Application needs permission to read storage", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).postDelayed({ dispatchStoragePermissionIntent() }, 2000L)
-            }else {
-                val pickPhoto = Intent(Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, REQUEST_IMAGE_SELECTION)
-            }
-        }
-        else {
-            if(! Environment.isExternalStorageLegacy()){
-                Toast.makeText(applicationContext, "Application needs permission to read storage", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).postDelayed({ dispatchStoragePermissionIntent() }, 2000L)
-            }else {
-                val pickPhoto = Intent(Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, REQUEST_IMAGE_SELECTION)
-            }
-        }
+        val pickPhoto = Intent(Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto, REQUEST_IMAGE_SELECTION)    }
 
+
+
+    private fun dispatchStoragePermissionIntentRead() {
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            REQUEST_FILE_MANAGER);
     }
-
-    private fun dispatchStoragePermissionIntent() {
-        val uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
-        startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,uri))
-        return
+    private fun dispatchStoragePermissionIntentWrite() {
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            REQUEST_FILE_MANAGER);
     }
 
 
-    //if activity is paused or stopped, need to preserve value of filePath
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState?.run{
-            putString("PATH",filePath)
-        }
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        filePath = savedInstanceState?.getString("PATH").toString()
-    }
-
-    //action to be done when returning from intent launched
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode == RESULT_OK && data!=null){
-
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && data != null) {
             when(requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
                     Log.i("myTag","request image capture result")
@@ -159,12 +165,16 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
 
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                     val cursor: Cursor? = contentResolver.query(selectedImg,
-                            filePathColumn, null, null, null)
+                        filePathColumn, null, null, null)
                     cursor?.moveToFirst()
                     val columnIndex: Int? = cursor?.getColumnIndex(filePathColumn[0])
                     filePath = cursor?.getString(columnIndex!!).toString()
                     cursor?.close()
                     updateImageView()
+                }
+
+                REQUEST_FILE_MANAGER->{
+
                 }
             }
         }
@@ -172,7 +182,7 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         else  {
             //handle error by restarting activity
             finish()
-            startActivity(intent)
+            startActivity(Intent(this,UpdatePicActivity::class.java))
         }
 
     }
@@ -189,9 +199,9 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
         return File.createTempFile(
-                "JPEG_${timeStamp}_", /* prefix */
-                ".jpg", /* suffix */
-                storageDir /* directory */
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
             filePath = absolutePath
@@ -227,9 +237,9 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
         val data = baos.toByteArray()
         var uploadTask = imagesRef!!.putBytes(data)
         uploadTask.addOnFailureListener {
-            Toast.makeText(this,"Unable to upload the photo",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Unable to upload the photo", Toast.LENGTH_LONG).show()
         }.addOnSuccessListener { taskSnapshot ->
-            Toast.makeText(this,"Upload successfull",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Upload successfull", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -242,10 +252,9 @@ class UpdateProfilePicActivity: Activity(),View.OnClickListener {
             imageView.setImageBitmap((BitmapFactory.decodeFile(localFile.path)))
             filePath=localFile.path
         }?.addOnFailureListener {
-            Toast.makeText(this,"No profile pic yet",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"No profile pic yet", Toast.LENGTH_LONG).show()
             null
         }
 
     }
-
 }

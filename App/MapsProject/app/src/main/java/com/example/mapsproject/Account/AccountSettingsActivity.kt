@@ -89,7 +89,7 @@ class AccountSettingsActivity: Activity() {
         
 
         findViewById<Button>(R.id.new_pic_btn).setOnClickListener { view->
-            val i = Intent(this, UpdateProfilePicActivity::class.java)
+            val i = Intent(this, UpdatePicActivity::class.java)
             startActivity(i)
         }
     }
@@ -109,6 +109,16 @@ class AccountSettingsActivity: Activity() {
 
         val imageView = findViewById<ImageView>(R.id.avatar)
         Glide.with(this).load(storageRef).into(imageView)*/
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        restart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        restart()
     }
 
     private fun restart() {

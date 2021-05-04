@@ -84,26 +84,23 @@ class StartGameActivity: AppCompatActivity() {
         conf.locale = myLocale
         res.updateConfiguration(conf, dm)
     }
-/*
-    override fun onRestart() {
-        super.onRestart()
-        val myLocale = Locale(MultiPlayerServerConf.language)
-        val res: Resources = resources
-        val dm: DisplayMetrics = res.getDisplayMetrics()
-        val conf: Configuration = res.getConfiguration()
-        conf.locale = myLocale
-        res.updateConfiguration(conf, dm)
+
+
+    override fun onPause() {
+        super.onPause()
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        val myLocale = Locale(MultiPlayerServerConf.language)
-        val res: Resources = resources
-        val dm: DisplayMetrics = res.getDisplayMetrics()
-        val conf: Configuration = res.getConfiguration()
-        conf.locale = myLocale
-        res.updateConfiguration(conf, dm)
-    }*/
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+    }
+
+    override fun onStop(){
+        super.onStop()
+    }
 
     //inflate menu_main
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
