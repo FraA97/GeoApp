@@ -11,7 +11,6 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +21,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_mp"
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="80dp">
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -39,6 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
+                        android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:text=" 0/0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
@@ -47,6 +47,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
+                        android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:text="@string/level"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -56,6 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
                     android:layout_alignParentRight="true"
                     >
                     <TextView
@@ -63,6 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
+                        android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
@@ -72,6 +75,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
                         android:gravity="center_horizontal"
+                        android:textStyle="bold"
                         android:text="@string/points"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
                 </LinearLayout>

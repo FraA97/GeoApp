@@ -220,6 +220,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         
             if game_id not in score_dict: score_dict[game_id] ={}
             score_dict[game_id][user_name] = score
+            
             return {"error":False, 'msg':"level completed", 'game_id':game_id, 'number of players to wait': sync[game_id]-waiting[game_id]-interrupt_dict[game_id]}
         
         elif(req == WAITING_STATE):
@@ -248,13 +249,13 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                     list_game_id.remove(game_id)
                     coordinates_game.pop(game_id,None)
                     num_req.pop(game_id,None)
-                    sync.pop(game_id,None)
-                    waiting.pop(game_id,None)
+                    #sync.pop(game_id,None)
+                    #waiting.pop(game_id,None)
                     random_dict.pop(game_id,None)
                     score_dict.pop(game_id,None)
-                    interrupt_dict.pop(game_id,None)
+                    #interrupt_dict.pop(game_id,None)
                     num_levels_dict.pop(game_id,None)
-                    master_pl_left_dict.pop(game_id,None)
+                    #master_pl_left_dict.pop(game_id,None)
                     name_players_dict.pop(game_id,None)
                 return {"error":False, 'msg':"game stopped"}
             elif(interrupt!=1):
@@ -272,13 +273,13 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
                 list_game_id.remove(game_id,None)
                 coordinates_game.pop(game_id,None)
                 num_req.pop(game_id,None)
-                sync.pop(game_id,None)
-                waiting.pop(game_id,None)
+                #sync.pop(game_id,None)
+                #waiting.pop(game_id,None)
                 random_dict.pop(game_id,None)
                 score_dict.pop(game_id,None)
-                interrupt_dict.pop(game_id,None)
+                #interrupt_dict.pop(game_id,None)
                 num_levels_dict.pop(game_id,None)
-                master_pl_left_dict.pop(game_id,None)
+                #master_pl_left_dict.pop(game_id,None)
                 name_players_dict.pop(game_id,None)
                 return {"error":False, 'msg':"game correctly ended"}
             else:

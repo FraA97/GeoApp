@@ -1,16 +1,21 @@
 package com.example.mapsproject.SinglePlayer.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Account.Account.getHighScore
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
+import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.Settings.MyCustomDialog
+import com.example.mapsproject.Settings.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +39,11 @@ class StartFragment: Fragment() {
         SinglePlayerServerConf.score = 0
         SinglePlayerServerConf.level = 0
 
+        rootView.findViewById<LinearLayout>(R.id.lin_lay_st_act)?.setOnClickListener { view ->
+            val intent = Intent(activity, Settings::class.java)
+            startActivity(intent)
+            //finish()
+        }
 
 
 

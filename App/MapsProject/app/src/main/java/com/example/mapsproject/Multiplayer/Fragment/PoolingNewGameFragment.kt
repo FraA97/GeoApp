@@ -63,7 +63,8 @@ class PoolingNewGameFragment: Fragment() {
         rootView.findViewById<Button>(R.id.share_game_btn).setOnClickListener { view->
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, R.string.share_g_id_msg +MultiPlayerServerConf.game_id)
+            val textMsg =getString(R.string.share_g_id_msg)
+            sendIntent.putExtra(Intent.EXTRA_TEXT,  textMsg+ " "+ MultiPlayerServerConf.game_id.toString())
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
 
@@ -113,7 +114,7 @@ class PoolingNewGameFragment: Fragment() {
             }
         },{ error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())
-            Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity,"Error:" + error.toString(), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_poolingNewGameFragment_to_newGameFragment)
         })
         MultiPlayerServerConf.queue?.add(stringRequest)

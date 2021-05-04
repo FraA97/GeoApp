@@ -6,8 +6,8 @@ import org.json.JSONObject
 
 class MultiPlayerServerConf {
     companion object{
-        //var url = "http://fraart.pythonanywhere.com/?"
-        var url = "http://10.0.2.2:8080/?"
+        var url = "https://fraart.pythonanywhere.com/?"
+        //var url = "http://10.0.2.2:8080/?"
 
         val pollingPeriod :Long = 2000L
 
