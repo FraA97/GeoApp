@@ -16,6 +16,8 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class Chat: Activity() {
@@ -65,7 +67,7 @@ class Chat: Activity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view->
             val msg = ChatMessage(
                 findViewById<EditText>(R.id.message_input).text.toString(),
-                getUserName(), getUserID()
+                getUserName(), getUserID(), SimpleDateFormat("dd/MM/yyyy hh:mm").format(Date())
             )
             messagesRef.push().setValue(msg)
             findViewById<EditText>(R.id.message_input).setText("")
