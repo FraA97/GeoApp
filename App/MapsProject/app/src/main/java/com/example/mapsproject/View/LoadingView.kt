@@ -2,11 +2,14 @@ package com.example.mapsproject.View
 
 import android.content.Context
 import android.graphics.*
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.touch
+import java.util.logging.Handler
 
-class LoadingView (context: Context?) : View(context), View.OnTouchListener {
+class LoadingView(context: Context?) : View(context), View.OnTouchListener {
 
     private var touched=false //ball already touched
     private val howclose = 1.3f //how close the finger needs to be for touching
@@ -32,7 +35,7 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
     var m = Matrix()
     val ballPainter= Paint().apply {
         shader=
-                RadialGradient(0f,0f,radius,
+                RadialGradient(0f, 0f, radius,
                         Color.WHITE, Color.BLACK, Shader.TileMode.CLAMP)
     }
     val linesPaint = Paint().apply {
@@ -56,16 +59,18 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
 
         val now = System.currentTimeMillis()
         if(count==0) dx = width/2F
+
+        //draw core
         val scorePosX = width.toFloat() - (width.toFloat()/10)
         val scorePosY = height.toFloat()/6
         cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)
 
+        //update current time
         val dt = now-current
         current=now
 
 
         //Update ball position
-
         bx+=vx* dt/1000
         by+=vy* dt/1000
 
@@ -75,6 +80,7 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
         //Ball hits and edge?
         if ((bx<radius) and (vx<0)) vx*=-1f //hits left edge and moves towards left
         if ((bx>width-radius) and (vx>0)) vx*=-1f //right edge while moving right
+
         if ((by>height-radius)  and (vy>0)){
             vy*=-1
             scoreBallGame=-1
@@ -83,12 +89,19 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
         } //bottom edge while moving downward
 
         if ((by>height-radius)  and (vy<0)){
-            scoreBallGame=-1
-            radius = 100f
+            scoreBallGame=0
+            radius = 50f
+            var bx = radius
+            var by = radius
+            var vx=500f
+            var vy=1500f
             cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)
+            android.os.Handler(Looper.getMainLooper()).postDelayed({invalidate()}, 1000L)
+            return
         }
         if ((by<radius)  ) {vy*=-1} //top while moving up
 
+        //ball touches the line?
         if( (by > height.toFloat()-offLiney- radius) and (by < height.toFloat()-offLiney) and (bx>dx-offLinex) and (bx<dx+offLinex) ){
             if(vy>0) {
                 scoreBallGame += 1
@@ -96,6 +109,7 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
                     radius -= radius/4
                     offLinex-= offLinex/4
                 }
+                //update score
                 cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)
             }
 
@@ -118,24 +132,24 @@ class LoadingView (context: Context?) : View(context), View.OnTouchListener {
         val offx = 2*bx/width-1
         val offy = 2*by/height-1
 
-        m.setTranslate(bx+0.3f*radius*offx,by+0.3f*radius*offy)
+        m.setTranslate(bx + 0.3f * radius * offx, by + 0.3f * radius * offy)
         ballPainter.shader.setLocalMatrix(m)
-        cv?.drawCircle(bx,by,radius,ballPainter)
+        cv?.drawCircle(bx, by, radius, ballPainter)
 
 
-        cv?.drawLine(dx- offLinex,height.toFloat()-offLiney,dx+ offLinex, height.toFloat()-offLiney,linesPaint)
+        cv?.drawLine(dx - offLinex, height.toFloat() - offLiney, dx + offLinex, height.toFloat() - offLiney, linesPaint)
         invalidate()
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
         when(event?.action){
-            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE ->{
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
                 //barrierx=event?.x
                 //barriery=event?.y
-                dx=event?.x
-                count=1
-                touch=1
+                dx = event?.x
+                count = 1
+                touch = 1
             }
           /*  MotionEvent.ACTION_UP -> {
                // barrierx=0f;barriery=0f
