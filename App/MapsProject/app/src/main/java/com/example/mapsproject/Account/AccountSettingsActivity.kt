@@ -111,15 +111,6 @@ class AccountSettingsActivity: Activity() {
         Glide.with(this).load(storageRef).into(imageView)*/
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        restart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        restart()
-    }
 
     private fun restart() {
         val i = Intent(this, MainActivity::class.java)

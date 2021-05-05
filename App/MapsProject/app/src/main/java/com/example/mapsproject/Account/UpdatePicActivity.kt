@@ -18,6 +18,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -61,23 +62,33 @@ class UpdatePicActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.take_pic_btn->{
-                when {
-                    ContextCompat.checkSelfPermission(
-                        applicationContext,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED -> {
-                        // You can use the API that requires the permission.
-                        dispatchTakePhotoIntent()
-                    }
-                    else -> {
-                        // You can directly ask for the permission.
-                        // The registered ActivityResultCallback gets the result of this request.
-                        Toast.makeText(applicationContext, "Application needs permission to write storage", Toast.LENGTH_SHORT).show()
-                        dispatchStoragePermissionIntentWrite()
+            R.id.take_pic_btn-> {
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+                    AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.Feature_not_available))
+                            .setMessage(getString(R.string.sorry_feature_message))
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show()
+
+                } else {
+                    when {
+                        ContextCompat.checkSelfPermission(
+                                applicationContext,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ) == PackageManager.PERMISSION_GRANTED -> {
+                            // You can use the API that requires the permission.
+                            dispatchTakePhotoIntent()
+                        }
+                        else -> {
+                            // You can directly ask for the permission.
+                            // The registered ActivityResultCallback gets the result of this request.
+                            Toast.makeText(applicationContext, "Application needs permission to write storage", Toast.LENGTH_SHORT).show()
+                            dispatchStoragePermissionIntentWrite()
+                        }
                     }
                 }
             }
+
 
             R.id.select_pic_btn->{
                 when {
@@ -96,6 +107,7 @@ class UpdatePicActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
+
             R.id.upload_pic_btn->{
                 if(filePath!="")
                     uploadPic()
@@ -156,7 +168,7 @@ class UpdatePicActivity : AppCompatActivity(), View.OnClickListener {
             when(requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
                     Log.i("myTag","request image capture result")
-                    galleryAddPic()
+                    //galleryAddPic()
                     updateImageView()
                 }
 

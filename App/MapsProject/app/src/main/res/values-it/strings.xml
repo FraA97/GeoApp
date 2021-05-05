@@ -81,7 +81,8 @@
     <string name="msg_forgot_pw_fail">Impossibile inviare l\'email per il reset</string>
     <string name="pl_in_game">GIOCATORI NELLA PARTITA</string>
     <string name="continue_game">CONTINUA LA PARTITA</string>
-
+    <string name="Feature_not_available">Feature non disponibile</string>
+    <string name="sorry_feature_message">Ci dispiace molto, ma questa feature è disponibile solo per device con Android R </string>
 
 
 </resources>
