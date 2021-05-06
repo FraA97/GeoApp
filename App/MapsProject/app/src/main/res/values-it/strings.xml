@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MapsProject</string>
+    <string name="app_name">MapQuiz</string>
     <!-- <string name="google_maps_key">AIzaSyCC-wGFNDNuO-KG4kZme2z5xRwtbfSzNl8</string>-->
     <string name="single_player">Giocatore singolo</string>
     <string name="multiplayer">Multigiocatore</string>
