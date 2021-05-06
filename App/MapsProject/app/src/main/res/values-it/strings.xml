@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">MapQuiz</string>
     <!-- <string name="google_maps_key">AIzaSyCC-wGFNDNuO-KG4kZme2z5xRwtbfSzNl8</string>-->
-    <string name="single_player">Giocatore singolo</string>
+    <string name="single_player">Giocatore Singolo</string>
     <string name="multiplayer">Multigiocatore</string>
     <string name="work_in_progress">Lavoro in Corso</string>
     <string name="start_the_game">Inizia il Gioco</string>
