@@ -13,7 +13,7 @@ class SinglePlayerServerConf {
         var score = 0
 
         var sets = 3
-        var level = 0
+        var level = 1
 
         var soundOn = true
 

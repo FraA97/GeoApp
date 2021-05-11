@@ -37,7 +37,7 @@ class StartFragment: Fragment() {
 
         //set current score to 0
         SinglePlayerServerConf.score = 0
-        SinglePlayerServerConf.level = 0
+        SinglePlayerServerConf.level = 1
 
         rootView.findViewById<LinearLayout>(R.id.lin_lay_st_act)?.setOnClickListener { view ->
             val intent = Intent(activity, Settings::class.java)

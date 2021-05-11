@@ -113,7 +113,7 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
                             // This method will be executed once the timer is over
 
                             //if sets are not ended
-                            if(SinglePlayerServerConf.level == SinglePlayerServerConf.sets){
+                            if(SinglePlayerServerConf.level > SinglePlayerServerConf.sets){
                                 findNavController().navigate(R.id.action_questionCityFragment_to_endFragment)
                             }else{
                                 findNavController().navigate(R.id.action_questionCityFragment_to_btnFragment)

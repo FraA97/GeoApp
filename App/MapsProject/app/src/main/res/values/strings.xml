@@ -12,7 +12,7 @@
     <string name="high_score">HIGH SCORE: </string>
     <string name="high_score_key">high_score</string>
     <string name="current_score_key">score</string>
-    <string name="score">SCORE</string>
+    <string name="score">SCORE:</string>
     <string name="sets_key">sets</string>
     <string name="email">email</string>
     <string name="email_key">email</string>
@@ -24,7 +24,7 @@
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="end">END</string>
-
+    <string name="continue_">Continue</string>
     <string name="button">Button</string>
     <string name="email_regular_expr">*@*.*</string>
     <string name="log_out">Log Out</string>
@@ -80,7 +80,7 @@
     <string name="points">points</string>
     <string name="players">players</string>
     <string name="levels">Levels</string>
-    <string name="is_already_logged_in">is already logged in</string>
+    <string name="is_already_logged_in">  is already logged in</string>
     <string name="pl_in_game">PLAYERS IN THE GAME</string>
     <string name="continue_game">CONTINUE THE GAME</string>
     <string name="Feature_not_available">Feature is not available</string>

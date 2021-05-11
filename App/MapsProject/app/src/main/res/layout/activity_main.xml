@@ -57,14 +57,20 @@
 
             <TextView
                 android:id="@+id/logged_user_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_main_activity"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_weight="1"
                 android:text="@string/is_already_logged_in" />
         </LinearLayout>
@@ -78,12 +84,14 @@
 
             <TextView
                 android:id="@+id/log_in_tv"
-                android:background="@drawable/layout_bg"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:text="@string/log_in" />
+                android:background="@drawable/layout_bg"
+                android:gravity="center"
+                android:text="@string/continue_"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/log_out_tv"
