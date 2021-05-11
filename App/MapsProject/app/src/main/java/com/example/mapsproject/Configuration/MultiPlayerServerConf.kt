@@ -25,7 +25,7 @@ class MultiPlayerServerConf {
         var player_id = 0
 
         var levels = 3
-        var played_levels = 0
+        var played_levels = 1
 
         var score = 0
         var totalScore=JSONObject()

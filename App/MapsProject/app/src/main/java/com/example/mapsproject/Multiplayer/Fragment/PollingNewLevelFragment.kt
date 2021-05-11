@@ -184,7 +184,7 @@ class PollingNewLevelFragment: Fragment() {
             val error = reply.getBoolean("error")
             val msg = reply.getString("msg")
             if(!error){
-                if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==0){
+                if(MultiPlayerServerConf.player_id>0 && MultiPlayerServerConf.played_levels==1){
                     val players = reply.getInt("num_sync_pl") +1
                     Log.i("myTag","number of players: "+players)
                     MultiPlayerServerConf.num_players = players
