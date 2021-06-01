@@ -92,6 +92,7 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
         val location = LatLng(lat!!.toDouble(), long!!.toDouble())
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
         mMap.addMarker(MarkerOptions().position(location))
+        //le 3 righe sotto non fanno vedere la mappa dopo la prima volta
         val cameraPosition = CameraPosition.Builder().target(location).zoom(14.0f).build()
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         mMap.moveCamera(cameraUpdate)

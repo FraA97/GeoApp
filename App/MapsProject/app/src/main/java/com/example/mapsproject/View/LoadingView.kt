@@ -62,7 +62,7 @@ class LoadingView(context: Context?) : View(context), View.OnTouchListener {
 
         //draw core
         val scorePosX = width.toFloat() - (width.toFloat()/10)
-        val scorePosY = height.toFloat()/6
+        val scorePosY = height.toFloat()/5 + height.toFloat()/30
         cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)
 
         //update current time
@@ -75,7 +75,7 @@ class LoadingView(context: Context?) : View(context), View.OnTouchListener {
         by+=vy* dt/1000
 
         var offLinex = (width.toFloat()/10)
-        val offLiney = (height.toFloat()/7)
+        val offLiney = (height.toFloat()/5)
 
         //Ball hits and edge?
         if ((bx<radius) and (vx<0)) vx*=-1f //hits left edge and moves towards left
