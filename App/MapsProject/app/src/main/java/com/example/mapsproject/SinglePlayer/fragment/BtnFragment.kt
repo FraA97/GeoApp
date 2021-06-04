@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 
 class BtnFragment: Fragment() {
@@ -28,7 +29,7 @@ class BtnFragment: Fragment() {
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            (activity as SingleplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)
@@ -63,7 +64,10 @@ class BtnFragment: Fragment() {
                 val mysong = MediaPlayer.create(context, R.raw.next_level)
                 mysong.start()
             }
-            findNavController().navigate(R.id.action_btnFragment_to_latLongFragment)
+            //findNavController().navigate(R.id.action_btnFragment_to_latLongFragment)
+            val i = Intent(activity, SingleplayerActivity::class.java)
+            (activity as SingleplayerActivity).finish()
+            startActivity(i)
         }
     }
 }

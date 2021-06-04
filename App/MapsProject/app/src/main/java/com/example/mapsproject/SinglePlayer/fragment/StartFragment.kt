@@ -22,11 +22,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class StartFragment: Fragment() {
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        if(SinglePlayerServerConf.level > 1)
+            findNavController().navigate(R.id.action_startFragment_to_latLongFragment)
+
         val rootView =  inflater.inflate(R.layout.fragment_start_game, container, false)
 
         //get High Score

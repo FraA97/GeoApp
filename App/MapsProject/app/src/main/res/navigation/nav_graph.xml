@@ -36,7 +36,7 @@
         android:name="com.example.mapsproject.SinglePlayer.fragment.LatLongFragment"
         android:label="LatLongFragment" >
         <action
-            android:id="@+id/action_latLongFragment_to_mapFragment2"
+            android:id="@+id/action_latLongFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
     </fragment>
     <fragment

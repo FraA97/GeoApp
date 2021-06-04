@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
@@ -25,7 +24,6 @@ import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.FirstReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.url
-import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
@@ -52,7 +50,7 @@ class LatLongFragment: Fragment() {
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            (activity as SingleplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)
@@ -107,10 +105,22 @@ class LatLongFragment: Fragment() {
                 (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).background.setAlpha(100)
                 MultiPlayerServerConf.touch = 0
                 (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setOnClickListener { view ->
-                    findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+                    //if(SinglePlayerServerConf.level == 1)
+                        findNavController().navigate(R.id.action_latLongFragment_to_mapFragment)
+                    /*else if(SinglePlayerServerConf.level == 2)
+                        findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+                    else if(SinglePlayerServerConf.level == 3)
+                        findNavController().navigate(R.id.action_latLongFragment_to_mapFragment3)*/
                 }
             }
-            else findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+            else {
+                //if(SinglePlayerServerConf.level == 1)
+                    findNavController().navigate(R.id.action_latLongFragment_to_mapFragment)
+               /* else if(SinglePlayerServerConf.level == 2)
+                    findNavController().navigate(R.id.action_latLongFragment_to_mapFragment2)
+                else if(SinglePlayerServerConf.level == 3)
+                    findNavController().navigate(R.id.action_latLongFragment_to_mapFragment3)*/
+            }
 
         }, { error: VolleyError? ->
             Log.i("info", "Polling: " + error.toString())

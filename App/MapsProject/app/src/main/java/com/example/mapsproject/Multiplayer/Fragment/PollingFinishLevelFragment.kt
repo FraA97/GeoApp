@@ -38,7 +38,7 @@ class PollingFinishLevelFragment: Fragment() {
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
-                            //(activity as MultiplayerActivity).finish()
+                            (activity as MultiplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)

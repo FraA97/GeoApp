@@ -24,6 +24,8 @@
         android:usesCleartextTraffic="true"
         android:configChanges="locale|orientation"
         android:requestLegacyExternalStorage="true">
+        <uses-library android:name="com.google.android.maps" />
+
 
 
         <meta-data

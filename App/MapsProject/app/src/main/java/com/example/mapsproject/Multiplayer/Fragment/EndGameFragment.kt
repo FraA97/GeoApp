@@ -32,7 +32,7 @@ class EndGameFragment: Fragment() {
                             MultiPlayerServerConf.wantToPlay = false
                             (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            (activity as MultiplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)

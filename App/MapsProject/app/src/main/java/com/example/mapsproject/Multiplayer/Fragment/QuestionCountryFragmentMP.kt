@@ -41,7 +41,7 @@ class QuestionCountryFragmentMP: Fragment() {
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
-                           // finish()
+                            (activity as MultiplayerActivity).finish()
                             startActivity(i)
 
                         }

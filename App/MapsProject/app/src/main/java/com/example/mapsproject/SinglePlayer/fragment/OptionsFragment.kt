@@ -24,6 +24,7 @@ import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.SecondReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.pollingPeriod
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
@@ -43,7 +44,7 @@ class OptionsFragment:Fragment() {
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            (activity as SingleplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)

@@ -32,7 +32,7 @@ class QuestionCityFragment: Fragment(), View.OnClickListener {
                         .setMessage(R.string.msg_back_press)
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            (activity as SingleplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)

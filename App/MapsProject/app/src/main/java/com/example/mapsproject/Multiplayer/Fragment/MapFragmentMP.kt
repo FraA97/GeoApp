@@ -37,7 +37,7 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
                             (activity as MultiplayerActivity).interruptGame()
                             val i = Intent(activity, StartGameActivity::class.java)
-                            // finish()
+                            (activity as MultiplayerActivity).finish()
                             startActivity(i)
                         }
                         .setNegativeButton(android.R.string.no, null)
@@ -54,8 +54,8 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
             savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_map, container, false)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fr) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        //val mapFragment = childFragmentManager.findFragmentById(R.id.map_fr) as SupportMapFragment
+        //mapFragment.getMapAsync(this)
         return rootView
     }
 
