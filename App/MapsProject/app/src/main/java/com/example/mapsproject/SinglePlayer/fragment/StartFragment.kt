@@ -2,6 +2,7 @@ package com.example.mapsproject.SinglePlayer.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,25 +30,30 @@ class StartFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        if(SinglePlayerServerConf.level > 1)
-            findNavController().navigate(R.id.action_startFragment_to_latLongFragment)
+
 
         val rootView =  inflater.inflate(R.layout.fragment_start_game, container, false)
 
-        //get High Score
-        val hstv = rootView.findViewById<TextView>(R.id.high_score_tv)
-        updateHighScore(hstv)
-        rootView.findViewById<TextView>(R.id.levels_tv).setText(SinglePlayerServerConf.sets.toString())
+        if(SinglePlayerServerConf.level > 1){
+            findNavController().navigate(R.id.action_startFragment_to_latLongFragment)
+        }
+        else {
+            //get High Score
+            val hstv = rootView.findViewById<TextView>(R.id.high_score_tv)
+            updateHighScore(hstv)
+            rootView.findViewById<TextView>(R.id.levels_tv)
+                .setText(SinglePlayerServerConf.sets.toString())
 
 
-        //set current score to 0
-        SinglePlayerServerConf.score = 0
-        SinglePlayerServerConf.level = 1
+            //set current score to 0
+            SinglePlayerServerConf.score = 0
+            SinglePlayerServerConf.level = 1
 
-        rootView.findViewById<LinearLayout>(R.id.lin_lay_st_act)?.setOnClickListener { view ->
-            val intent = Intent(activity, Settings::class.java)
-            startActivity(intent)
-            //finish()
+            rootView.findViewById<LinearLayout>(R.id.lin_lay_st_act)?.setOnClickListener { view ->
+                val intent = Intent(activity, Settings::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
         }
 
 

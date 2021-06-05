@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
@@ -56,9 +57,11 @@ class MapFragment: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        Log.i("myTag","MapFragment1")
+    ): View {
+        Log.i("myTag","MapFragment1; level: "+SinglePlayerServerConf.level)
         rootView = inflater.inflate(R.layout.fragment_map, container, false)
+
+        //update level text
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val lat = sharedPref?.getFloat("lat", 0f)
@@ -108,7 +111,7 @@ class MapFragment: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
             val lat = sharedPref?.getFloat("lat", 0f)
             val long = sharedPref?.getFloat("long", 0f)
-            Log.d("myTag", "lat: " + lat + ", long: " + long);
+            Log.d("myTag", "lat: " + lat + ", long: " + long)
 
 
 
@@ -120,22 +123,22 @@ class MapFragment: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
 
             mMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
             mMap!!.addMarker(MarkerOptions().position(location))
+            val clocktext:TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
+            object : CountDownTimer(10000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    clocktext.setText( (millisUntilFinished / 1000).toString())
+                }
 
+                override fun onFinish() {
+
+                    if(activity!=null) findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
+                }
+            }.start()
         }
     }
 
     override fun onMapLoaded() {
-        val clocktext:TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
-        object : CountDownTimer(10000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                clocktext.setText("" + millisUntilFinished / 1000);
-            }
 
-            override fun onFinish() {
-
-                if(activity!=null) findNavController().navigate(R.id.action_mapFragment_to_optionsFragment)
-            }
-        }.start()
 
     }
 

@@ -17,6 +17,7 @@ import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.Chat.Chat
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.Settings.LeaderBoard
 import com.example.mapsproject.Settings.Settings
@@ -37,6 +38,9 @@ class StartGameActivity: AppCompatActivity() {
 
         setContentView(R.layout.activity_start_game)
 
+        //set current score to 0
+        SinglePlayerServerConf.score = 0
+        SinglePlayerServerConf.level = 1
 
         findViewById<Button>(R.id.single_player_btn).setOnClickListener{ view->
             val intent = Intent(this, SingleplayerActivity::class.java)
