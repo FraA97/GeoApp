@@ -98,6 +98,7 @@ class PollingFinishLevelFragment: Fragment() {
                                     MultiPlayerServerConf.wantToPlay = false
                                     (activity as MultiplayerActivity).interruptGame()
                                     val i = Intent(activity, StartGameActivity::class.java)
+                                    (activity as MultiplayerActivity).finish()
                                     startActivity(i)
                                 }
                                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -120,7 +121,7 @@ class PollingFinishLevelFragment: Fragment() {
                                 .setNegativeButton(R.string.n) { dialog, which ->
                                     (activity as MultiplayerActivity).interruptGame()
                                     val i = Intent(activity, StartGameActivity::class.java)
-                                    // finish()
+                                    (activity as MultiplayerActivity).finish()
                                     startActivity(i)
                                 }
                                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -128,7 +129,10 @@ class PollingFinishLevelFragment: Fragment() {
                     }
                 }
                 if (MultiPlayerServerConf.played_levels <= MultiPlayerServerConf.levels && (num_pl_left==0 || MultiPlayerServerConf.wantToPlay)) {
-                    findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
+                    //findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_pollingNewLevelFragment2)
+                    val i = Intent(activity, MultiplayerActivity::class.java)
+                    (activity as MultiplayerActivity).finish()
+                    startActivity(i)
                 } else if(MultiPlayerServerConf.played_levels > MultiPlayerServerConf.levels && (num_pl_left==0 || MultiPlayerServerConf.wantToPlay)) {
                     findNavController().navigate(R.id.action_pollingFinishLevelFragment_to_endGameFragmentMp)
                 }

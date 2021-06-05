@@ -41,6 +41,8 @@ class StartGameActivity: AppCompatActivity() {
         //set current score to 0
         SinglePlayerServerConf.score = 0
         SinglePlayerServerConf.level = 1
+        MultiPlayerServerConf.score=0
+        MultiPlayerServerConf.played_levels=1
 
         findViewById<Button>(R.id.single_player_btn).setOnClickListener{ view->
             val intent = Intent(this, SingleplayerActivity::class.java)

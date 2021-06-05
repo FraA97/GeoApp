@@ -22,7 +22,13 @@ class StartFragmentMP: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val rootView =  inflater.inflate(R.layout.fragment_start_game_multiplayer, container, false)
-        MultiPlayerServerConf.score=0
+        if(MultiPlayerServerConf.played_levels>1){
+            Log.i("myTag","Start Fragment; level: "+MultiPlayerServerConf.played_levels)
+            findNavController().navigate(R.id.action_startFragmentMP_to_pollingNewLevelFragment)
+        }
+        else{
+            MultiPlayerServerConf.score=0
+        }
         return rootView
     }
 

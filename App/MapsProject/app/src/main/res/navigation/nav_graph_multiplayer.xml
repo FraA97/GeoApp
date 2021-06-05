@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_startFragmentMP_to_joinRandomFragment"
             app:destination="@id/joinRandomFragment" />
+        <action
+            android:id="@+id/action_startFragmentMP_to_pollingNewLevelFragment"
+            app:destination="@id/pollingNewLevelFragment" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"

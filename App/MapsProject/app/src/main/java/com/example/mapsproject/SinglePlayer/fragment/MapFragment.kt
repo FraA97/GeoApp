@@ -139,7 +139,21 @@ class MapFragment: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
 
     override fun onMapLoaded() {
 
+        /* val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
 
+             object : CountDownTimer(10000, 1000) {
+                 override fun onTick(millisUntilFinished: Long) {
+                     clocktext.setText(""+millisUntilFinished /1000);
+                 }
+
+                 override fun onFinish() {
+
+                     findNavController().navigate(R.id.action_mapFragmentMP_to_questionCountryFragmentMP)
+
+                 }
+             }.start()
+               */
     }
+
 
 }

@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
     lateinit var rootView: View
     private lateinit var mMap: GoogleMap
+    lateinit var mapFragment:SupportMapFragment
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +56,22 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
             savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_map, container, false)
-        //val mapFragment = childFragmentManager.findFragmentById(R.id.map_fr) as SupportMapFragment
-        //mapFragment.getMapAsync(this)
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+        val lat = sharedPref?.getFloat("lat", 0f)
+        val long = sharedPref?.getFloat("long", 0f)
+        Log.d("myTag", "lat: " + lat + ", long: " + long)
+
+        val location = LatLng(lat!!.toDouble(), long!!.toDouble())
+
+        val cameraPosition = CameraPosition.Builder().target(location).zoom(14.0f).build()
+        val option = GoogleMapOptions().camera(cameraPosition).useViewLifecycleInFragment(true)
+
+        mapFragment = SupportMapFragment.newInstance(option)
+
+        childFragmentManager.beginTransaction().add(R.id.map_container,mapFragment,"com.example.map_fragment").commit()
+
+        mapFragment.getMapAsync(this)
         return rootView
     }
 
@@ -77,34 +93,41 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val lat = sharedPref?.getFloat("lat",0f)
-        val long = sharedPref?.getFloat("long",0f)
-        Log.d("myTag", "lat: "+lat+", long: "+long);
+        if (googleMap!= null) {
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+            val lat = sharedPref?.getFloat("lat", 0f)
+            val long = sharedPref?.getFloat("long", 0f)
+            Log.d("myTag", "lat: " + lat + ", long: " + long)
 
 
 
-        mMap=googleMap
-        mMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
-        mMap.setOnMapLoadedCallback(this)
+            mMap = googleMap
+            mMap!!.setOnMapLoadedCallback(this)
 
 
-        val location = LatLng(lat!!.toDouble(), long!!.toDouble())
-        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
-        mMap.addMarker(MarkerOptions().position(location))
-        //le 3 righe sotto non fanno vedere la mappa dopo la prima volta
-        val cameraPosition = CameraPosition.Builder().target(location).zoom(14.0f).build()
-        val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
-        mMap.moveCamera(cameraUpdate)
+            val location = LatLng(lat!!.toDouble(), long!!.toDouble())
 
+            mMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
+            mMap!!.addMarker(MarkerOptions().position(location))
+            val clocktext:TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
+            object : CountDownTimer(10000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    clocktext.setText( (millisUntilFinished / 1000).toString())
+                }
 
+                override fun onFinish() {
+
+                    if(activity!=null) findNavController().navigate(R.id.action_mapFragmentMP_to_questionCountryFragmentMP)
+                }
+            }.start()
+        }
 
 
     }
 
     override fun onMapLoaded() {
 
-        val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
+       /* val clocktext: TextView = rootView.findViewById<TextView>(R.id.clock_text_view)
 
         object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -116,7 +139,10 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
                 findNavController().navigate(R.id.action_mapFragmentMP_to_questionCountryFragmentMP)
 
             }
-        }.start()    }
+        }.start()
+          */
+    }
+
 
 
 }
