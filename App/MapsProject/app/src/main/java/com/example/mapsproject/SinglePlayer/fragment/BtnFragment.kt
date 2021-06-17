@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.R
@@ -46,13 +47,14 @@ class BtnFragment: Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_btn, container, false)
 
+
         //getCurrentScore
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val defaultValue = resources.getInteger(R.integer.saved_score_default_key)
-        val score = sharedPref?.getInt(getString(R.string.current_score_key), defaultValue)
+        //val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+        //val defaultValue = resources.getInteger(R.integer.saved_score_default_key)
+        //val score = sharedPref?.getInt(getString(R.string.current_score_key), defaultValue)
 
         //print Score
-        rootView.findViewById<TextView>(R.id.current_score_tv).setText(score.toString())
+        //rootView.findViewById<TextView>(R.id.current_score_tv).setText(score.toString())
 
         return rootView
     }
@@ -65,9 +67,12 @@ class BtnFragment: Fragment() {
                 mysong.start()
             }
             //findNavController().navigate(R.id.action_btnFragment_to_latLongFragment)
+
             val i = Intent(activity, SingleplayerActivity::class.java)
-            (activity as SingleplayerActivity).finish()
+
             startActivity(i)
+            (activity as SingleplayerActivity).finish()
+
         }
     }
 }

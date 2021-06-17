@@ -108,6 +108,9 @@ class LoadingView(context: Context?) : View(context), View.OnTouchListener {
                 if((scoreBallGame>0) && scoreBallGame%10==0 && scoreBallGame<41 ){
                     radius -= radius/4
                     offLinex-= offLinex/4
+                    vx = vx+ vx/5
+                    vy = vy+ vy/5
+
                 }
                 //update score
                 cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)

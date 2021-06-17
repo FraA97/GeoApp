@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
+import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.Settings.Settings
@@ -21,7 +22,11 @@ class SingleplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_singleplayer)
+        this.findViewById<TextView>(R.id.curr_score_sp).setText(SinglePlayerServerConf.score.toString())
         this.findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.INVISIBLE)
+        //Log.i("ACTIVITY","REAL SCORE: "+SinglePlayerServerConf.score.toString())
+        //Log.i("ACTIVITY","SHOWED SCORE: "+ this.findViewById<TextView>(R.id.curr_score_sp).text)
+
         this.findViewById<TextView>(R.id.score_sp).setVisibility(View.INVISIBLE)
     }
     //inflate menu_main
