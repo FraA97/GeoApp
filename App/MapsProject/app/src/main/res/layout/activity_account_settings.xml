@@ -76,7 +76,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_bg"
-                android:autofillHints=""
                 android:ems="10"
                 android:inputType="textPersonName" />
         </LinearLayout>
@@ -117,7 +116,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_bg"
                 android:layout_weight="1"
-                android:autofillHints=""
                 android:ems="10"
                 android:inputType="textEmailAddress" />
         </LinearLayout>

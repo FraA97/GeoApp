@@ -2,11 +2,13 @@ package com.example.mapsproject.View
 
 import android.content.Context
 import android.graphics.*
+import android.media.MediaPlayer
 import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.touch
+import com.example.mapsproject.R
 import java.util.logging.Handler
 
 class LoadingView(context: Context?) : View(context), View.OnTouchListener {
@@ -14,9 +16,9 @@ class LoadingView(context: Context?) : View(context), View.OnTouchListener {
     private var touched=false //ball already touched
     private val howclose = 1.3f //how close the finger needs to be for touching
     private var radius = 50f
-
+    private var upLine = 170f
     var bx = radius
-    var by = radius
+    var by = upLine
     var dx = width/2F
     var vx=500f
     var vy=1500f
@@ -83,31 +85,37 @@ class LoadingView(context: Context?) : View(context), View.OnTouchListener {
 
         if ((by>height-radius)  and (vy>0)){
             vy*=-1
-            scoreBallGame=-1
+            scoreBallGame=0
             radius = 100f
             cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)
         } //bottom edge while moving downward
 
         if ((by>height-radius)  and (vy<0)){
+            val mysong = MediaPlayer.create(context, R.raw.risposta_sbagliata)
+            mysong.start()
             scoreBallGame=0
             radius = 50f
             var bx = radius
-            var by = radius
+            var by = upLine
             var vx=500f
             var vy=1500f
             cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)
             android.os.Handler(Looper.getMainLooper()).postDelayed({invalidate()}, 1000L)
             return
         }
-        if ((by<radius)  ) {vy*=-1} //top while moving up
+        if ((by<upLine)  ) {vy*=-1} //top while moving up
 
         //ball touches the line?
         if( (by > height.toFloat()-offLiney- radius) and (by < height.toFloat()-offLiney) and (bx>dx-offLinex) and (bx<dx+offLinex) ){
             if(vy>0) {
                 scoreBallGame += 1
                 if((scoreBallGame>0) && scoreBallGame%10==0 && scoreBallGame<41 ){
+                    val mysong = MediaPlayer.create(context, R.raw.livello_gioco_pallina_superato)
+                    mysong.start()
                     radius -= radius/4
                     offLinex-= offLinex/4
+                    vx = vx +vx/5
+                    vy = vy +vy/5
                 }
                 //update score
                 cv?.drawText(scoreBallGame.toString(), scorePosX, scorePosY, scorePaint)

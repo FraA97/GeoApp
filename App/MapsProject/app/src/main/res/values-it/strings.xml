@@ -29,7 +29,7 @@
     <string name="todo">TODO</string>
     <string name="button">Button</string>
     <string name="email_regular_expr">*@*.*</string>
-    <string name="log_out">Discconnettersi</string>
+    <string name="log_out">Log Out</string>
     <string name="end_game">Fine Gioco</string>
     <string name="password_key">password</string>
     <string name="start_new_game">Inizia una nuova partita</string>
@@ -69,7 +69,7 @@
     <string name="n">NO</string>
     <string name="title_end_g">IL GIOCATORE LEADER HA CHIUSO LA PARTITA</string>
     <string name="exit">Esci</string>
-    <string name="share_g_id_msg">Unisciti alla mia partita su GeoApp, questo è l\'ID della partita:</string>
+    <string name="share_g_id_msg">Unisciti alla mia partita su MapQuiz, questo è l\'ID della partita:</string>
     <string name="level">livello</string>
     <string name="points">punti</string>
     <string name="players">giocatori</string>

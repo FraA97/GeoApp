@@ -86,6 +86,7 @@ class MapFragmentMP: Fragment(),OnMapReadyCallback, GoogleMap.OnMapLoadedCallbac
 
         mMap=googleMap
         mMap!!.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
+        mMap.setMinZoomPreference(12.0f)
         mMap.setOnMapLoadedCallback(this)
 
 

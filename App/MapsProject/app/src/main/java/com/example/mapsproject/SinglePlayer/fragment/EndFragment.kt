@@ -61,7 +61,7 @@ class EndFragment: Fragment() {
         val tv = rootView.findViewById<TextView>(R.id.high_score_end)
         updateHighScore(tv,score)
 
-        rootView.findViewById<TextView>(R.id.score_end).setText(score.toString())
+        rootView.findViewById<TextView>(R.id.score_end).setText("  "+ score.toString())
 
         return rootView
     }
