@@ -15,12 +15,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/central_L" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:id="@+id/central_L"
         android:alpha="0.6"
         android:background="@drawable/layout_bg"
         android:orientation="vertical"
@@ -69,12 +69,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="@string/high_score" />
 
             <TextView
                 android:id="@+id/high_score_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:layout_weight="1" />
         </LinearLayout>
 

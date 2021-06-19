@@ -88,15 +88,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
-                android:background="@drawable/layout_bg"
+                android:background="@drawable/layout_continue"
                 android:gravity="center"
                 android:text="@string/continue_"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/log_out_tv"
                 android:gravity="center"
-                android:background="@drawable/layout_bg"
+                android:background="@drawable/layout_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
