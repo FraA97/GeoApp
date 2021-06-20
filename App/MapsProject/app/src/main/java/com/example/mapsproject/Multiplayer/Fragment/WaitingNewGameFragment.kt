@@ -2,6 +2,7 @@ package com.example.mapsproject.Multiplayer.Fragment
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +26,7 @@ import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.MultiPlayerServerConf.Companion.queue
 import com.example.mapsproject.Multiplayer.MultiplayerActivity
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.example.mapsproject.StartGameActivity
 import org.json.JSONObject
 
@@ -32,6 +34,7 @@ class WaitingNewGameFragment:Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as MultiplayerActivity).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED) //block screen orientation
         queue = Volley.newRequestQueue(context)
 
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {

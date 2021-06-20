@@ -2,6 +2,7 @@ package com.example.mapsproject.SinglePlayer.fragment
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -27,6 +28,7 @@ class QuestionCountryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //(activity as SingleplayerActivity).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 AlertDialog.Builder(context)

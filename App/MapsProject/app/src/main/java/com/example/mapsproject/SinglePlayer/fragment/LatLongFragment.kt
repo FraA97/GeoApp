@@ -2,6 +2,7 @@ package com.example.mapsproject.SinglePlayer.fragment
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -37,6 +38,7 @@ class LatLongFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as SingleplayerActivity).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.score_sp).setVisibility(View.VISIBLE)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.VISIBLE)
         (activity as SingleplayerActivity).findViewById<TextView>(R.id.curr_lev_sp).setVisibility(View.VISIBLE)
@@ -101,7 +103,6 @@ class LatLongFragment: Fragment() {
             editor?.apply()
 
             Log.i("myTag", "lat: " + lat + ", long: " + long + ", City: " + responseCity + ", Country: " + responseCountry)
-
             if(MultiPlayerServerConf.touch ==1) {
                 (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).setVisibility(View.VISIBLE)
                 (activity as SingleplayerActivity).findViewById<Button>(R.id.ready_button_sp).background.setAlpha(100)
