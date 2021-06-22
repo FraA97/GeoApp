@@ -47,6 +47,19 @@ class SignupActivity:AppCompatActivity() {
                 Toast.makeText(this, "Passwords Have to Be Identical", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+            if (psw1.length < 8) {
+                Toast.makeText(this, "Password must have at least 8 characters", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if(username.length< 4){
+                Toast.makeText(this, "Username must contain at least 4 characters", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if(!email.contains("@")){
+                Toast.makeText(this, "This is not a valid email", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
 
             val password = psw1
 

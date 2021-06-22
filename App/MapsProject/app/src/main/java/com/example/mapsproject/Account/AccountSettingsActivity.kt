@@ -17,6 +17,7 @@ import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.storage.StorageReference
 import java.io.File
 
@@ -74,6 +75,12 @@ class AccountSettingsActivity: Activity() {
             findViewById<EditText>(R.id.edit_account_email).setText("")
 
 
+        }
+        //listener on turn back button
+        this.findViewById<FloatingActionButton>(R.id.turn_back_profile).setOnClickListener {
+            val i = Intent(this, StartGameActivity::class.java)
+            finish()
+            startActivity(i)
         }
 
         val imageView = findViewById<ImageView>(R.id.avatar)

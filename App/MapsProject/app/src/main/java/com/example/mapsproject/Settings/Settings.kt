@@ -16,6 +16,7 @@ import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.StartGameActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.util.*
 
@@ -54,6 +55,28 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
 
         //val dropdow = findViewById<Spinner>(R.id.language)
         dropdown.onItemSelectedListener = this
+
+        //listener on back button
+
+        this.findViewById<FloatingActionButton>(R.id.turn_back).setOnClickListener {
+            val lev = findViewById<EditText>(R.id.levels_int).text
+            if(lev!= null){
+                val levels = lev.toString()
+                if(levels != "") {
+                    SinglePlayerServerConf.sets = levels.toInt()
+                }
+            }
+            if(Account.getUserID()==""){
+                val i = Intent(this, MainActivity::class.java)
+                finish()
+                startActivity(i)
+            }
+            else{
+                val i = Intent(this, StartGameActivity::class.java)
+                finish()
+                startActivity(i)
+            }
+        }
 
     }
 

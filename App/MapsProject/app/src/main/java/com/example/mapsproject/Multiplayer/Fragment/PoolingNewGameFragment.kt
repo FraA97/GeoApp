@@ -64,7 +64,7 @@ class PoolingNewGameFragment: Fragment() {
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
             val textMsg =getString(R.string.share_g_id_msg)
-            sendIntent.putExtra(Intent.EXTRA_TEXT,  textMsg+ " "+ MultiPlayerServerConf.game_id.toString())
+            sendIntent.putExtra(Intent.EXTRA_TEXT,  textMsg +" "+ MultiPlayerServerConf.game_id.toString())
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
 

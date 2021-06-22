@@ -98,7 +98,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallback
         val location = LatLng(lat!!.toDouble(), long!!.toDouble())
 
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE)
-        mMap.setMinZoomPreference(12.0f)
+        mMap.setMinZoomPreference(13.0f)
         mMap.addMarker(MarkerOptions().position(location))
         val cameraPosition = CameraPosition.Builder().target(location).zoom(14.0f).build()
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)

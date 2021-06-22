@@ -20,6 +20,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.SecondReq
 import com.example.mapsproject.Configuration.SinglePlayerServerConf.Companion.pollingPeriod
@@ -65,8 +66,13 @@ class OptionsFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        object :Thread() {
+            override fun run(){
+                super.run()
+                Handler(Looper.getMainLooper()).postDelayed({getOptions()},pollingPeriod)
+            }
+        }.start()
 
-        Handler(Looper.getMainLooper()).postDelayed({getOptions()},pollingPeriod)
     }
 
     private fun getOptions() {
