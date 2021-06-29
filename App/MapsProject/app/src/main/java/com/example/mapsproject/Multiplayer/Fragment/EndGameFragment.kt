@@ -96,7 +96,7 @@ class EndGameFragment: Fragment() {
             }
             else{//eng game => reset parameters of game
                 MultiPlayerServerConf.wantToPlay = false
-                MultiPlayerServerConf.played_levels = 0
+                MultiPlayerServerConf.played_levels = 1
                 (activity as MultiplayerActivity).interruptGame()
                 //val mRunnable ={
                 if(SinglePlayerServerConf.soundOn){mysong.pause()}
