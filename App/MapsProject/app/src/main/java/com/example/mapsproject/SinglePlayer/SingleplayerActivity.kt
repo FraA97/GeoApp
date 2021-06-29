@@ -2,7 +2,10 @@ package com.example.mapsproject.SinglePlayer
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -12,14 +15,24 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.Settings.Settings
+import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
 class SingleplayerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //manage language
+        val myLocale = Locale(MultiPlayerServerConf.language)
+        val res: Resources = resources
+        val dm: DisplayMetrics = res.getDisplayMetrics()
+        val conf: Configuration = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+
         setContentView(R.layout.activity_singleplayer)
         this.findViewById<TextView>(R.id.curr_score_sp).setVisibility(View.INVISIBLE)
         this.findViewById<TextView>(R.id.score_sp).setVisibility(View.INVISIBLE)

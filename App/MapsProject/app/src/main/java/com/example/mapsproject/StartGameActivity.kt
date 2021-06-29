@@ -28,11 +28,11 @@ class StartGameActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //val myLocale = Locale(MultiPlayerServerConf.language)
+        val myLocale = Locale(MultiPlayerServerConf.language)
         val res: Resources = resources
         val dm: DisplayMetrics = res.getDisplayMetrics()
         val conf: Configuration = res.getConfiguration()
-        //conf.locale = myLocale
+        conf.locale = myLocale
         res.updateConfiguration(conf, dm)
 
         setContentView(R.layout.activity_start_game)

@@ -24,6 +24,14 @@ import java.util.*
 class Settings:Activity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val myLocale = Locale(MultiPlayerServerConf.language)
+        val res: Resources = resources
+        val dm: DisplayMetrics = res.getDisplayMetrics()
+        val conf: Configuration = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+
         setContentView(R.layout.activity_settings)
 
         val sound = findViewById<SwitchMaterial>(R.id.soundSetting)

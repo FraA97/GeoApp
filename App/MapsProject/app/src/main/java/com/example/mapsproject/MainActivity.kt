@@ -1,5 +1,6 @@
 package com.example.mapsproject
 
+import android.app.Application
 import android.content.ClipData
 import android.content.Intent
 import android.content.res.Configuration
@@ -37,11 +38,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("myTag",Integer.valueOf(android.os.Build.VERSION.SDK).toString())
         super.onCreate(savedInstanceState)
-        //val myLocale = Locale(MultiPlayerServerConf.language)
+        val myLocale = Locale(MultiPlayerServerConf.language)
         val res: Resources = resources
         val dm: DisplayMetrics = res.getDisplayMetrics()
         val conf: Configuration = res.getConfiguration()
-        //conf.locale = myLocale
+        conf.locale = myLocale
         res.updateConfiguration(conf, dm)
 
         setContentView(R.layout.activity_main)
@@ -121,5 +122,16 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val myLocale = Locale(MultiPlayerServerConf.language)
+        val res: Resources = resources
+        val dm: DisplayMetrics = res.getDisplayMetrics()
+        val conf: Configuration = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+    }
+
 
 }

@@ -1,10 +1,13 @@
 package com.example.mapsproject.Account
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsproject.Account.Account.auth
 import com.example.mapsproject.Account.Account.user
 import com.example.mapsproject.Account.Account.signIn
+import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.MainActivity
 import com.example.mapsproject.R
 import com.example.mapsproject.Settings.Settings
@@ -22,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 
 class LoginActivity:AppCompatActivity() {
@@ -30,6 +35,13 @@ class LoginActivity:AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //configure language
+        val myLocale = Locale(MultiPlayerServerConf.language)
+        val res: Resources = resources
+        val dm: DisplayMetrics = res.getDisplayMetrics()
+        val conf: Configuration = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
         setContentView(R.layout.activity_login)
 
         //Switch changes value of var checked

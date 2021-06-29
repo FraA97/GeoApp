@@ -1,10 +1,13 @@
 package com.example.mapsproject.Account
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -17,14 +20,21 @@ import com.example.mapsproject.Configuration.MultiPlayerServerConf
 import com.example.mapsproject.R
 import com.example.mapsproject.Settings.Settings
 import com.example.mapsproject.StartGameActivity
+import java.util.*
 
 class SignupActivity:AppCompatActivity() {
     private var checked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //configure language
+        val myLocale = Locale(MultiPlayerServerConf.language)
+        val res: Resources = resources
+        val dm: DisplayMetrics = res.getDisplayMetrics()
+        val conf: Configuration = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
         setContentView(R.layout.activity_signup)
-
 
         //Switch changes value of var checked
         findViewById<Switch>(R.id.switch_su).setOnCheckedChangeListener { buttonView, isChecked ->
