@@ -37,7 +37,7 @@
     <string name="join_a_game">Unisciti a una partita</string>
     <string name="create_new_game">Crea una nuova Partita</string>
     <string name="share">Condividi</string>
-    <string name="join_with_game_id">Unisciti con l\'ID di una partita</string>
+    <string name="join_with_game_id">Unisciti con l\' ID di una partita</string>
     <string name="loading">Caricamento</string>
     <string name="join_a_game_against_random">Unisciti a una partita contro Casuale</string>
     <string name="game_id">ID partita</string>
@@ -49,7 +49,7 @@
     <string name="name">Nome</string>
     <string name="uid">UID</string>
     <string name="edit_account_name">Modifica il nome dell\'account</string>
-    <string name="edit_account_email">Modifica l\'Email dell\'account</string>
+    <string name="edit_account_email">Modifica l\' Email dell\'account</string>
     <string name="username">Nome Utente</string>
     <string name="take_a_picture">Fai una foto</string>
     <string name="update_profile_picture">Aggiorna la foto profilo</string>

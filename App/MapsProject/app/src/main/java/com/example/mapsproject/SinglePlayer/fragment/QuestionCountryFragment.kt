@@ -88,6 +88,11 @@ class QuestionCountryFragment : Fragment() {
 
             btn.setText(letters[btnId-1]+coun)
             btn.setOnClickListener { view ->
+                //disable all other button listeners
+                for (butt in buttons){
+                    butt.isEnabled = false
+                }
+
                 if (ctr == 0) {
                     SinglePlayerServerConf.score += 1
                     btn.setBackgroundColor(Color.GREEN)

@@ -41,11 +41,10 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
         var items= arrayOf("")
         val dropdown = findViewById<Spinner>(R.id.language)
 
-        if(MultiPlayerServerConf.language=="en") {
-            items = arrayOf("choose language","English", "Italian")
-        }
-        else{
-            items = arrayOf("scegli la lingua","Inglese", "Italiano")
+        items = if(MultiPlayerServerConf.language=="en") {
+            arrayOf("choose language","English", "Italian")
+        } else{
+            arrayOf("scegli la lingua","Inglese", "Italiano")
         }
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)

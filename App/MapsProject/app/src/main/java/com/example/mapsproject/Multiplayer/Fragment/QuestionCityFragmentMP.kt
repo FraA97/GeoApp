@@ -93,6 +93,10 @@ class QuestionCityFragmentMP: Fragment() {
             btn.setText(letters[btnId-1]+coun)
 
             btn.setOnClickListener { view ->
+                //disable all other button listeners
+                for (butt in buttons){
+                    butt.isEnabled = false
+                }
                 if (ctr == 0) {
                     score += 1
                     (activity as MultiplayerActivity).findViewById<TextView>(R.id.curr_score).setText(score.toString()) //update visualization of score
