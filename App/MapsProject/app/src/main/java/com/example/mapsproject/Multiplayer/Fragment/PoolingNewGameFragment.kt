@@ -87,7 +87,7 @@ class PoolingNewGameFragment: Fragment() {
 
     private fun poolNewGame() {
         Log.i("myTag","request: "+ MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.waitPlayerReq+
-                        "&player_id="+MultiPlayerServerConf.player_id+"&game_id="+MultiPlayerServerConf.game_id)
+                        "&player_id="+MultiPlayerServerConf.player_id+"&game_id="+MultiPlayerServerConf.game_id+ "   played_levels: " +MultiPlayerServerConf.played_levels)
         val stringRequest = StringRequest(
                 Request.Method.GET,  MultiPlayerServerConf.url +"req="+ MultiPlayerServerConf.waitPlayerReq+
                 "&player_id="+MultiPlayerServerConf.player_id+"&game_id="+MultiPlayerServerConf.game_id,{
@@ -101,6 +101,7 @@ class PoolingNewGameFragment: Fragment() {
                 Log.i("myTag", "number of players: " + players)
                 rootView.findViewById<TextView>(R.id.players_number).text = players.toString()
                 MultiPlayerServerConf.num_players = players
+                MultiPlayerServerConf.played_levels = 1
                 Log.i("myTag", "starting: " + starting.toString())
 
                 if (!starting) {
