@@ -49,7 +49,7 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
         var items= arrayOf("")
         val dropdown = findViewById<Spinner>(R.id.language)
 
-        items = if(MultiPlayerServerConf.language=="en") {
+        items = if(MultiPlayerServerConf.language=="En") {
             arrayOf("choose language","English", "Italian")
         } else{
             arrayOf("scegli la lingua","Inglese", "Italiano")
@@ -92,7 +92,7 @@ class Settings:Activity(), AdapterView.OnItemSelectedListener {
         }
         else if(parent.getItemAtPosition(pos)=="English" || parent.getItemAtPosition(pos)=="Inglese"){
             Toast.makeText(this, "Setted English Language", LENGTH_SHORT).show()
-            MultiPlayerServerConf.language = "en"
+            MultiPlayerServerConf.language = "En"
             setLocale("en")
         }
         else if(parent.getItemAtPosition(pos)=="Italian" || parent.getItemAtPosition(pos)=="Italiano" ){
