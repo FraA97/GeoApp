@@ -105,7 +105,7 @@ class GeoApp(Resource):    #Resource for use Crud op and other...
         user_name = args['user_name']
         interrupt = args['interrupt']
 
-        if(req == INIT_STATE): #ALWAYS: req=0 + user_name+ SOMETIMES: game_id + random
+        if(req == INIT_STATE): #ALWAYS: req=0 + user_name+ SOMETIMES: game_id + random + num_levels
             if(game_id == None):
                 if(random == None or random==0): #not random game
                     g_id = findFirstAvailableID(list_game_id)#len(list_game_id) #or 
