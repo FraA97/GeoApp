@@ -1,5 +1,6 @@
 package com.example.mapsproject
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -12,7 +13,6 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Account.Account.logOut
 import com.example.mapsproject.Account.AccountSettingsActivity
 import com.example.mapsproject.Chat.Chat
@@ -62,16 +62,31 @@ class StartGameActivity: AppCompatActivity() {
     override fun onBackPressed() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        //if email and password are not saved, log out
-        if((sharedPref?.contains(R.string.email_key.toString()) == false) ||
-             (sharedPref?.contains(R.string.password_key.toString()) == false) ){
-                //get email and password
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.title_close_app))
+            .setMessage(R.string.msg_close_app)
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+                //if email and password are not saved, log out
+                if((sharedPref?.contains(R.string.email_key.toString()) == false) ||
+                    (sharedPref?.contains(R.string.password_key.toString()) == false) ){
+                    //get email and password
                     Log.i("myTag","logging out")
-               logOut(applicationContext)
+                    logOut(applicationContext)
+                }
+                finish()
+                val a = Intent(Intent.ACTION_MAIN)
+                a.addCategory(Intent.CATEGORY_HOME)
+                a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(a)
+
             }
-        finish()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+            .setNegativeButton(android.R.string.no, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+
+       /* val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)*/
+
     }
 
     override fun onResume() {

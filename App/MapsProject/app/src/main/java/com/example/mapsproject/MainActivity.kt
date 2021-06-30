@@ -1,5 +1,6 @@
 package com.example.mapsproject
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.ClipData
 import android.content.Intent
@@ -131,6 +132,25 @@ class MainActivity : AppCompatActivity() {
         val conf: Configuration = res.getConfiguration()
         conf.locale = myLocale
         res.updateConfiguration(conf, dm)
+    }
+
+    override fun onBackPressed() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.title_close_app))
+            .setMessage(R.string.msg_close_app)
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+                finish()
+                val a = Intent(Intent.ACTION_MAIN)
+                a.addCategory(Intent.CATEGORY_HOME)
+                a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(a)
+            }
+            .setNegativeButton(android.R.string.no, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+        /* val intent = Intent(this, MainActivity::class.java)
+         startActivity(intent)*/
+
     }
 
 

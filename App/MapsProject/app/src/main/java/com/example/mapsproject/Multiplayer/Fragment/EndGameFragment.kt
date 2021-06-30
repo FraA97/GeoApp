@@ -100,8 +100,9 @@ class EndGameFragment: Fragment() {
                 (activity as MultiplayerActivity).interruptGame()
                 //val mRunnable ={
                 if(SinglePlayerServerConf.soundOn){mysong.pause()}
-                    val i = Intent(activity, StartGameActivity::class.java)
-                    startActivity(i)
+                val i = Intent(activity, StartGameActivity::class.java)
+                startActivity(i)
+                this.activity?.finish()
                 //}
                 //val mHandler = Handler()
                 //mHandler.postDelayed(mRunnable, 5000)

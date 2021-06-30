@@ -60,7 +60,9 @@
     <string name="language">Language</string>
     <string name="insert_g_id">Insert Game ID</string>
     <string name="title_back_press">END GAME</string>
+    <string name="title_close_app">CLOSE APP</string>
     <string name="msg_back_press">Are you sure you want to END THE GAME?"</string>
+    <string name="msg_close_app">Are you sure you want to CLOSE THE APP?"</string>
     <string name="title_pl_left">A PLAYER HAS LEFT THE GAME</string>
     <string name="msg_pl_left">Do you want to continue playing?</string>
     <string name="y">YES</string>

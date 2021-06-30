@@ -31,6 +31,7 @@
     <string name="email_regular_expr">*@*.*</string>
     <string name="log_out">Log Out</string>
     <string name="end_game">Fine Gioco</string>
+    <string name="title_close_app">CHIUDI APP</string>
     <string name="password_key">password</string>
     <string name="start_new_game">Inizia una nuova partita</string>
     <string name="start_against_random">Unisciti contro casuale</string>
@@ -62,7 +63,8 @@
     <string name="language">Lingua </string>
     <string name="insert_g_id">Inserisci ID Partita </string>
     <string name="title_back_press">TERMINA PARTITA</string>
-    <string name="msg_back_press">Sei sicuro di voler USCIRE dalla Partita?"</string>
+    <string name="msg_back_press">Sei sicuro di voler USCIRE dalla Partita?</string>
+    <string name="msg_close_app">Sei sicuro di voler CHIUDERE L\'APP?</string>
     <string name="title_pl_left">UN GIOCATORE HA ABBANDONATO LA PARTITA</string>
     <string name="msg_pl_left">Vuoi continuare a giocare?</string>
     <string name="y">SÌ</string>
