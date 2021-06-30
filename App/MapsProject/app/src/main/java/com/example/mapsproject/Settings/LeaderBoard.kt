@@ -1,6 +1,7 @@
 package com.example.mapsproject.Settings
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.widget.*
 import com.example.mapsproject.Account.Account
 import com.example.mapsproject.Account.User
 import com.example.mapsproject.R
+import com.example.mapsproject.SinglePlayer.SingleplayerActivity
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.toObject
@@ -26,6 +28,7 @@ class LeaderBoard:Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         val usersRef = Account.db.collection("users")
 
         GlobalScope.launch(Dispatchers.Main) { // launches coroutine in main thread
